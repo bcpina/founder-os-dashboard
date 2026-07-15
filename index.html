@@ -6,26 +6,25 @@
 <title>Founder OS — Bruno Pina</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
 
   :root {
-    --bg: #0a0a0b;
-    --surface: #111113;
-    --surface2: #18181c;
-    --border: #222228;
-    --border2: #2a2a32;
-    --text: #e8e8f0;
-    --muted: #6b6b7e;
-    --faint: #3a3a48;
-    --accent: #5b8af0;
-    --accent2: #3d6fd4;
-    --green: #3ecf8e;
-    --amber: #f5a623;
-    --red: #f05b5b;
-    --purple: #a78bfa;
-    --teal: #2dd4bf;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
+    --bg: #f9f8f6;
+    --surface: #ffffff;
+    --surface2: #f0eeea;
+    --border: #dfdbd8;
+    --border2: #cfc9c3;
+    --text: #141414;
+    --muted: #6b6b6b;
+    --faint: #a39d97;
+    --accent: #141414;
+    --accent2: #3a3a3a;
+    --green: #2f8f5b;
+    --amber: #ad7a25;
+    --red: #b3453c;
+    --mono: 'DM Sans', system-ui, sans-serif;
+    --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,13 +38,15 @@
     overflow-x: hidden;
   }
 
+  .card-value, .hero-value, .funnel-count, .card-delta, .progress-pct, .progress-abs { font-variant-numeric: tabular-nums; }
+
   /* TOP BAR */
   .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    height: 48px;
+    height: 52px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     position: sticky;
@@ -53,38 +54,21 @@
     z-index: 100;
   }
 
-  .topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
 
   .os-logo {
-    font-family: var(--mono);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -0.01em;
   }
 
-  .os-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--border2);
-  }
+  .os-divider { width: 1px; height: 20px; background: var(--border2); }
 
-  .os-name {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 400;
-  }
+  .os-name { font-size: 12px; color: var(--muted); font-weight: 400; }
 
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
 
   .live-badge {
     display: flex;
@@ -92,28 +76,20 @@
     gap: 6px;
     font-family: var(--mono);
     font-size: 10px;
+    font-weight: 600;
     color: var(--green);
     letter-spacing: 0.1em;
   }
 
   .live-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
+    width: 6px; height: 6px; border-radius: 50%;
     background: var(--green);
     animation: pulse 2s infinite;
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-  .last-updated {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-  }
+  .last-updated { font-family: var(--mono); font-size: 10px; color: var(--muted); }
 
   /* NAV TABS */
   .nav {
@@ -124,10 +100,14 @@
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .nav-tab {
-    padding: 12px 20px;
+    padding: 14px 20px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.08em;
@@ -141,18 +121,10 @@
   }
 
   .nav-tab:hover { color: var(--text); }
-
-  .nav-tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   /* MAIN CONTENT */
-  .main {
-    padding: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
+  .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
@@ -163,6 +135,8 @@
     align-items: baseline;
     justify-content: space-between;
     margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
   .section-title {
@@ -174,57 +148,22 @@
     color: var(--muted);
   }
 
-  .section-meta {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--faint);
-  }
+  .section-meta { font-family: var(--mono); font-size: 10px; color: var(--faint); }
 
   /* GRID LAYOUTS */
-  .grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  .grid-2-1 {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-bottom: 20px; }
 
   /* METRIC CARD */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 16px;
     position: relative;
     overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border2), transparent);
   }
 
   .card-label {
@@ -250,8 +189,25 @@
   .card-value.green { color: var(--green); }
   .card-value.amber { color: var(--amber); }
   .card-value.red { color: var(--red); }
-  .card-value.purple { color: var(--purple); }
-  .card-value.teal { color: var(--teal); }
+  .card-value.muted { color: var(--muted); }
+
+  .hero-card { grid-column: span 2; }
+  .hero-value {
+    font-family: var(--mono);
+    font-size: 56px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .hero-value.accent { color: var(--accent); }
+  .hero-value.green { color: var(--green); }
+  .hero-value.amber { color: var(--amber); }
+  .hero-value.red { color: var(--red); }
+  .hero-value.muted { color: var(--muted); }
+
+  .card-sparkline { margin: 2px 0 8px; line-height: 0; }
+  .card-sparkline svg { width: 80px; height: 24px; display: block; }
 
   .card-delta {
     font-family: var(--mono);
@@ -264,28 +220,20 @@
   .delta-up { color: var(--green); }
   .delta-down { color: var(--red); }
   .delta-neutral { color: var(--muted); }
+  .delta-amber { color: var(--amber); }
 
-  .card-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
+  .card-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
   /* CHART CARD */
   .chart-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 16px;
     margin-bottom: 20px;
   }
 
-  .chart-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
+  .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 
   .chart-title {
     font-family: var(--mono);
@@ -296,102 +244,63 @@
     color: var(--muted);
   }
 
-  .chart-controls {
-    display: flex;
-    gap: 4px;
-  }
-
-  .chart-btn {
-    padding: 3px 8px;
-    font-family: var(--mono);
-    font-size: 9px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    background: transparent;
-    border: 1px solid var(--border2);
-    border-radius: 2px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .chart-btn:hover, .chart-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
+  .chart-wrap { position: relative; height: 220px; }
 
   /* FUNNEL */
-  .funnel {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+  .funnel { display: flex; flex-direction: column; gap: 6px; }
 
-  .funnel-step {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .funnel-step { display: flex; align-items: center; gap: 12px; }
 
   .funnel-label {
     font-family: var(--mono);
     font-size: 10px;
     color: var(--muted);
-    width: 180px;
+    width: 170px;
     flex-shrink: 0;
   }
 
   .funnel-bar-wrap {
     flex: 1;
-    height: 24px;
+    height: 32px;
     background: var(--surface2);
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
   }
 
+  .funnel-bar-wrap.empty {
+    background: transparent;
+    border: 1px dashed var(--border2);
+  }
+
   .funnel-bar {
     height: 100%;
-    border-radius: 2px;
+    border-radius: 4px;
     transition: width 0.6s ease;
     display: flex;
     align-items: center;
     padding-left: 8px;
   }
 
-  .funnel-bar-val {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 600;
-    color: white;
-    white-space: nowrap;
-  }
+  .funnel-bar-val { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--bg); white-space: nowrap; }
+  .funnel-bar-val.empty-label { color: var(--faint); }
 
-  .funnel-count {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    width: 40px;
-    text-align: right;
-    flex-shrink: 0;
-  }
+  .funnel-count { font-family: var(--mono); font-size: 10px; color: var(--muted); width: 40px; text-align: right; flex-shrink: 0; }
+  .funnel-cvr { font-family: var(--mono); font-size: 9px; color: var(--faint); width: 68px; text-align: right; flex-shrink: 0; }
 
-  .funnel-cvr {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--faint);
-    width: 50px;
-    text-align: right;
-    flex-shrink: 0;
-  }
+  /* TRAFFIC LIGHT */
+  .tl { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; font-weight: 500; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .tl-dot.pulse { animation: pulse 2s infinite; }
+  .tl-green .tl-dot { background: var(--green); }
+  .tl-amber .tl-dot { background: var(--amber); }
+  .tl-red .tl-dot { background: var(--red); }
+  .tl-green { color: var(--green); }
+  .tl-amber { color: var(--amber); }
+  .tl-red { color: var(--red); }
 
   /* STATUS TABLE */
-  .status-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
+  .status-table { width: 100%; border-collapse: collapse; }
   .status-table th {
     font-family: var(--mono);
     font-size: 9px;
@@ -403,7 +312,6 @@
     padding: 8px 12px;
     border-bottom: 1px solid var(--border);
   }
-
   .status-table td {
     font-family: var(--mono);
     font-size: 11px;
@@ -411,106 +319,91 @@
     padding: 10px 12px;
     border-bottom: 1px solid var(--border);
   }
-
   .status-table tr:last-child td { border-bottom: none; }
   .status-table tr:hover td { background: var(--surface2); }
 
-  /* TRAFFIC LIGHT */
-  .tl {
-    display: inline-flex;
+  /* SYSTEM HEALTH GRID */
+  .sys-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .sys-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+    min-height: 44px;
+  }
+  .sys-name { font-size: 11px; color: var(--text); }
+
+  /* ACTIVITY FEED */
+  .feed { display: flex; flex-direction: column; }
+  .feed-row {
     font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 11px;
+    color: var(--text);
+    padding: 8px 12px;
+    border-left: 2px solid var(--border2);
+    background: var(--surface);
   }
+  .feed-row:nth-child(even) { background: var(--surface2); }
+  .feed-row.warn { border-left-color: var(--amber); color: var(--amber); }
+  .feed-row.bad { border-left-color: var(--red); color: var(--red); }
+  .feed-row.good { border-left-color: var(--green); color: var(--green); }
 
-  .tl-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .tl-green .tl-dot { background: var(--green); }
-  .tl-amber .tl-dot { background: var(--amber); }
-  .tl-red .tl-dot { background: var(--red); }
-  .tl-green { color: var(--green); }
-  .tl-amber { color: var(--amber); }
-  .tl-red { color: var(--red); }
-
-  /* MILESTONE */
+  /* MILESTONE (product checklists) */
   .milestone-list { display: flex; flex-direction: column; gap: 8px; }
-
   .milestone-item {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
     background: var(--surface2);
-    border-radius: 3px;
+    border-radius: 6px;
     border: 1px solid var(--border);
   }
-
   .milestone-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    flex-shrink: 0;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0;
   }
-
-  .milestone-icon.done { background: var(--green); color: #0a0a0b; }
+  .milestone-icon.done { background: var(--green); color: #fff; }
   .milestone-icon.pending { background: var(--border2); color: var(--muted); }
-  .milestone-icon.next { background: var(--accent); color: white; }
-
-  .milestone-text {
-    flex: 1;
-    font-size: 12px;
-    color: var(--text);
-  }
-
+  .milestone-icon.next { background: var(--accent); color: var(--bg); }
+  .milestone-text { flex: 1; font-size: 12px; color: var(--text); }
   .milestone-text.done { color: var(--muted); text-decoration: line-through; }
+  .milestone-target { font-family: var(--mono); font-size: 10px; color: var(--muted); }
 
-  .milestone-target {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-  }
+  /* PROGRESS BARS */
+  .progress-block { margin-bottom: 20px; }
+  .progress-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .progress-pct { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); }
+  .progress-track { height: 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 7px 0 0 7px; transition: width 0.6s ease; }
+  .progress-abs { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .progress-pace { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: italic; }
 
   /* PERIOD TOGGLE */
-  .period-toggle {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 20px;
-  }
-
+  .period-toggle { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
   .period-btn {
-    padding: 5px 12px;
+    padding: 8px 16px;
+    min-height: 44px;
     font-family: var(--mono);
     font-size: 10px;
     font-weight: 500;
     letter-spacing: 0.08em;
     background: transparent;
     border: 1px solid var(--border2);
-    border-radius: 2px;
+    border-radius: 6px;
     color: var(--muted);
     cursor: pointer;
     transition: all 0.15s;
   }
-
   .period-btn:hover { color: var(--text); border-color: var(--faint); }
-  .period-btn.active { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .period-btn.active { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 
   /* DIVIDER */
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 20px 0;
-  }
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
   /* ALERT BANNER */
   .alert {
@@ -518,28 +411,35 @@
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    border-radius: 3px;
-    margin-bottom: 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
     font-size: 12px;
   }
-
-  .alert-red { background: rgba(240,91,91,0.08); border: 1px solid rgba(240,91,91,0.2); color: var(--red); }
-  .alert-amber { background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2); color: var(--amber); }
-  .alert-green { background: rgba(62,207,142,0.08); border: 1px solid rgba(62,207,142,0.2); color: var(--green); }
+  .alert-red { background: rgba(179,69,60,0.08); border: 1px solid rgba(179,69,60,0.25); color: var(--red); }
+  .alert-amber { background: rgba(173,122,37,0.08); border: 1px solid rgba(173,122,37,0.25); color: var(--amber); }
+  .alert-green { background: rgba(47,143,91,0.08); border: 1px solid rgba(47,143,91,0.25); color: var(--green); }
+  .alert-blue { background: rgba(20,20,20,0.04); border: 1px solid rgba(20,20,20,0.15); color: var(--text); }
+  .alerts-slot { margin-bottom: 6px; }
 
   /* RESPONSIVE */
   @media (max-width: 1024px) {
     .grid-4 { grid-template-columns: repeat(2, 1fr); }
     .grid-3 { grid-template-columns: repeat(2, 1fr); }
     .grid-2-1 { grid-template-columns: 1fr; }
+    .sys-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  @media (max-width: 640px) {
-    .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-    .main { padding: 16px; }
+  @media (max-width: 768px) {
+    .grid-4, .grid-3, .grid-2, .sys-grid { grid-template-columns: 1fr; }
+    .hero-card { grid-column: span 1; }
+    .main { padding: 14px; }
+    .funnel-label { width: 110px; font-size: 9px; }
+    .funnel-cvr { width: 52px; }
+    .hero-value { font-size: 40px; }
+    .chart-btn, .period-btn, .nav-tab { min-height: 44px; }
   }
 
-  canvas { max-height: 220px; }
+  canvas { max-height: 260px; }
 </style>
 </head>
 <body>
@@ -573,72 +473,78 @@
   <!-- ═══ TAB: PORTFOLIO ═══ -->
   <div class="tab-panel active" id="tab-portfolio">
 
-    <div class="alert alert-green">
-      ✅ Portrait paywall verified working · Presence campaign running · Portrait campaign active · VectorFI campaign setup pending
-    </div>
+    <div class="alerts-slot" data-tab="portfolio"></div>
 
     <div class="period-toggle">
-      <button class="period-btn active" onclick="setPeriod('week', this)">This Week</button>
-      <button class="period-btn" onclick="setPeriod('month', this)">This Month</button>
-      <button class="period-btn" onclick="setPeriod('alltime', this)">All Time</button>
+      <button class="period-btn active" data-period="week" onclick="setPeriod('week')">This Week</button>
+      <button class="period-btn" data-period="lastweek" onclick="setPeriod('lastweek')">Last Week</button>
+      <button class="period-btn" data-period="lastmonth" onclick="setPeriod('lastmonth')">Last Month</button>
     </div>
 
     <div class="section-header">
       <div class="section-title">Portfolio Overview</div>
-      <div class="section-meta" id="portfolio-period-label">Week of 6–12 Jul 2026</div>
+      <div class="section-meta period-meta">—</div>
+    </div>
+
+    <div class="grid-4">
+      <div class="card hero-card">
+        <div class="card-label">Total Revenue</div>
+        <div class="hero-value muted" id="hero-revenue">$0</div>
+        <div class="card-sub" id="hero-revenue-sub">All-time · 0 real purchases</div>
+      </div>
+      <div class="card">
+        <div class="card-label">New Signups</div>
+        <div class="card-value accent" id="port-signups-val">—</div>
+        <div class="card-sparkline" id="port-signups-spark"></div>
+        <div class="card-delta" id="port-signups-delta"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Portrait Jobs</div>
+        <div class="card-value" id="port-pj-val">—</div>
+        <div class="card-sparkline" id="port-pj-spark"></div>
+        <div class="card-delta" id="port-pj-delta"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Presence Reports</div>
+        <div class="card-value" id="port-pr-val">—</div>
+        <div class="card-sparkline" id="port-pr-spark"></div>
+        <div class="card-delta" id="port-pr-delta"></div>
+      </div>
     </div>
 
     <div class="grid-4">
       <div class="card">
-        <div class="card-label">Total Revenue</div>
-        <div class="card-value red" id="port-revenue">$0</div>
-        <div class="card-delta delta-neutral">— No real transactions yet</div>
+        <div class="card-label">Ad Spend</div>
+        <div class="card-value amber" id="port-spend-val">—</div>
+        <div class="card-sparkline" id="port-spend-spark"></div>
+        <div class="card-delta" id="port-spend-delta"></div>
       </div>
       <div class="card">
-        <div class="card-label">New Users</div>
-        <div class="card-value accent" id="port-users">6</div>
-        <div class="card-delta delta-up">↑ vs last week</div>
+        <div class="card-label">Purchases</div>
+        <div class="card-value" id="port-purch-val">—</div>
+        <div class="card-sparkline" id="port-purch-spark"></div>
+        <div class="card-delta" id="port-purch-delta"></div>
       </div>
       <div class="card">
-        <div class="card-label">Product Sessions</div>
-        <div class="card-value" id="port-sessions">3</div>
-        <div class="card-sub">2 Portrait + 1 Presence</div>
+        <div class="card-label">Portrait Campaign</div>
+        <div class="card-value" id="port-campaign-portrait">—</div>
+        <div class="card-sub" id="port-campaign-portrait-sub"></div>
       </div>
       <div class="card">
-        <div class="card-label">Paywall Health</div>
-        <div class="card-value red">!</div>
-        <div class="card-delta delta-neutral">Portrait bypass active</div>
-      </div>
-    </div>
-
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-label">Ad Spend (Week)</div>
-        <div class="card-value amber">~$70</div>
-        <div class="card-sub">Presence only · Portrait paused</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Presence CTR</div>
-        <div class="card-value accent">1.48%</div>
-        <div class="card-sub">Learning phase · ~16 clicks/day</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Active Products</div>
-        <div class="card-value green">2</div>
-        <div class="card-sub">Portrait · Presence</div>
+        <div class="card-label">Presence Campaign</div>
+        <div class="card-value" id="port-campaign-presence">—</div>
+        <div class="card-sub" id="port-campaign-presence-sub"></div>
       </div>
     </div>
 
     <div class="chart-card">
-      <div class="chart-header">
-        <div class="chart-title">Weekly Signups — All Products</div>
-        <div class="chart-controls">
-          <button class="chart-btn active">4W</button>
-          <button class="chart-btn">8W</button>
-          <button class="chart-btn">All</button>
-        </div>
-      </div>
-      <canvas id="signupsChart"></canvas>
+      <div class="chart-header"><div class="chart-title">Weekly Signups — All Products</div></div>
+      <div class="chart-wrap"><canvas id="signupsChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header"><div class="chart-title">Weekly Revenue — Ready for First Sale</div></div>
+      <div class="chart-wrap"><canvas id="revenueWaterfallChart"></canvas></div>
     </div>
 
     <div class="section-header" style="margin-top:8px">
@@ -650,43 +556,13 @@
         <thead>
           <tr>
             <th>Product</th>
-            <th>Status</th>
             <th>Paid Traffic</th>
             <th>Paywall</th>
             <th>Revenue</th>
             <th>Users (All Time)</th>
-            <th>Action Required</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Authority Portrait</td>
-            <td><span class="tl tl-amber"><span class="tl-dot"></span>Live</span></td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Running</span></td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td style="color:var(--red)">$0</td>
-            <td>54</td>
-            <td style="color:var(--muted)">Monitor · First sale pending</td>
-          </tr>
-          <tr>
-            <td>Authority Presence</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Live</span></td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Running</span></td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td style="color:var(--red)">$0</td>
-            <td>38 reports</td>
-            <td style="color:var(--muted)">Monitor · First sale pending</td>
-          </tr>
-          <tr>
-            <td>VectorFI</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Live</span></td>
-            <td><span class="tl tl-amber"><span class="tl-dot"></span>Setup pending</span></td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td style="color:var(--red)">$0</td>
-            <td>—</td>
-            <td style="color:var(--muted)">Confirm Google Ads setup</td>
-          </tr>
-        </tbody>
+        <tbody id="product-status-body"></tbody>
       </table>
     </div>
 
@@ -695,58 +571,65 @@
   <!-- ═══ TAB: WEEKLY HEALTH ═══ -->
   <div class="tab-panel" id="tab-health">
 
-    <div class="section-header">
-      <div class="section-title">Weekly Health Check</div>
-      <div class="section-meta">Last run: 15 Jul 2026 · Next: 22 Jul 2026</div>
+    <div class="alerts-slot" data-tab="health"></div>
+
+    <div class="period-toggle">
+      <button class="period-btn active" data-period="week" onclick="setPeriod('week')">This Week</button>
+      <button class="period-btn" data-period="lastweek" onclick="setPeriod('lastweek')">Last Week</button>
+      <button class="period-btn" data-period="lastmonth" onclick="setPeriod('lastmonth')">Last Month</button>
     </div>
 
-    <div class="alert alert-amber">
-      ⚠ Paywall silent for 37+ days — 6 signups this week with 0 purchase attempts recorded
+    <div class="section-header">
+      <div class="section-title">Weekly Health Check</div>
+      <div class="section-meta period-meta">—</div>
     </div>
 
     <div class="grid-4">
+      <div class="card hero-card">
+        <div class="card-label">Real Purchases This Week</div>
+        <div class="hero-value muted" id="hero-purchases">0</div>
+        <div class="card-sub" id="hero-purchases-sub">purchases · $0 revenue</div>
+      </div>
       <div class="card">
         <div class="card-label">New Signups</div>
-        <div class="card-value accent" id="h-signups">8</div>
-        <div class="card-delta delta-up">↑ vs prev week</div>
+        <div class="card-value accent" id="health-signups-val">—</div>
+        <div class="card-sparkline" id="health-signups-spark"></div>
+        <div class="card-delta" id="health-signups-delta"></div>
       </div>
       <div class="card">
-        <div class="card-label">Portrait Jobs Done</div>
-        <div class="card-value" id="h-portrait-jobs">6</div>
-        <div class="card-delta delta-neutral">17 all time</div>
+        <div class="card-label">Ad Spend</div>
+        <div class="card-value amber" id="health-spend-val">—</div>
+        <div class="card-sparkline" id="health-spend-spark"></div>
+        <div class="card-delta" id="health-spend-delta"></div>
       </div>
       <div class="card">
-        <div class="card-label">Presence Reports</div>
-        <div class="card-value" id="h-presence-reports">1</div>
-        <div class="card-delta delta-neutral">38 all time</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Real Revenue</div>
-        <div class="card-value red" id="h-revenue">$0</div>
-        <div class="card-delta delta-neutral">$0 all time</div>
+        <div class="card-label">Revenue</div>
+        <div class="card-value" id="health-revenue-val">—</div>
+        <div class="card-sparkline" id="health-revenue-spark"></div>
+        <div class="card-delta" id="health-revenue-delta"></div>
       </div>
     </div>
 
     <div class="grid-4">
       <div class="card">
         <div class="card-label">Welcome Emails</div>
-        <div class="card-value" id="h-welcome">9</div>
-        <div class="card-sub" style="color:var(--amber)">3 duplicates flagged</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Portraits Ready Emails</div>
-        <div class="card-value" id="h-portrait-emails">3</div>
-        <div class="card-sub">incl. 1 test</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Presence Ready Emails</div>
-        <div class="card-value" id="h-presence-emails">1</div>
-        <div class="card-sub">Real user</div>
+        <div class="card-value" id="h-welcome">—</div>
+        <div class="card-sub" id="h-welcome-sub"></div>
       </div>
       <div class="card">
         <div class="card-label">Bypass Rows</div>
-        <div class="card-value red" id="h-bypass">0</div>
-        <div class="card-sub">This week · 18 all time</div>
+        <div class="card-value" id="h-bypass">—</div>
+        <div class="card-sub">This week</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Stuck Jobs</div>
+        <div class="card-value" id="h-stuck">—</div>
+        <div class="card-sub">Portrait generation</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Notification Emails</div>
+        <div class="card-value" id="h-notif">—</div>
+        <div class="card-sub" id="h-notif-sub"></div>
       </div>
     </div>
 
@@ -754,81 +637,22 @@
       <div class="section-title">System Health</div>
     </div>
 
-    <div class="chart-card" style="padding:0">
-      <table class="status-table">
-        <thead>
-          <tr>
-            <th>System</th>
-            <th>Status</th>
-            <th>Last Check</th>
-            <th>Note</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>LemonSqueezy Webhook</td>
-            <td><span class="tl tl-amber"><span class="tl-dot"></span>Unverified</span></td>
-            <td>12 Jul 2026</td>
-            <td>Cannot confirm delivery — needs test purchase</td>
-          </tr>
-          <tr>
-            <td>Portrait Paywall</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td>13 Jul 2026</td>
-            <td>Verified by Cowork 13 Jul 2026</td>
-          </tr>
-          <tr>
-            <td>Presence Paywall</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td>12 Jul 2026</td>
-            <td>Navigates correctly to LemonSqueezy checkout</td>
-          </tr>
-          <tr>
-            <td>GA4 Tracking</td>
-            <td><span class="tl tl-amber"><span class="tl-dot"></span>Partial</span></td>
-            <td>15 Jul 2026</td>
-            <td>Platform outage 15 Jul — funnel data unavailable this week</td>
-          </tr>
-          <tr>
-            <td>Google Ads — Portrait</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Running</span></td>
-            <td>15 Jul 2026</td>
-            <td>153 clicks · 6.59% CTR · $168.30 spent this week</td>
-          </tr>
-          <tr>
-            <td>Google Ads — Presence</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Running</span></td>
-            <td>15 Jul 2026</td>
-            <td>88 clicks · 2.80% CTR · $72.16 spent this week</td>
-          </tr>
-          <tr>
-            <td>Resend Email</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Working</span></td>
-            <td>12 Jul 2026</td>
-            <td>100% delivery · Duplicate trigger bug flagged</td>
-          </tr>
-          <tr>
-            <td>Supabase DB</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Healthy</span></td>
-            <td>12 Jul 2026</td>
-            <td>54 users · 11 orphaned rows flagged</td>
-          </tr>
-          <tr>
-            <td>Vercel Deployment</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>Live</span></td>
-            <td>12 Jul 2026</td>
-            <td>authoritystudio.app production</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="sys-grid" id="system-grid"></div>
+
+    <div class="section-header">
+      <div class="section-title">This Week</div>
+    </div>
+
+    <div class="chart-card" style="padding:8px">
+      <div class="feed" id="activity-feed"></div>
     </div>
 
     <div class="section-header" style="margin-top:8px">
-      <div class="section-title">Weekly Trend — Signups & Jobs</div>
+      <div class="section-title">Weekly Trend — Signups &amp; Jobs</div>
     </div>
 
     <div class="chart-card">
-      <canvas id="weeklyTrendChart"></canvas>
+      <div class="chart-wrap"><canvas id="weeklyTrendChart"></canvas></div>
     </div>
 
   </div>
@@ -836,110 +660,55 @@
   <!-- ═══ TAB: AUTHORITY PORTRAIT ═══ -->
   <div class="tab-panel" id="tab-portrait">
 
-    <div class="alert alert-red">
-      ⚠ Portrait campaign paused · Paywall bypass live in production · Awaiting Minh fix
-    </div>
+    <div class="alerts-slot" data-tab="portrait"></div>
 
     <div class="period-toggle">
-      <button class="period-btn active" onclick="setPeriod('week', this)">This Week</button>
-      <button class="period-btn" onclick="setPeriod('month', this)">This Month</button>
-      <button class="period-btn" onclick="setPeriod('alltime', this)">All Time</button>
+      <button class="period-btn active" data-period="week" onclick="setPeriod('week')">This Week</button>
+      <button class="period-btn" data-period="lastweek" onclick="setPeriod('lastweek')">Last Week</button>
+      <button class="period-btn" data-period="lastmonth" onclick="setPeriod('lastmonth')">Last Month</button>
     </div>
 
     <div class="grid-4">
-      <div class="card">
-        <div class="card-label">Revenue</div>
-        <div class="card-value red">$0</div>
-        <div class="card-delta delta-neutral">Paywall broken</div>
+      <div class="card hero-card">
+        <div class="card-label">Portrait Jobs Completed (Week)</div>
+        <div class="hero-value accent" id="hero-portrait-jobs">—</div>
+        <div class="card-sub" id="hero-portrait-jobs-sub"></div>
       </div>
       <div class="card">
-        <div class="card-label">Portrait Jobs</div>
-        <div class="card-value accent">2</div>
-        <div class="card-delta delta-neutral">17 all time</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Users</div>
-        <div class="card-value">54</div>
-        <div class="card-delta delta-neutral">All time signups</div>
+        <div class="card-label">Job Status</div>
+        <div class="card-value" id="ptr-jobstatus" style="font-size:16px">—</div>
+        <div class="card-sub">Completed · Failed · Stuck</div>
       </div>
       <div class="card">
         <div class="card-label">Ad Spend</div>
-        <div class="card-value amber">$0</div>
-        <div class="card-sub">Campaign paused</div>
+        <div class="card-value amber" id="ptr-spend-val">—</div>
+        <div class="card-sparkline" id="ptr-spend-spark"></div>
+        <div class="card-delta" id="ptr-spend-delta"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Campaign Status</div>
+        <div class="card-value" id="ptr-campaign">—</div>
+        <div class="card-sub" id="ptr-campaign-sub"></div>
       </div>
     </div>
 
     <div class="section-header">
       <div class="section-title">Portrait Funnel</div>
-      <div class="section-meta">All time · Based on Supabase + GA4</div>
+      <div class="section-meta">Current week</div>
     </div>
 
     <div class="chart-card">
-      <div class="funnel">
-        <div class="funnel-step">
-          <div class="funnel-label">Landing page view</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:100%;background:var(--accent)">
-              <span class="funnel-bar-val">100%</span>
-            </div>
-          </div>
-          <div class="funnel-count">94</div>
-          <div class="funnel-cvr"></div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Upload started</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:55%;background:var(--accent2)">
-              <span class="funnel-bar-val">55%</span>
-            </div>
-          </div>
-          <div class="funnel-count">~52</div>
-          <div class="funnel-cvr" style="color:var(--green)">55%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Preview generated</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:29%;background:#3d5fa8">
-              <span class="funnel-bar-val">29%</span>
-            </div>
-          </div>
-          <div class="funnel-count">27</div>
-          <div class="funnel-cvr" style="color:var(--amber)">52%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Checkout started</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:8%;background:#2a3d6b">
-              <span class="funnel-bar-val">8%</span>
-            </div>
-          </div>
-          <div class="funnel-count">~8</div>
-          <div class="funnel-cvr" style="color:var(--amber)">30%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Purchase completed</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:0%;background:var(--red)">
-              <span class="funnel-bar-val">0%</span>
-            </div>
-          </div>
-          <div class="funnel-count">0</div>
-          <div class="funnel-cvr" style="color:var(--red)">0%</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:var(--amber);font-family:var(--mono);">
-        ↑ Drop to 0% at purchase = paywall bypass active. 27 users got portraits free.
-      </div>
+      <div class="funnel" id="portrait-funnel"></div>
     </div>
 
     <div class="grid-2">
       <div class="chart-card">
         <div class="chart-header"><div class="chart-title">Portrait Jobs — Weekly</div></div>
-        <canvas id="portraitJobsChart"></canvas>
+        <div class="chart-wrap"><canvas id="portraitJobsChart"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-header"><div class="chart-title">Ad Performance (Before Pause)</div></div>
-        <canvas id="portraitAdsChart"></canvas>
+        <div class="chart-header"><div class="chart-title">Portrait Ad Spend — Weekly</div></div>
+        <div class="chart-wrap"><canvas id="portraitSpendChart"></canvas></div>
       </div>
     </div>
 
@@ -948,110 +717,55 @@
   <!-- ═══ TAB: AUTHORITY PRESENCE ═══ -->
   <div class="tab-panel" id="tab-presence">
 
-    <div class="alert alert-green">
-      ✓ Presence paywall working correctly · Campaign live · Learning phase · 0 conversions to date
-    </div>
+    <div class="alerts-slot" data-tab="presence"></div>
 
     <div class="period-toggle">
-      <button class="period-btn active" onclick="setPeriod('week', this)">This Week</button>
-      <button class="period-btn" onclick="setPeriod('month', this)">This Month</button>
-      <button class="period-btn" onclick="setPeriod('alltime', this)">All Time</button>
+      <button class="period-btn active" data-period="week" onclick="setPeriod('week')">This Week</button>
+      <button class="period-btn" data-period="lastweek" onclick="setPeriod('lastweek')">Last Week</button>
+      <button class="period-btn" data-period="lastmonth" onclick="setPeriod('lastmonth')">Last Month</button>
     </div>
 
     <div class="grid-4">
-      <div class="card">
-        <div class="card-label">Revenue</div>
-        <div class="card-value red">$0</div>
-        <div class="card-delta delta-neutral">0 paid conversions</div>
+      <div class="card hero-card">
+        <div class="card-label">Presence Reports Generated (Week)</div>
+        <div class="hero-value accent" id="hero-presence-reports">—</div>
+        <div class="card-sub" id="hero-presence-reports-sub"></div>
       </div>
       <div class="card">
-        <div class="card-label">Reports Generated</div>
-        <div class="card-value teal">1</div>
-        <div class="card-delta delta-neutral">38 all time</div>
+        <div class="card-label">Ad Spend</div>
+        <div class="card-value amber" id="prs-spend-val">—</div>
+        <div class="card-sparkline" id="prs-spend-spark"></div>
+        <div class="card-delta" id="prs-spend-delta"></div>
       </div>
       <div class="card">
-        <div class="card-label">Ad Spend (Week)</div>
-        <div class="card-value amber">~$70</div>
-        <div class="card-sub">$10/day budget</div>
+        <div class="card-label">Clicks / CTR</div>
+        <div class="card-value" id="prs-clicks">—</div>
+        <div class="card-sub" id="prs-clicks-sub"></div>
       </div>
       <div class="card">
-        <div class="card-label">CTR</div>
-        <div class="card-value accent">1.48%</div>
-        <div class="card-sub">Learning phase</div>
+        <div class="card-label">Campaign Status</div>
+        <div class="card-value" id="prs-campaign">—</div>
+        <div class="card-sub" id="prs-campaign-sub"></div>
       </div>
     </div>
 
     <div class="section-header">
       <div class="section-title">Presence Funnel</div>
-      <div class="section-meta">Last 30 days · GA4</div>
+      <div class="section-meta">Current week</div>
     </div>
 
     <div class="chart-card">
-      <div class="funnel">
-        <div class="funnel-step">
-          <div class="funnel-label">Page view</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:100%;background:var(--teal)">
-              <span class="funnel-bar-val">100%</span>
-            </div>
-          </div>
-          <div class="funnel-count">57</div>
-          <div class="funnel-cvr"></div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Analysis started</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:14%;background:#1a9e88">
-              <span class="funnel-bar-val">14%</span>
-            </div>
-          </div>
-          <div class="funnel-count">8</div>
-          <div class="funnel-cvr" style="color:var(--amber)">14%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Results viewed</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:14%;background:#137a68">
-              <span class="funnel-bar-val">14%</span>
-            </div>
-          </div>
-          <div class="funnel-count">8</div>
-          <div class="funnel-cvr" style="color:var(--green)">100%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Checkout started</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:5%;background:#0d5547">
-              <span class="funnel-bar-val">5%</span>
-            </div>
-          </div>
-          <div class="funnel-count">~3</div>
-          <div class="funnel-cvr" style="color:var(--amber)">38%</div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label">Purchase completed</div>
-          <div class="funnel-bar-wrap">
-            <div class="funnel-bar" style="width:0%;background:var(--red)">
-              <span class="funnel-bar-val">0%</span>
-            </div>
-          </div>
-          <div class="funnel-count">0</div>
-          <div class="funnel-cvr" style="color:var(--red)">0%</div>
-        </div>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:var(--muted);font-family:var(--mono);">
-        CVR1 (landing→analysis): 14% · CVR2 (results→paid): 0% · Paywall working, conversion gap at $39
-      </div>
+      <div class="funnel" id="presence-funnel"></div>
     </div>
 
     <div class="grid-2">
       <div class="chart-card">
         <div class="chart-header"><div class="chart-title">Presence Reports — Weekly</div></div>
-        <canvas id="presenceReportsChart"></canvas>
+        <div class="chart-wrap"><canvas id="presenceReportsChart"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-header"><div class="chart-title">Ad Clicks & CTR — Daily</div></div>
-        <canvas id="presenceAdsChart"></canvas>
+        <div class="chart-header"><div class="chart-title">Presence Ad Spend — Weekly</div></div>
+        <div class="chart-wrap"><canvas id="presenceSpendChart"></canvas></div>
       </div>
     </div>
 
@@ -1060,30 +774,28 @@
   <!-- ═══ TAB: VECTORFI ═══ -->
   <div class="tab-panel" id="tab-vectorfi">
 
-    <div class="alert alert-amber">
-      ⚠ VectorFI fixes shipped by Minh — Bruno testing in progress · Paid traffic paused
-    </div>
+    <div class="alerts-slot" data-tab="vectorfi"></div>
 
     <div class="grid-4">
-      <div class="card">
-        <div class="card-label">Status</div>
-        <div class="card-value amber" style="font-size:18px">Testing</div>
-        <div class="card-sub">Ball in Bruno's court</div>
+      <div class="card hero-card">
+        <div class="card-label">VectorFI Status</div>
+        <div class="hero-value amber" id="hero-vectorfi-status">—</div>
+        <div class="card-sub">Coast FIRE calculator · $49 one-time</div>
       </div>
       <div class="card">
-        <div class="card-label">Revenue</div>
-        <div class="card-value red">$0</div>
-        <div class="card-delta delta-neutral">Ads paused</div>
+        <div class="card-label">Ad Spend (Week)</div>
+        <div class="card-value" id="vfi-spend">—</div>
+        <div class="card-sub">Campaign status below</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Campaign Status</div>
+        <div class="card-value" id="vfi-campaign">—</div>
+        <div class="card-sub">Google Ads</div>
       </div>
       <div class="card">
         <div class="card-label">Core Price</div>
         <div class="card-value accent">$49</div>
         <div class="card-sub">Single tier</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Paid Traffic</div>
-        <div class="card-value red">Off</div>
-        <div class="card-sub">Resume after testing</div>
       </div>
     </div>
 
@@ -1094,49 +806,38 @@
     <div class="chart-card" style="padding:0">
       <table class="status-table">
         <thead>
-          <tr>
-            <th>#</th>
-            <th>Item</th>
-            <th>Priority</th>
-            <th>Status</th>
-          </tr>
+          <tr><th>#</th><th>Item</th><th>Priority</th><th>Status</th></tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Critical six fixes</td>
+            <td>1</td><td>Critical six fixes</td>
             <td style="color:var(--red)">Critical</td>
             <td><span class="tl tl-green"><span class="tl-dot"></span>Shipped by Minh</span></td>
           </tr>
           <tr>
-            <td>2</td>
-            <td>Bruno end-to-end testing</td>
+            <td>2</td><td>Bruno end-to-end testing</td>
             <td style="color:var(--red)">Critical</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>✅ Verified by Cowork</span></td>
+            <td><span class="tl tl-green"><span class="tl-dot"></span>Verified by Cowork</span></td>
           </tr>
           <tr>
-            <td>3</td>
-            <td>Coast FIRE card — hero position, teal accent</td>
+            <td>3</td><td>Coast FIRE card — hero position, accent color</td>
             <td style="color:var(--amber)">High</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>✅ Confirmed live</span></td>
+            <td><span class="tl tl-green"><span class="tl-dot"></span>Confirmed live</span></td>
           </tr>
           <tr>
-            <td>4</td>
-            <td>Founder story + photo placeholder</td>
+            <td>4</td><td>Founder story + photo placeholder</td>
             <td style="color:var(--amber)">High</td>
             <td><span class="tl tl-amber"><span class="tl-dot"></span>Bruno to provide content</span></td>
           </tr>
           <tr>
-            <td>5</td>
-            <td>LemonSqueezy Pro archived</td>
+            <td>5</td><td>LemonSqueezy Pro archived</td>
             <td style="color:var(--muted)">Medium</td>
             <td><span class="tl tl-amber"><span class="tl-dot"></span>Pending</span></td>
           </tr>
           <tr>
-            <td>6</td>
-            <td>Resume paid traffic</td>
+            <td>6</td><td>Resume paid traffic</td>
             <td style="color:var(--muted)">Medium</td>
-            <td><span class="tl tl-green"><span class="tl-dot"></span>✅ Green light — setting up now</span></td>
+            <td><span class="tl tl-amber"><span class="tl-dot"></span>Campaign not found — setup required</span></td>
           </tr>
         </tbody>
       </table>
@@ -1147,10 +848,42 @@
   <!-- ═══ TAB: MILESTONES ═══ -->
   <div class="tab-panel" id="tab-milestones">
 
+    <div class="alerts-slot" data-tab="milestones"></div>
+
     <div class="section-header">
       <div class="section-title">Milestone Tracker — Authority Studio Suite</div>
-      <div class="section-meta">Updated 13 Jul 2026</div>
+      <div class="section-meta" id="milestones-updated">—</div>
     </div>
+
+    <div class="grid-4" style="margin-bottom:8px">
+      <div class="card hero-card">
+        <div class="card-label">Revenue Progress</div>
+        <div class="hero-value muted" id="hero-mrr-pct">0%</div>
+        <div class="card-sub">toward $1,000 MRR</div>
+      </div>
+    </div>
+
+    <div class="progress-block">
+      <div class="progress-label-row">
+        <div class="section-title">Revenue Milestone</div>
+        <div class="progress-pct" id="rev-progress-label">0% there</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="rev-progress-bar" style="width:0%"></div></div>
+      <div class="progress-abs" id="rev-progress-abs">$0 of $1,000 MRR</div>
+      <div class="progress-pace" id="rev-progress-pace"></div>
+    </div>
+
+    <div class="progress-block">
+      <div class="progress-label-row">
+        <div class="section-title">Customer Milestone</div>
+        <div class="progress-pct" id="cust-progress-label">0% there</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="cust-progress-bar" style="width:0%"></div></div>
+      <div class="progress-abs" id="cust-progress-abs">0 of 43 customers</div>
+      <div class="progress-pace" id="cust-progress-pace"></div>
+    </div>
+
+    <div class="divider"></div>
 
     <div class="grid-3">
       <div>
@@ -1177,9 +910,9 @@
             <div class="milestone-target">Done</div>
           </div>
           <div class="milestone-item">
-            <div class="milestone-icon pending">○</div>
+            <div class="milestone-icon next">→</div>
             <div class="milestone-text">First real Portrait sale</div>
-            <div class="milestone-target">After fix</div>
+            <div class="milestone-target">Imminent</div>
           </div>
           <div class="milestone-item">
             <div class="milestone-icon pending">○</div>
@@ -1214,7 +947,7 @@
           </div>
           <div class="milestone-item">
             <div class="milestone-icon done">✓</div>
-            <div class="milestone-text done">38 real reports generated</div>
+            <div class="milestone-text done">39 real reports generated</div>
             <div class="milestone-target">Done</div>
           </div>
           <div class="milestone-item">
@@ -1255,7 +988,7 @@
           </div>
           <div class="milestone-item">
             <div class="milestone-icon done">✓</div>
-            <div class="milestone-text done">Coast FIRE card — hero position, teal accent</div>
+            <div class="milestone-text done">Coast FIRE card — hero position, accent color</div>
             <div class="milestone-target">Done</div>
           </div>
           <div class="milestone-item">
@@ -1287,22 +1020,12 @@
       <div class="milestone-item">
         <div class="milestone-icon next">→</div>
         <div class="milestone-text">First real sale — either product</div>
-        <div class="milestone-target">After paywall fix</div>
+        <div class="milestone-target">Imminent</div>
       </div>
       <div class="milestone-item">
         <div class="milestone-icon pending">○</div>
         <div class="milestone-text">20 combined customers → hire performance marketer</div>
         <div class="milestone-target">Month 2</div>
-      </div>
-      <div class="milestone-item">
-        <div class="milestone-icon pending">○</div>
-        <div class="milestone-text">Suite break-even (~43 customers/month)</div>
-        <div class="milestone-target">Month 2-3</div>
-      </div>
-      <div class="milestone-item">
-        <div class="milestone-icon pending">○</div>
-        <div class="milestone-text">$1,000 MRR</div>
-        <div class="milestone-target">Month 3</div>
       </div>
       <div class="milestone-item">
         <div class="milestone-icon next">→</div>
@@ -1336,257 +1059,614 @@
 </div><!-- end main -->
 
 <script>
-// ── DATA STORE ──────────────────────────────────────────────────────────────
+// ── DATA STORE — updated weekly by Cowork ────────────────────────────────────
 const DATA = {
+  lastUpdated: "15 Jul 2026",
   week: {
-    signups: 8, portraitJobs: 6, presenceReports: 1,
-    revenue: 0, adSpend: 240, welcomeEmails: 10,
-    portraitEmails: 9, presenceEmails: 1, bypassRows: 0
+    purchases: 0,
+    signups: 8,
+    portraitJobs: 6,
+    presenceReports: 1,
+    revenue: 0,
+    adSpend: 240,
+    welcomeEmails: 10,
+    duplicateEmails: 3,
+    portraitEmails: 9,
+    presenceEmails: 1,
+    bypassRows: 0,
+    stuckJobs: 0,
+    portraitClicks: 153,
+    portraitCTR: 6.59,
+    portraitSpend: 168.30,
+    portraitCampaignStatus: "active",
+    presenceClicks: 88,
+    presenceCTR: 2.80,
+    presenceSpend: 72.16,
+    presenceCampaignStatus: "active",
+    vectorfiClicks: 0,
+    vectorfiCTR: 0,
+    vectorfiSpend: 0,
+    vectorfiCampaignStatus: "not found",
+    portraitFunnel: [94, 52, 27, 8, 0],
+    presenceFunnel: [57, 8, 8, 3, 0]
   },
-  month: {
-    signups: 18, portraitJobs: 5, presenceReports: 8,
-    revenue: 0, adSpend: 213, welcomeEmails: 21,
-    portraitEmails: 6, presenceEmails: 9, bypassRows: 0
+  history: {
+    weeks: ["Jun 2", "Jun 9", "Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15"],
+    signups: [12, 8, 15, 11, 9, 6, 8],
+    portraitJobs: [3, 4, 6, 2, 4, 2, 6],
+    presenceReports: [5, 8, 12, 14, 10, 1, 1],
+    revenue: [0, 0, 0, 0, 0, 0, 0],
+    adSpend: [0, 0, 45, 70, 70, 70, 240],
+    portraitSpend: [0, 0, 0, 0, 0, 0, 168],
+    presenceSpend: [0, 0, 45, 70, 70, 70, 72],
+    purchases: [0, 0, 0, 0, 0, 0, 0]
+  },
+  systems: {
+    portraitPaywall: "working",
+    presencePaywall: "working",
+    lemonSqueezyWebhook: "unverified",
+    resendDelivery: "working",
+    duplicateEmailBug: "active",
+    supabase: "healthy",
+    vercel: "live",
+    ga4: "partial",
+    portraitHeroLoadLag: "fixed",
+    presenceMobileHeader: "pending"
   },
   alltime: {
-    signups: 54, portraitJobs: 17, presenceReports: 38,
-    revenue: 0, adSpend: 480, welcomeEmails: 21,
-    portraitEmails: 17, presenceEmails: 38, bypassRows: 18
+    users: 62,
+    portraitJobs: 23,
+    presenceReports: 39,
+    revenue: 0,
+    realPurchases: 0
+  },
+  milestones: {
+    revenueTarget: 1000,
+    currentMRR: 0,
+    customersForBreakeven: 43,
+    currentCustomers: 0
   }
 };
 
-const PERIOD_LABELS = {
-  week: 'Week of 6–12 Jul 2026',
-  month: 'June–July 2026',
-  alltime: 'All Time · Feb–Jul 2026'
-};
-
 let currentPeriod = 'week';
+let charts = {};
 
-function setPeriod(period, btn) {
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function $(id) { return document.getElementById(id); }
+function setText(id, val) { const el = $(id); if (el) el.textContent = val; }
+function money(n, dec) { return '$' + Number(n).toLocaleString(undefined, { minimumFractionDigits: dec||0, maximumFractionDigits: dec||0 }); }
+
+function sparkline(data, color) {
+  const w = 80, h = 24;
+  const max = Math.max(...data, 1);
+  const min = Math.min(...data, 0);
+  const range = (max - min) || 1;
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - ((v - min) / range) * h;
+    return x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ');
+  return '<svg viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+    '<polyline style="fill:none;stroke:' + color + ';stroke-width:1.5" points="' + pts + '"/></svg>';
+}
+
+function periodSuffix(period) {
+  if (period === 'week') return 'last week';
+  if (period === 'lastweek') return 'week before';
+  return 'prior 4 weeks';
+}
+
+function periodLabel(period) {
+  const wk = DATA.history.weeks;
+  if (period === 'week') return 'Week ending ' + wk[6];
+  if (period === 'lastweek') return 'Week ending ' + wk[5];
+  return wk[3] + ' – ' + wk[6] + ' (4 weeks)';
+}
+
+function metricForPeriod(metric, period) {
+  const arr = DATA.history[metric];
+  if (period === 'week') return { cur: arr[6], diff: arr[6] - arr[5] };
+  if (period === 'lastweek') return { cur: arr[5], diff: arr[5] - arr[4] };
+  const cur = arr.slice(3, 7).reduce((a, b) => a + b, 0);
+  const prev = arr.slice(0, 4).reduce((a, b) => a + b, 0);
+  return { cur, diff: cur - prev };
+}
+
+function deltaBadge(diff, period, opts) {
+  opts = opts || {};
+  const suffix = periodSuffix(period);
+  const dec = opts.decimals || 0;
+  const fmt = (n) => opts.money ? money(Math.abs(n), dec) : Math.abs(n).toLocaleString(undefined, { maximumFractionDigits: dec });
+  if (opts.warn) return { cls: 'delta-amber', text: '⚠ +' + fmt(diff) + ' vs ' + suffix };
+  if (diff === 0) return { cls: 'delta-neutral', text: '— flat vs ' + suffix };
+  const up = diff > 0;
+  return { cls: up ? 'delta-up' : 'delta-down', text: (up ? '↑ +' : '↓ -') + fmt(diff) + ' vs ' + suffix };
+}
+
+function updateMetricCard(prefix, metric, period, opts) {
+  opts = opts || {};
+  const arr = DATA.history[metric];
+  const { cur, diff } = metricForPeriod(metric, period);
+  const valEl = $(prefix + '-val');
+  const sparkEl = $(prefix + '-spark');
+  const deltaEl = $(prefix + '-delta');
+  const dec = opts.decimals || 0;
+  if (valEl) valEl.textContent = opts.money ? money(cur, dec) : cur.toLocaleString(undefined, { maximumFractionDigits: dec });
+  if (sparkEl) sparkEl.innerHTML = sparkline(arr, opts.color || 'var(--accent)');
+  let warn = false;
+  if (opts.warnIfFlatRevenue && diff > 0 && DATA.week.revenue === 0) warn = true;
+  const badge = deltaBadge(diff, period, { money: opts.money, decimals: dec, warn: warn });
+  if (deltaEl) { deltaEl.textContent = badge.text; deltaEl.className = 'card-delta ' + badge.cls; }
+}
+
+function statusClass(val) {
+  const green = ['working', 'healthy', 'live', 'active', 'verified', 'fixed'];
+  const amber = ['partial', 'unverified', 'pending', 'warning', 'not found'];
+  if (green.includes(val)) return 'green';
+  if (amber.includes(val)) return 'amber';
+  return 'red';
+}
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ── ALERT ENGINE ──────────────────────────────────────────────────────────
+function computeAlerts() {
+  const w = DATA.week, s = DATA.systems;
+  const alerts = [];
+  if (w.bypassRows > 0) alerts.push({ level: 'red', text: '🚨 Paywall bypass detected — ' + w.bypassRows + ' rows this week. Check Supabase immediately.' });
+  if (s.portraitPaywall !== 'working') alerts.push({ level: 'red', text: '🚨 Portrait paywall not working — ads paused automatically' });
+  if (s.presencePaywall !== 'working') alerts.push({ level: 'red', text: '🚨 Presence paywall not working' });
+  if (w.stuckJobs > 0) alerts.push({ level: 'amber', text: '⚠️ ' + w.stuckJobs + ' portrait jobs stuck in generating state — flag to Minh' });
+  if (w.adSpend > 50 && w.revenue === 0) alerts.push({ level: 'amber', text: '⚠️ $' + w.adSpend + ' spent this week with $0 revenue — review funnel' });
+  if (w.vectorfiCampaignStatus === 'not found') alerts.push({ level: 'amber', text: '⚠️ VectorFI Google Ads campaign not found — setup required' });
+  if (w.duplicateEmails > 0) alerts.push({ level: 'amber', text: '⚠️ ' + w.duplicateEmails + ' duplicate welcome emails this week — Minh fix pending' });
+  if (s.lemonSqueezyWebhook === 'unverified') alerts.push({ level: 'amber', text: '⚠️ LemonSqueezy webhook unverified — run test purchase' });
+  if (s.ga4 === 'outage') alerts.push({ level: 'amber', text: '⚠️ GA4 outage this week — funnel data unavailable' });
+  const hasRedOrAmber = alerts.some(a => a.level === 'red' || a.level === 'amber');
+  if (!hasRedOrAmber) {
+    if (w.revenue > 0) alerts.push({ level: 'green', text: '✅ All systems healthy · $' + w.revenue + ' revenue this week' });
+    else alerts.push({ level: 'blue', text: 'ℹ️ All systems healthy · First sale pending' });
+  }
+  return alerts;
+}
+
+function renderAlerts() {
+  const alerts = computeAlerts();
+  const html = alerts.map(a => '<div class="alert alert-' + a.level + '">' + a.text + '</div>').join('');
+  document.querySelectorAll('.alerts-slot').forEach(el => el.innerHTML = html);
+}
+
+// ── HERO METRICS (fixed, not period-reactive) ────────────────────────────
+function renderHeroes() {
+  const w = DATA.week, a = DATA.alltime, m = DATA.milestones;
+
+  const revEl = $('hero-revenue');
+  revEl.textContent = money(a.revenue);
+  revEl.className = 'hero-value ' + (a.revenue > 0 ? 'green' : 'muted');
+  setText('hero-revenue-sub', 'All-time · ' + a.realPurchases + ' real purchases');
+
+  const purchEl = $('hero-purchases');
+  purchEl.textContent = w.purchases;
+  purchEl.className = 'hero-value ' + (w.purchases > 0 ? 'green' : (w.purchases === 0 && w.adSpend > 50 ? 'red' : 'muted'));
+  setText('hero-purchases-sub', w.purchases + ' purchases · ' + money(w.revenue) + ' revenue');
+
+  setText('hero-portrait-jobs', w.portraitJobs);
+  setText('hero-portrait-jobs-sub', w.portraitJobs + ' completed this week · ' + DATA.alltime.portraitJobs + ' all time');
+
+  setText('hero-presence-reports', w.presenceReports);
+  setText('hero-presence-reports-sub', w.presenceReports + ' generated this week · ' + DATA.alltime.presenceReports + ' all time');
+
+  const vfiEl = $('hero-vectorfi-status');
+  if (w.vectorfiCampaignStatus === 'not found') { vfiEl.textContent = 'Setup Pending'; vfiEl.className = 'hero-value amber'; }
+  else if (w.vectorfiCampaignStatus === 'active') { vfiEl.textContent = 'Live'; vfiEl.className = 'hero-value green'; }
+  else { vfiEl.textContent = 'Paused'; vfiEl.className = 'hero-value red'; }
+
+  const mrrPct = Math.min(100, Math.round((m.currentMRR / m.revenueTarget) * 100));
+  const mrrEl = $('hero-mrr-pct');
+  mrrEl.textContent = mrrPct + '%';
+  mrrEl.className = 'hero-value ' + (mrrPct > 0 ? 'green' : 'muted');
+
+  setText('h-welcome', w.welcomeEmails);
+  setText('h-welcome-sub', w.duplicateEmails > 0 ? w.duplicateEmails + ' duplicates flagged' : 'No duplicates');
+  const bypassEl = $('h-bypass');
+  bypassEl.textContent = w.bypassRows;
+  bypassEl.className = 'card-value ' + (w.bypassRows > 0 ? 'red' : 'green');
+  const stuckEl = $('h-stuck');
+  stuckEl.textContent = w.stuckJobs;
+  stuckEl.className = 'card-value ' + (w.stuckJobs > 0 ? 'amber' : 'green');
+  setText('h-notif', w.portraitEmails + w.presenceEmails);
+  setText('h-notif-sub', w.portraitEmails + ' portrait · ' + w.presenceEmails + ' presence');
+
+  const jobStatusEl = $('ptr-jobstatus');
+  jobStatusEl.textContent = w.portraitJobs + ' completed · 0 failed · ' + w.stuckJobs + ' stuck';
+
+  const ptrCampaignEl = $('ptr-campaign');
+  ptrCampaignEl.textContent = capitalize(w.portraitCampaignStatus);
+  ptrCampaignEl.className = 'card-value ' + statusClass(w.portraitCampaignStatus);
+  setText('ptr-campaign-sub', w.portraitClicks + ' clicks · ' + w.portraitCTR + '% CTR');
+
+  const prsCampaignEl = $('prs-campaign');
+  prsCampaignEl.textContent = capitalize(w.presenceCampaignStatus);
+  prsCampaignEl.className = 'card-value ' + statusClass(w.presenceCampaignStatus);
+  setText('prs-clicks', w.presenceClicks);
+  setText('prs-clicks-sub', w.presenceCTR + '% CTR');
+
+  const vfiCampaignEl = $('vfi-campaign');
+  vfiCampaignEl.textContent = capitalize(w.vectorfiCampaignStatus);
+  vfiCampaignEl.className = 'card-value ' + statusClass(w.vectorfiCampaignStatus);
+  setText('vfi-spend', money(w.vectorfiSpend));
+
+  const portCampPortrait = $('port-campaign-portrait');
+  portCampPortrait.textContent = capitalize(w.portraitCampaignStatus);
+  portCampPortrait.className = 'card-value ' + statusClass(w.portraitCampaignStatus);
+  setText('port-campaign-portrait-sub', w.portraitClicks + ' clicks · ' + money(w.portraitSpend, 2));
+
+  const portCampPresence = $('port-campaign-presence');
+  portCampPresence.textContent = capitalize(w.presenceCampaignStatus);
+  portCampPresence.className = 'card-value ' + statusClass(w.presenceCampaignStatus);
+  setText('port-campaign-presence-sub', w.presenceClicks + ' clicks · ' + money(w.presenceSpend, 2));
+
+  setText('milestones-updated', 'Updated ' + DATA.lastUpdated);
+}
+
+// ── PERIOD-REACTIVE CARDS ─────────────────────────────────────────────────
+function renderPeriodCards(period) {
+  document.querySelectorAll('.period-meta').forEach(el => el.textContent = periodLabel(period));
+
+  updateMetricCard('port-signups', 'signups', period, { color: 'var(--accent)' });
+  updateMetricCard('port-pj', 'portraitJobs', period, { color: 'var(--accent)' });
+  updateMetricCard('port-pr', 'presenceReports', period, { color: 'var(--accent)' });
+  updateMetricCard('port-spend', 'adSpend', period, { money: true, decimals: 2, color: 'var(--amber)', warnIfFlatRevenue: true });
+  updateMetricCard('port-purch', 'purchases', period, { color: 'var(--green)' });
+
+  updateMetricCard('health-signups', 'signups', period, { color: 'var(--accent)' });
+  updateMetricCard('health-spend', 'adSpend', period, { money: true, decimals: 2, color: 'var(--amber)', warnIfFlatRevenue: true });
+  updateMetricCard('health-revenue', 'revenue', period, { money: true, color: 'var(--green)' });
+
+  updateMetricCard('ptr-spend', 'portraitSpend', period, { money: true, decimals: 2, color: 'var(--amber)' });
+  updateMetricCard('prs-spend', 'presenceSpend', period, { money: true, decimals: 2, color: 'var(--amber)' });
+}
+
+function setPeriod(period) {
   currentPeriod = period;
-  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  updateMetrics();
-  const label = document.getElementById('portfolio-period-label');
-  if(label) label.textContent = PERIOD_LABELS[period];
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.toggle('active', b.dataset.period === period));
+  renderPeriodCards(period);
+  updateChartHighlights(period);
 }
 
-function updateMetrics() {
-  const d = DATA[currentPeriod];
-  const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
-  set('port-revenue', '$' + d.revenue);
-  set('port-users', d.signups);
-  set('port-sessions', d.portraitJobs + d.presenceReports);
-  set('h-signups', d.signups);
-  set('h-portrait-jobs', d.portraitJobs);
-  set('h-presence-reports', d.presenceReports);
-  set('h-revenue', '$' + d.revenue);
-  set('h-welcome', d.welcomeEmails);
-  set('h-portrait-emails', d.portraitEmails);
-  set('h-presence-emails', d.presenceEmails);
-  set('h-bypass', d.bypassRows);
+// ── SYSTEM HEALTH GRID ────────────────────────────────────────────────────
+function renderSystemGrid() {
+  const s = DATA.systems, w = DATA.week;
+  const rows = [
+    ['Portrait Paywall', s.portraitPaywall],
+    ['Presence Paywall', s.presencePaywall],
+    ['LemonSqueezy Webhook', s.lemonSqueezyWebhook],
+    ['Google Ads — Portrait', w.portraitCampaignStatus],
+    ['Google Ads — Presence', w.presenceCampaignStatus],
+    ['Google Ads — VectorFI', w.vectorfiCampaignStatus],
+    ['Resend Email', s.resendDelivery],
+    ['Supabase DB', s.supabase],
+    ['Vercel', s.vercel],
+    ['GA4 Tracking', s.ga4]
+  ];
+  $('system-grid').innerHTML = rows.map(([name, val]) => {
+    const cls = statusClass(val);
+    return '<div class="sys-card"><div class="sys-name">' + name + '</div>' +
+      '<div class="tl tl-' + cls + '"><span class="tl-dot pulse"></span>' + capitalize(val) + '</div></div>';
+  }).join('');
 }
 
-// ── TAB SWITCHING ────────────────────────────────────────────────────────────
+// ── ACTIVITY FEED ─────────────────────────────────────────────────────────
+function renderActivityFeed() {
+  const w = DATA.week;
+  const rows = [];
+  rows.push({ text: w.signups + ' new users signed up', cls: '' });
+  rows.push({ text: w.portraitJobs + ' portrait jobs completed', cls: '' });
+  rows.push({ text: w.presenceReports + ' presence reports generated', cls: '' });
+  rows.push({ text: 'Portrait campaign: ' + w.portraitClicks + ' clicks · ' + money(w.portraitSpend, 2) + ' spent', cls: '' });
+  rows.push({ text: 'Presence campaign: ' + w.presenceClicks + ' clicks · ' + money(w.presenceSpend, 2) + ' spent', cls: '' });
+  if (w.bypassRows > 0) rows.push({ text: '🚨 ' + w.bypassRows + ' bypass rows detected', cls: 'bad' });
+  if (w.stuckJobs > 0) rows.push({ text: '⚠️ ' + w.stuckJobs + ' stuck portrait jobs', cls: 'warn' });
+  if (w.revenue > 0) rows.push({ text: '💰 ' + money(w.revenue) + ' revenue recorded', cls: 'good' });
+  else rows.push({ text: 'No revenue recorded this week', cls: '' });
+  $('activity-feed').innerHTML = rows.map(r => '<div class="feed-row ' + r.cls + '">' + r.text + '</div>').join('');
+}
+
+// ── MILESTONE PROGRESS BARS ───────────────────────────────────────────────
+function projectPace(historyArr, current, target) {
+  if (current <= 0) return 'Not enough momentum yet to project a date — first sale still pending.';
+  const growth = (historyArr[6] - historyArr[0]) / 6;
+  if (growth <= 0) return 'Growth flat — cannot project a date yet.';
+  const weeksNeeded = Math.ceil((target - current) / growth);
+  const d = new Date();
+  d.setDate(d.getDate() + weeksNeeded * 7);
+  return 'On track for ' + d.toLocaleString('en-GB', { month: 'long', year: 'numeric' }) + ' at current pace';
+}
+
+function renderMilestoneBars() {
+  const m = DATA.milestones;
+  const revPct = Math.min(100, Math.round((m.currentMRR / m.revenueTarget) * 100));
+  const custPct = Math.min(100, Math.round((m.currentCustomers / m.customersForBreakeven) * 100));
+
+  $('rev-progress-bar').style.width = revPct + '%';
+  setText('rev-progress-label', revPct + '% there');
+  setText('rev-progress-abs', money(m.currentMRR) + ' of ' + money(m.revenueTarget) + ' MRR');
+  setText('rev-progress-pace', projectPace(DATA.history.revenue, m.currentMRR, m.revenueTarget));
+
+  $('cust-progress-bar').style.width = custPct + '%';
+  setText('cust-progress-label', custPct + '% there');
+  setText('cust-progress-abs', m.currentCustomers + ' of ' + m.customersForBreakeven + ' customers');
+  setText('cust-progress-pace', m.currentCustomers > 0
+    ? 'Tracking toward break-even at current pace'
+    : 'Not enough momentum yet to project a date — first sale still pending.');
+}
+
+// ── FUNNELS (DATA-driven) ─────────────────────────────────────────────────
+function renderFunnel(containerId, values, labels, gradientCss) {
+  const el = $(containerId);
+  const base = values[0] || 1;
+  let html = '';
+  for (let i = 0; i < values.length; i++) {
+    const v = values[i];
+    const pct = Math.round((v / base) * 100);
+    const cvr = i === 0 ? '' : (values[i - 1] > 0 ? Math.round((v / values[i - 1]) * 100) : 0) + '% CVR';
+    const isEmpty = v === 0;
+    html += '<div class="funnel-step">';
+    html += '<div class="funnel-label">' + labels[i] + '</div>';
+    if (isEmpty) {
+      html += '<div class="funnel-bar-wrap empty"><span class="funnel-bar-val empty-label" style="padding-left:8px;line-height:32px">not yet</span></div>';
+    } else {
+      html += '<div class="funnel-bar-wrap"><div class="funnel-bar" style="width:' + pct + '%;background:' + gradientCss + '">' +
+        '<span class="funnel-bar-val">' + pct + '%</span></div></div>';
+    }
+    html += '<div class="funnel-count">' + v + '</div>';
+    html += '<div class="funnel-cvr">' + (i === 0 ? '' : '→ ' + cvr) + '</div>';
+    html += '</div>';
+  }
+  el.innerHTML = html;
+}
+
+// ── PRODUCT STATUS TABLE (Portfolio tab) ──────────────────────────────────
+function renderProductTable() {
+  const w = DATA.week, s = DATA.systems, a = DATA.alltime;
+  const tlHtml = (val) => '<span class="tl tl-' + statusClass(val) + '"><span class="tl-dot"></span>' + capitalize(val) + '</span>';
+  const rows = [
+    ['Authority Portrait', w.portraitCampaignStatus, s.portraitPaywall, DATA.alltime.revenue, a.users],
+    ['Authority Presence', w.presenceCampaignStatus, s.presencePaywall, DATA.alltime.revenue, a.users],
+    ['VectorFI', w.vectorfiCampaignStatus, s.portraitPaywall, DATA.alltime.revenue, '—']
+  ];
+  $('product-status-body').innerHTML = rows.map(r =>
+    '<tr><td>' + r[0] + '</td><td>' + tlHtml(r[1]) + '</td><td>' + tlHtml(r[2]) + '</td>' +
+    '<td style="color:' + (r[3] > 0 ? 'var(--green)' : 'var(--red)') + '">' + money(r[3]) + '</td>' +
+    '<td>' + r[4] + '</td></tr>'
+  ).join('');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
+  $('tab-' + name).classList.add('active');
   event.target.classList.add('active');
 }
 
-// ── CHART DEFAULTS ────────────────────────────────────────────────────────────
-Chart.defaults.color = '#6b6b7e';
-Chart.defaults.borderColor = '#222228';
-Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+// ── CHART DEFAULTS ────────────────────────────────────────────────────────
+Chart.defaults.color = '#6b6b6b';
+Chart.defaults.borderColor = '#dfdbd8';
+Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
 Chart.defaults.font.size = 10;
 
-const WEEKS = ['Jun 9','Jun 16','Jun 23','Jun 30','Jul 7','Jul 12'];
+const WEEKS = DATA.history.weeks;
+const GRID_COLOR = '#ece8e3';
 
-// ── SIGNUPS CHART ─────────────────────────────────────────────────────────────
-new Chart(document.getElementById('signupsChart'), {
+function highlightIndices(period) {
+  if (period === 'week') return [6];
+  if (period === 'lastweek') return [5];
+  return [3, 4, 5, 6];
+}
+function barColors(period, mainColor, mutedColor) {
+  const hi = highlightIndices(period);
+  return WEEKS.map((_, i) => hi.includes(i) ? mainColor : mutedColor);
+}
+
+const refLinePlugin = {
+  id: 'refLines',
+  afterDraw(chart, args, opts) {
+    if (!opts || !opts.lines) return;
+    const { ctx, chartArea, scales } = chart;
+    opts.lines.forEach(line => {
+      const y = scales.y.getPixelForValue(line.value);
+      if (y < chartArea.top || y > chartArea.bottom) return;
+      ctx.save();
+      ctx.strokeStyle = line.color;
+      ctx.setLineDash([4, 4]);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(chartArea.left, y);
+      ctx.lineTo(chartArea.right, y);
+      ctx.stroke();
+      ctx.fillStyle = line.color;
+      ctx.font = "9px 'DM Sans', system-ui, sans-serif";
+      ctx.textAlign = 'right';
+      ctx.fillText(line.label, chartArea.right - 4, y - 4);
+      ctx.restore();
+    });
+  }
+};
+Chart.register(refLinePlugin);
+
+// ── SIGNUPS CHART ─────────────────────────────────────────────────────────
+charts.signups = new Chart($('signupsChart'), {
   type: 'bar',
   data: {
     labels: WEEKS,
     datasets: [{
       label: 'New Signups',
-      data: [8, 12, 9, 11, 8, 6],
-      backgroundColor: 'rgba(91,138,240,0.7)',
-      borderColor: '#5b8af0',
+      data: DATA.history.signups,
+      backgroundColor: barColors('week', 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)'),
+      borderColor: '#141414',
       borderWidth: 1,
-      borderRadius: 2
+      borderRadius: 3
     }]
   },
   options: {
-    responsive: true,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
+  }
+});
+
+// ── REVENUE WATERFALL CHART ───────────────────────────────────────────────
+charts.waterfall = new Chart($('revenueWaterfallChart'), {
+  type: 'bar',
+  data: {
+    labels: WEEKS,
+    datasets: [
+      { label: 'New Revenue', data: DATA.history.revenue, backgroundColor: 'rgba(47,143,91,0.8)', stack: 'rev' },
+      { label: 'Expansion', data: WEEKS.map(() => 0), backgroundColor: 'rgba(58,58,58,0.75)', stack: 'rev' },
+      { label: 'Refunds', data: WEEKS.map(() => 0), backgroundColor: 'rgba(179,69,60,0.8)', stack: 'rev' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true, position: 'top', labels: { boxWidth: 10, padding: 16 } },
+      refLines: {
+        lines: [
+          { value: 301, color: '#ad7a25', label: 'Monthly break-even ($301)' },
+          { value: 1000, color: '#141414', label: 'MRR target ($1,000)' }
+        ]
+      }
+    },
     scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true }
+      x: { stacked: true, grid: { color: GRID_COLOR } },
+      y: { stacked: true, grid: { color: GRID_COLOR }, beginAtZero: true, suggestedMax: 1200 }
     }
   }
 });
 
-// ── WEEKLY TREND CHART ────────────────────────────────────────────────────────
-new Chart(document.getElementById('weeklyTrendChart'), {
+// ── WEEKLY TREND CHART (Health tab) ───────────────────────────────────────
+charts.trend = new Chart($('weeklyTrendChart'), {
   type: 'line',
   data: {
     labels: WEEKS,
     datasets: [
-      {
-        label: 'Signups',
-        data: [8, 12, 9, 11, 8, 6],
-        borderColor: '#5b8af0',
-        backgroundColor: 'rgba(91,138,240,0.1)',
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3
-      },
-      {
-        label: 'Portrait Jobs',
-        data: [4, 6, 3, 2, 2, 2],
-        borderColor: '#3ecf8e',
-        backgroundColor: 'rgba(62,207,142,0.05)',
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3
-      },
-      {
-        label: 'Presence Reports',
-        data: [0, 3, 8, 12, 14, 1],
-        borderColor: '#2dd4bf',
-        backgroundColor: 'rgba(45,212,191,0.05)',
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3
-      }
+      { label: 'Signups', data: DATA.history.signups, borderColor: '#141414', backgroundColor: 'rgba(20,20,20,0.06)', tension: 0.3, fill: true, pointRadius: 3 },
+      { label: 'Portrait Jobs', data: DATA.history.portraitJobs, borderColor: '#2f8f5b', backgroundColor: 'rgba(47,143,91,0.06)', tension: 0.3, fill: true, pointRadius: 3 },
+      { label: 'Presence Reports', data: DATA.history.presenceReports, borderColor: '#ad7a25', backgroundColor: 'rgba(173,122,37,0.06)', tension: 0.3, fill: true, pointRadius: 3 }
     ]
   },
   options: {
-    responsive: true,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: true, position: 'top', labels: { boxWidth: 10, padding: 16 } } },
-    scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true }
-    }
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
   }
 });
 
-// ── PORTRAIT JOBS CHART ───────────────────────────────────────────────────────
-new Chart(document.getElementById('portraitJobsChart'), {
+// ── PORTRAIT JOBS CHART ───────────────────────────────────────────────────
+charts.portraitJobs = new Chart($('portraitJobsChart'), {
   type: 'bar',
   data: {
     labels: WEEKS,
     datasets: [{
       label: 'Completed Jobs',
-      data: [4, 6, 3, 2, 2, 2],
-      backgroundColor: 'rgba(62,207,142,0.7)',
-      borderColor: '#3ecf8e',
-      borderWidth: 1,
-      borderRadius: 2
+      data: DATA.history.portraitJobs,
+      backgroundColor: barColors('week', 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)'),
+      borderColor: '#141414', borderWidth: 1, borderRadius: 3
     }]
   },
   options: {
-    responsive: true,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true }
-    }
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
   }
 });
 
-// ── PORTRAIT ADS CHART ───────────────────────────────────────────────────────
-new Chart(document.getElementById('portraitAdsChart'), {
-  type: 'line',
+// ── PORTRAIT SPEND CHART ──────────────────────────────────────────────────
+charts.portraitSpend = new Chart($('portraitSpendChart'), {
+  type: 'bar',
   data: {
-    labels: ['Jun 9','Jun 10','Jun 11','Jun 12','Jun 13','Jun 14'],
+    labels: WEEKS,
     datasets: [{
-      label: 'Clicks/day',
-      data: [45, 62, 71, 58, 66, 0],
-      borderColor: '#f5a623',
-      backgroundColor: 'rgba(245,166,35,0.1)',
-      tension: 0.3,
-      fill: true,
-      pointRadius: 3
+      label: 'Ad Spend',
+      data: DATA.history.portraitSpend,
+      backgroundColor: barColors('week', 'rgba(173,122,37,0.82)', 'rgba(173,122,37,0.16)'),
+      borderColor: '#ad7a25', borderWidth: 1, borderRadius: 3
     }]
   },
   options: {
-    responsive: true,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true }
-    }
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
   }
 });
 
-// ── PRESENCE REPORTS CHART ────────────────────────────────────────────────────
-new Chart(document.getElementById('presenceReportsChart'), {
+// ── PRESENCE REPORTS CHART ────────────────────────────────────────────────
+charts.presenceReports = new Chart($('presenceReportsChart'), {
   type: 'bar',
   data: {
     labels: WEEKS,
     datasets: [{
       label: 'Reports Generated',
-      data: [0, 3, 8, 12, 14, 1],
-      backgroundColor: 'rgba(45,212,191,0.7)',
-      borderColor: '#2dd4bf',
-      borderWidth: 1,
-      borderRadius: 2
+      data: DATA.history.presenceReports,
+      backgroundColor: barColors('week', 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)'),
+      borderColor: '#141414', borderWidth: 1, borderRadius: 3
     }]
   },
   options: {
-    responsive: true,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true }
-    }
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
   }
 });
 
-// ── PRESENCE ADS CHART ────────────────────────────────────────────────────────
-new Chart(document.getElementById('presenceAdsChart'), {
-  type: 'line',
+// ── PRESENCE SPEND CHART ──────────────────────────────────────────────────
+charts.presenceSpend = new Chart($('presenceSpendChart'), {
+  type: 'bar',
   data: {
-    labels: ['Jun 14','Jun 15','Jun 21','Jun 22','Jun 23','Jun 24','Jun 25','Jun 26','Jun 27','Jun 28'],
-    datasets: [
-      {
-        label: 'Clicks',
-        data: [13, 12, 7, 14, 19, 16, 20, 18, 11, 6],
-        borderColor: '#5b8af0',
-        backgroundColor: 'rgba(91,138,240,0.1)',
-        tension: 0.3,
-        fill: true,
-        pointRadius: 3,
-        yAxisID: 'y'
-      },
-      {
-        label: 'CTR %',
-        data: [4.42, 2.84, 3.72, 2.66, 5.72, 3.86, 3.37, 4.55, 4.15, 2.88],
-        borderColor: '#a78bfa',
-        backgroundColor: 'transparent',
-        tension: 0.3,
-        pointRadius: 3,
-        yAxisID: 'y1'
-      }
-    ]
+    labels: WEEKS,
+    datasets: [{
+      label: 'Ad Spend',
+      data: DATA.history.presenceSpend,
+      backgroundColor: barColors('week', 'rgba(173,122,37,0.82)', 'rgba(173,122,37,0.16)'),
+      borderColor: '#ad7a25', borderWidth: 1, borderRadius: 3
+    }]
   },
   options: {
-    responsive: true,
-    plugins: { legend: { display: true, position: 'top', labels: { boxWidth: 10, padding: 12 } } },
-    scales: {
-      x: { grid: { color: '#1a1a20' } },
-      y: { grid: { color: '#1a1a20' }, beginAtZero: true, position: 'left' },
-      y1: { grid: { display: false }, beginAtZero: true, position: 'right', max: 10 }
-    }
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: GRID_COLOR } }, y: { grid: { color: GRID_COLOR }, beginAtZero: true } }
   }
 });
 
-// ── TIMESTAMP ─────────────────────────────────────────────────────────────────
-document.getElementById('last-updated').textContent =
-  'Updated: ' + new Date().toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+function updateChartHighlights(period) {
+  charts.signups.data.datasets[0].backgroundColor = barColors(period, 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)');
+  charts.signups.update();
+  charts.portraitJobs.data.datasets[0].backgroundColor = barColors(period, 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)');
+  charts.portraitJobs.update();
+  charts.portraitSpend.data.datasets[0].backgroundColor = barColors(period, 'rgba(173,122,37,0.82)', 'rgba(173,122,37,0.16)');
+  charts.portraitSpend.update();
+  charts.presenceReports.data.datasets[0].backgroundColor = barColors(period, 'rgba(20,20,20,0.82)', 'rgba(20,20,20,0.14)');
+  charts.presenceReports.update();
+  charts.presenceSpend.data.datasets[0].backgroundColor = barColors(period, 'rgba(173,122,37,0.82)', 'rgba(173,122,37,0.16)');
+  charts.presenceSpend.update();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+setText('last-updated', 'Updated: ' + DATA.lastUpdated);
+renderAlerts();
+renderHeroes();
+renderSystemGrid();
+renderActivityFeed();
+renderMilestoneBars();
+renderProductTable();
+renderFunnel('portrait-funnel', DATA.week.portraitFunnel,
+  ['Landing page view', 'Upload started', 'Preview generated', 'Checkout started', 'Purchase completed'],
+  'linear-gradient(90deg, var(--accent2), var(--accent))');
+renderFunnel('presence-funnel', DATA.week.presenceFunnel,
+  ['Page view', 'Analysis started', 'Results viewed', 'Checkout started', 'Purchase completed'],
+  'linear-gradient(90deg, var(--accent2), var(--accent))');
+renderPeriodCards(currentPeriod);
+updateChartHighlights(currentPeriod);
 
 </script>
 </body>
