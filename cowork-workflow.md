@@ -30,7 +30,8 @@ Discount codes: all created and Active in LemonSqueezy CareerVector store
 Prerequisite: Minh to confirm branded templates ready + send files
 Expected outcome: First revenue possible within 24-48 hours of sending
 ### T1-B: Pull GA4 Funnel Data
-Status: READY TO RUN
+Status: Completed 18 Jul 2026
+Summary: 14-day pull (Jul 4-17) shows healthy top-of-funnel (220 Portrait page views, 55 Presence page views, 83.5% mobile) but a severe mid-to-bottom funnel tracking gap — Portrait converts page_view to purchase at just 0.9% with only 1 checkout_started event logged against 2 purchases, and Presence shows 0 presence_purchase_completed events in the period, pointing to broken/missing checkout and purchase event tracking as the real paywall blocker, not traffic quality.
 What: Pull complete funnel breakdown missed during Monday outage
 Pull:
 - Portrait funnel: page_view → upload_started → preview_generated → checkout_started → purchase_completed
