@@ -32,7 +32,10 @@ Expected outcome: First revenue possible within 24-48 hours of sending
 ### T1-B: Pull GA4 Funnel Data
 Status: Completed 18 Jul 2026
 Summary: 14-day pull (Jul 4-17) shows healthy top-of-funnel (220 Portrait page views, 55 Presence page views, 83.5% mobile) but a severe mid-to-bottom funnel tracking gap — Portrait converts page_view to purchase at just 0.9% with only 1 checkout_started event logged against 2 purchases, and Presence shows 0 presence_purchase_completed events in the period, pointing to broken/missing checkout and purchase event tracking as the real paywall blocker, not traffic quality.
-What: Pull complete funnel breakdown missed during Monday outage
+- Portrait: 52 uploads → only 20 previews (61% drop before paywall)
+- Portrait: 2 purchase events with 1 checkout — tracking bug flagged to Minh
+- Presence: analysis rate only 1.8% — very low top of funnel engagement
+- 83.5% mobile traffic — mobile upload experience flagged for investigation
 Pull:
 - Portrait funnel: page_view → upload_started → preview_generated → checkout_started → purchase_completed
 - Presence funnel: page_view → analysis_started → results_viewed → checkout_started → purchase_completed
@@ -50,6 +53,11 @@ Add as exact match negatives to Portrait campaign:
 [free ai image editor]
 [free ai image generator]
 Expected outcome: ~$15-20/month saved, QS improvement over time
+### T1-D: Mobile Upload Experience Audit
+Status: 🔴 Ready to run
+What: 83.5% of traffic is mobile. Test the full Portrait upload flow on mobile viewport — file picker, photo upload, quality check, generation progress screen
+Specifically check: does drag-and-drop work on mobile? Is the minimum 8 photos requirement clear? Does the progress screen display correctly on small screens?
+Expected outcome: Identifies mobile friction causing 61% upload-to-preview drop-off
 ---
 ## TIER 2 — HIGH VALUE (run after Tier 1)
 ### T2-A: Supabase Revenue Data Quality Audit
@@ -70,6 +78,11 @@ What: Verify Minh's Part A automatic failure email is firing correctly
 Check: any new failed jobs in Supabase → cross-reference Resend logs → confirm email sent
 Also verify Joshua received reply to personal apology email
 Expected outcome: Confirms automation working or flags gap to Minh
+### T2-D: Portrait Upload Drop-off Root Cause
+Status: ⏳ Waiting for Minh Supabase investigation
+What: 32 of 52 uploaders never reached preview in last 14 days
+Minh investigating: jobs between upload and completion in Supabase
+Expected outcome: Determines if drop-off is abandonment or generation failure
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
