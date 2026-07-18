@@ -54,7 +54,7 @@ Add as exact match negatives to Portrait campaign:
 [free ai image generator]
 Expected outcome: ~$15-20/month saved, QS improvement over time
 ### T1-D: Mobile Upload Experience Audit
-Status: 🔴 Ready to run
+Status: 🔴 Ready to run — PRIORITY (confirmed by Supabase upload drop-off investigation, 18 Jul 2026)
 What: 83.5% of traffic is mobile. Test the full Portrait upload flow on mobile viewport — file picker, photo upload, quality check, generation progress screen
 Specifically check: does drag-and-drop work on mobile? Is the minimum 8 photos requirement clear? Does the progress screen display correctly on small screens?
 Expected outcome: Identifies mobile friction causing 61% upload-to-preview drop-off
@@ -79,10 +79,11 @@ Check: any new failed jobs in Supabase → cross-reference Resend logs → confi
 Also verify Joshua received reply to personal apology email
 Expected outcome: Confirms automation working or flags gap to Minh
 ### T2-D: Portrait Upload Drop-off Root Cause
-Status: ⏳ Waiting for Minh Supabase investigation
+Status: Completed 18 Jul 2026
 What: 32 of 52 uploaders never reached preview in last 14 days
 Minh investigating: jobs between upload and completion in Supabase
 Expected outcome: Determines if drop-off is abandonment or generation failure
+Summary: Ran 7 Supabase queries on generation_jobs for the 14-day window. Only 9 job rows were created by 8 distinct uploaders (7 completed, 2 failed) — versus 52 portrait_upload_started events in GA4 for the same period, meaning roughly 43 people who started uploading never triggered a backend job at all. This gap, not backend reliability, explains most of the "32 never reached preview" figure. The 2 backend failures that did occur both passed quality check cleanly (8/8 photos) with no error_message logged, and neither user retried; one job also sat unresolved for 7.1 days before being marked failed, pointing to no active stuck-job monitoring. Verdict: primarily a client-side/mobile upload UX issue (consistent with 83.5% mobile traffic), with a secondary backend reliability gap worth a quick flag to Minh (silent failures, no retry/cleanup logic).
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
