@@ -54,10 +54,15 @@ Add as exact match negatives to Portrait campaign:
 [free ai image generator]
 Expected outcome: ~$15-20/month saved, QS improvement over time
 ### T1-D: Mobile Upload Experience Audit
-Status: 🔴 Ready to run — PRIORITY (confirmed by Supabase upload drop-off investigation, 18 Jul 2026)
+Status: Completed 18 Jul 2026
 What: 83.5% of traffic is mobile. Test the full Portrait upload flow on mobile viewport — file picker, photo upload, quality check, generation progress screen
 Specifically check: does drag-and-drop work on mobile? Is the minimum 8 photos requirement clear? Does the progress screen display correctly on small screens?
 Expected outcome: Identifies mobile friction causing 61% upload-to-preview drop-off
+Summary: Audited the mobile upload flow for Authority Studio. Browser viewport resize did not propagate to actual page rendering in this environment (confirmed via window.innerWidth staying at desktop width), so structural findings below are verified but visual layout specifically at 390px is inferred, not confirmed - tested at desktop width per your direction. Reaching the upload step takes 1 tap from the CTA, and the 8-photo minimum is stated clearly 3 times, but a mandatory account-creation gate (Google OAuth or email/password) blocks users right at the Generate Portrait Previews click with no guest path - this directly explains the Supabase-confirmed gap where 43 of 52 uploaders never triggered a backend job. Error handling for under-8 photos is passive (Generate button just stays disabled, no live photo count or explicit message), and the landing page hero has a fade-in animation that sticks at roughly 26% opacity until the user scrolls, creating a blank-feeling first impression. Ratings (desktop-width, unconfirmed at true 390px): Landing page 3/5, Navigation to upload 4/5, Upload interface 3/5, Error handling 2/5, Progress screen 4/5. Top friction points: mandatory account creation at the generation step, no live feedback on photos still needed, and the stuck hero animation. Top fixes: allow guest generation with account creation deferred to results/checkout, add a live X of 8 photos selected counter with camera-roll guidance, and fix the hero fade-in to complete on load without requiring a scroll.
+### T1-E: Brief Minh on Mobile Upload Fixes
+Status: Ready to run
+What: Mobile audit found 3 concrete conversion blockers - mandatory account-creation gate at the Generate click with no guest path, passive error handling for under-8-photo uploads (no live count or clear message), and a landing page hero animation that sticks at ~26% opacity until scroll
+Expected outcome: Minh implements guest-mode generation (account creation deferred to results/checkout), live photo-count guidance, and fixes the stuck hero animation - directly targeting the 43/52 upload abandonment gap confirmed in the Supabase investigation
 ---
 ## TIER 2 — HIGH VALUE (run after Tier 1)
 ### T2-A: Supabase Revenue Data Quality Audit
