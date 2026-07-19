@@ -17,7 +17,7 @@ Covers:
 ---
 ## TIER 1 — HIGH IMPACT (run when credits available)
 ### T1-A: Send Re-engagement Email Campaign
-Status: READY TO RUN — waiting for Minh template files
+Status: Completed 19 Jul 2026
 What: Send 4 email groups via Resend Broadcasts
 Groups:
 - Group 1: 10 Portrait completers → PORTRAIT20 discount
@@ -29,6 +29,7 @@ Wait 30 minutes between groups
 Discount codes: all created and Active in LemonSqueezy CareerVector store
 Prerequisite: Minh to confirm branded templates ready + send files
 Expected outcome: First revenue possible within 24-48 hours of sending
+Summary: Re-engagement campaign sent 19 Jul 2026 — Group 4 (1 of 3 sent, only Joshua Redman found in Resend; other 2 failed-generation users from Minh's list could not be located), Group 1 (9 of 9 Portrait completers), Group 2 (7 of 8 Presence viewers, 8th recipient not found), Group 3 (18 of 18 cold signups). Total 35 of 38 targeted delivered, 0 bounces, 0 failures. Discount codes: RETRY20, PORTRAIT20, PRESENCE20, WELCOME20 — all expire 31 Jul 2026.
 ### T1-B: Pull GA4 Funnel Data
 Status: Completed 18 Jul 2026
 Summary: 14-day pull (Jul 4-17) shows healthy top-of-funnel (220 Portrait page views, 55 Presence page views, 83.5% mobile) but a severe mid-to-bottom funnel tracking gap — Portrait converts page_view to purchase at just 0.9% with only 1 checkout_started event logged against 2 purchases, and Presence shows 0 presence_purchase_completed events in the period, pointing to broken/missing checkout and purchase event tracking as the real paywall blocker, not traffic quality.
