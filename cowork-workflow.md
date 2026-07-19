@@ -92,23 +92,25 @@ Summary: Ran 7 Supabase queries on generation_jobs for the 14-day window. Only 9
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
-Status: READY TO RUN
+Status: Completed 18 Jul 2026
 What: Visit Aragon AI, Secta Labs, HeadshotPro
 Evaluate: paywall design, pricing, social proof, urgency mechanics, CTA copy
 Compare against Authority Portrait paywall
 Expected outcome: Specific paywall improvement ideas informed by what competitors do
+Summary: Visited Aragon AI, Secta Labs, and HeadshotPro as a cold visitor. All three gate account creation (or payment, in Secta's case) immediately - before any photo upload or preview - which is earlier than Authority Portrait, which lets visitors upload photos and pick a style before hitting its account gate at the Generate click. Secta is the most aggressive, routing straight to a $49 Stripe checkout before any account exists. HeadshotPro states a striking "1-3 selfies" minimum as a headline differentiator versus Authority's 8-photo minimum, and offsets having no free trial with a prominent "100% money-back guarantee, no questions asked" badge. Aragon and HeadshotPro both place trust signals (ratings, guarantees, customer counts) directly on their account-creation screen, which Authority Portrait's gate currently lacks - the single most transferable fix. Pricing: Aragon $35-75, Secta $49, HeadshotPro EUR29-59, all one-time.
 ### T3-B: Portrait Watermark Mobile Check
 Status: READY TO RUN
 What: 83% of traffic is mobile — check if watermarked preview is usable/screenshottable on mobile
 Resize browser to mobile width, attempt to screenshot/save watermarked preview
 Expected outcome: Confirms watermark is painful enough on mobile to motivate payment
 ### T3-C: LemonSqueezy $39 Order Investigation
-Status: READY TO RUN
+Status: Completed 18 Jul 2026
 What: Weekly report flagged ~$40 in LemonSqueezy ($1.10 + $39)
 The $39 matches Presence price exactly — could be first real customer
 Check LemonSqueezy orders → confirm product, date, customer, payment status
 Cross-reference Supabase purchases table
 Expected outcome: Confirms or rules out first real Presence sale
+Order finding: Confirmed via LemonSqueezy Orders (all-time, 23 Feb-19 Jul 2026) that only 3 orders have ever been placed in the CareerVector store, all Paid: $0.00 VectorFI Pro (bcpina, 100% discount), $1.10 Authority Portrait Starter (anhminh10a2hoa@gmail.com, 13 May), and $0.00 VectorFI Core (bcpina, 100% discount). No $39 order exists in LemonSqueezy, ever - real revenue to date is $1.10 total. Cross-referencing Supabase purchases (amount_cents >= 3000) found 17 rows marked status=paid that do NOT correspond to any real LemonSqueezy order (1x Portrait $39, 16x Presence $39 = $663 total), with fabricated ls_order_id values outside the real order-number range, traced to just 3 user accounts across 5 different IPs plus 4 rows with no IP logged, all dated 2-5 Jun 2026. Verdict: NOT a real customer - this is a purchase-confirmation bypass creating phantom paid rows in Supabase, not a missed first sale. Flagged as a priority follow-up for Minh (see T2-A).
 ### T3-D: Dashboard Health Check
 Status: READY TO RUN
 What: Confirm v2 dashboard loading correctly at bcpina.github.io/founder-os-dashboard
