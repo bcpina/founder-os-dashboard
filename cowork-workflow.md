@@ -113,6 +113,13 @@ Expected outcome: Webhook repointed to correct project, revenue data trustworthy
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Zero checkout_started and purchase_completed events for two consecutive weeks despite real funnel traffic. Events not firing on checkout click.
 Expected outcome: Checkout events wired correctly, Google Ads optimising toward real conversion signals
+### T2-H: Google Ads conversion actions importing stale GA4 event names
+Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
+What: Checked ads.google.com → Tools → Conversions (Authority Studio account, vectorfiapp@gmail.com) to confirm exactly which GA4 events the primary conversion goals import. Two distinct, separate problems found:
+1. The primary "Begin checkout" conversion action (Account-default goal, Group 2) imports the event **checkout_started** — an old generic alias, not the current per-product events. This is a different, separate conversion action from portrait_checkout_started / presence_checkout_started, which also exist in the account (under the "Add to cart" bucket) and are also sitting at 0 — consistent with T2-G, the app-side event isn't firing.
+2. The primary "Sign-ups" conversion action similarly imports the old generic event **preview_generated** instead of the current portrait_preview_generated.
+Both stale conversion actions need repointing to the current per-product event names, on top of the T2-G fix to make the per-product events fire in the first place — repointing alone will not fix this if the underlying events still aren't firing, and vice versa.
+Expected outcome: "Begin checkout" and "Sign-ups" goals repointed to portrait_checkout_started/presence_checkout_started and portrait_preview_generated respectively, so Google Ads bidding optimises against real, current conversion signals
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
