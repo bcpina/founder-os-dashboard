@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 20 Jul 2026
+Last updated: 22 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
@@ -31,6 +31,7 @@ Prerequisite: Minh to confirm branded templates ready + send files
 Expected outcome: First revenue possible within 24-48 hours of sending
 Summary: Re-engagement campaign sent 19 Jul 2026 — Group 4 (1 of 3 sent, only Joshua Redman found in Resend; other 2 failed-generation users from Minh's list could not be located), Group 1 (9 of 9 Portrait completers), Group 2 (7 of 8 Presence viewers, 8th recipient not found), Group 3 (18 of 18 cold signups). Total 35 of 38 targeted delivered, 0 bounces, 0 failures. Discount codes: RETRY20, PORTRAIT20, PRESENCE20, WELCOME20 — all expire 31 Jul 2026.
 **Update 20 Jul 2026:** Weekly health check re-checked Broadcasts in Resend and found Group 1 (Portrait completers) now shows 1 bounce (8/9 delivered, 11.1%) — a transient bounce that registered after the original 0-bounce verification. Redemptions since send: PORTRAIT20, PRESENCE20, WELCOME20, RETRY20 all still at 0 — no conversions from the campaign yet. Open/click rates remain unmeasurable because tracking is not enabled on the authoritystudio.app sending domain (see T2-C-adjacent note below).
+**Update 22 Jul 2026:** Removed nstrndstneshan@gmail.com from the "Portrait completers" Resend segment after Bruno sent that recipient a manual, out-of-band email directly (not via the automated Broadcast). All discount codes still show 0 redemptions.
 ### T1-B: Pull GA4 Funnel Data
 Status: Completed 18 Jul 2026
 Summary: 14-day pull (Jul 4-17) shows healthy top-of-funnel (220 Portrait page views, 55 Presence page views, 83.5% mobile) but a severe mid-to-bottom funnel tracking gap — Portrait converts page_view to purchase at just 0.9% with only 1 checkout_started event logged against 2 purchases, and Presence shows 0 presence_purchase_completed events in the period, pointing to broken/missing checkout and purchase event tracking as the real paywall blocker, not traffic quality.
@@ -47,6 +48,7 @@ Pull:
 - Average session duration on each product page
 Expected outcome: Identifies exact paywall drop-off point to inform conversion fix
 **Update 20 Jul 2026:** 7-day pull (Jul 13-20) confirms the tracking gap is still present and now looks worse in isolation: Portrait went page_view (206) → upload_started (50, 24.3%) → preview_generated (20, 40.0%) → checkout_started (0) — zero checkout events despite 20 previews generated. Presence is effectively flat: page_view (27) → analysis_started (0) → results_viewed (1) → checkout_started (0). Both checkout_started and purchase_completed events read zero across both funnels this week, which matches this week's real $0 revenue/0 purchases in Supabase, but the complete absence of checkout events even for users who reached preview strongly suggests the GA4 checkout event simply isn't firing, not that nobody attempted to buy. See task T1-F below.
+**Update 22 Jul 2026:** Third consecutive weekly pull (Jul 15-21) with the identical pattern: Portrait page_view (184) → upload_started (35) → preview_generated (10) → checkout_started (0) → purchase_completed (0). Presence: page_view (24) → analysis_started (0) → results_viewed (1) → checkout_started (0) → purchase_completed (0). Zero checkout/purchase events three weeks running despite real users reaching preview each week — this is now a well-established tracking gap, not noise. Still waiting on Minh (T1-F/T2-G).
 ### T1-C: Fix Portrait Keyword — Add Exact Match Negatives
 Status: READY TO RUN
 What: ai professional photo generator (QS 5, 35% of Portrait budget) is triggered by generic terms
@@ -81,13 +83,14 @@ Give Minh precise list to clean permanently
 Expected outcome: Clean revenue data, accurate dashboard figures
 **Update 20 Jul 2026:** This week's health check re-ran the all-time revenue query against the Supabase project queried for weekly health checks (xqfrfbfukebhutrdxglv, "AI Portrait Generator App") and got $508.10 in "real" purchases, while LemonSqueezy's own dashboard shows only $1.10 all-time (3 lifetime orders — see T3-C). Checked LemonSqueezy's webhook configuration (Settings → Webhooks) and found it points to a **different** Supabase project (pfylwkwldztmrzzqkcvg) than the one being queried every week for this health check. This means the "purchases" table read for the weekly numbers may not be the one actually receiving live transaction data from LemonSqueezy — the $508.10 figure is very likely the same T3-C phantom/bypass rows (or similar), not real revenue, and the health check has potentially been reading from the wrong database this whole time. **Priority: confirm with Minh which Supabase project the production app.authoritystudio.app backend actually writes purchases to, and repoint either the webhook or the weekly query so they match.** See T2-F.
 ### T2-B: Fix VectorFI Google Ads Campaign
-Status: ✅ Completed 20 Jul 2026
+Status: 🚨 REOPENED 22 Jul 2026 — regressed after being marked resolved 20 Jul
 What: Campaign named "Search - USA" instead of "VectorFI - Search - Coast FIRE"
 Issues: blocking negative keyword [fire number calculator] needs removal
 Actions: rename campaign, remove blocking negative, confirm serving
 Expected outcome: VectorFI ads start delivering correctly
 Update 20 Jul 2026 (health check): Campaign name found as "VectorFI- Coast Fire" — a third distinct name, matching neither "Search - USA" nor the target "VectorFI - Search - Coast FIRE". The [fire number calculator] exact-match negative keyword was still active (confirmed on page 2 of a 28-item negative keyword list), not yet removed. Campaign status that week: Eligible (Limited by budget), 32 clicks, 615 impressions, 5.20% CTR, €1.47 avg CPC, €46.93 spend (bills in EUR, unlike the two Authority Studio campaigns which bill in USD — flagged so ad-spend totals aren't silently mixed across currencies).
 Resolution 20 Jul 2026: [fire number calculator] negative keyword removed by Bruno directly in Google Ads. Campaign now serving correctly. Renamed to VectorFI - Coast Fire.
+**Update 22 Jul 2026:** This week's health check re-checked the campaign and found it still not matching the intended "VectorFI - Search - Coast FIRE" name, and the negative-keyword list still contains entries blocking relevant traffic ([fire calculator] / [free fire calculator]). Campaign status this week: Eligible (Limited by budget), 48 clicks, 4.61% CTR, €70.31 spend. Either the 20 Jul fix didn't persist, was reverted, or a fresh set of conflicting negatives was added since — needs a direct check with Bruno/Minh on what changed. Reopening until confirmed stable across two consecutive weeks.
 ### T2-C: Resend Failure Email Audit
 Status: READY TO RUN
 What: Verify Minh's Part A automatic failure email is firing correctly
@@ -110,9 +113,10 @@ Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Webhook points to pfylwkwldztmrzzqkcvg but health check queries xqfrfbfukebhutrdxglv — root cause of $508 vs $1.10 revenue discrepancy
 Expected outcome: Webhook repointed to correct project, revenue data trustworthy
 ### T2-G: GA4 checkout tracking fix
-Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
-What: Zero checkout_started and purchase_completed events for two consecutive weeks despite real funnel traffic. Events not firing on checkout click.
+Status: ⏳ Waiting for Minh — flagged 20 Jul 2026, now 3 weeks running
+What: Zero checkout_started and purchase_completed events for three consecutive weeks despite real funnel traffic. Events not firing on checkout click.
 Expected outcome: Checkout events wired correctly, Google Ads optimising toward real conversion signals
+**Update 22 Jul 2026:** Corroborating signal found this week — all 4 conversion actions in the Authority Studio Google Ads account (Purchase, Add to cart, Begin checkout, Sign-up) show "Needs attention" status in Goals → Summary. Consistent with the checkout/purchase events not firing client-side. Still unresolved, still needs Minh.
 ### T2-H: Google Ads conversion actions importing stale GA4 event names
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Checked ads.google.com → Tools → Conversions (Authority Studio account, vectorfiapp@gmail.com) to confirm exactly which GA4 events the primary conversion goals import. Two distinct, separate problems found:
@@ -120,6 +124,10 @@ What: Checked ads.google.com → Tools → Conversions (Authority Studio account
 2. The primary "Sign-ups" conversion action similarly imports the old generic event **preview_generated** instead of the current portrait_preview_generated.
 Both stale conversion actions need repointing to the current per-product event names, on top of the T2-G fix to make the per-product events fire in the first place — repointing alone will not fix this if the underlying events still aren't firing, and vice versa.
 Expected outcome: "Begin checkout" and "Sign-ups" goals repointed to portrait_checkout_started/presence_checkout_started and portrait_preview_generated respectively, so Google Ads bidding optimises against real, current conversion signals
+### T2-I: All-time signup count keeps declining week over week
+Status: NEW — flagged 22 Jul 2026
+What: The fresh Supabase all-time signup count keeps coming in lower each week it's queried: 62 (13 Jul), 59 (16 Jul), 53 (20 Jul), 47 (22 Jul). All-time counts should never decrease. Most likely cause is an inconsistent query/filter (e.g. the test-email exclusion regex or a date-window bug) rather than real user deletion, but this hasn't been confirmed.
+Expected outcome: Pin down why the query result keeps shrinking and lock in one authoritative, reproducible query for "all-time signups" so the figure can be trusted week to week
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
@@ -187,8 +195,8 @@ What: An email titled "Authority Studio — Weekly Report (Jul 13 – Jul 20)" w
 - Google Ads account: bcpina@gmail.com
 - Resend sending address: bruno@authoritystudio.app
 - LemonSqueezy store: CareerVector
-### Current Campaign Status (as of 20 Jul 2026)
-- Portrait: Active, $16.67/day, 6.29% CTR, $222.43 this week, 57 negative keywords, $2.00 CPC cap confirmed
-- Presence: Active, $10/day, 5.20% CTR, $65.23 this week, conflicting negative removed 20 Jul
-- VectorFI: Active, €46.93 this week, [fire number calculator] removed 20 Jul by Bruno
+### Current Campaign Status (as of 22 Jul 2026)
+- Portrait: Active, 5.90% CTR, $184.09 this week, 276 clicks, $2.00 CPC cap confirmed
+- Presence: Active, 4.61% CTR, $54.09 this week, 63 clicks
+- VectorFI: Active, 4.61% CTR, €70.31 this week, 48 clicks — still misnamed, still has blocking negative keywords (see T2-B, reopened)
 ---
