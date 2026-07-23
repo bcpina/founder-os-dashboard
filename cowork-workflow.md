@@ -2,6 +2,7 @@
 Last updated: 23 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
+
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
 Run every Monday. Takes 20-25 minutes.
 Prompt: saved in Notes app as "AS Monday Health Check Prompt"
