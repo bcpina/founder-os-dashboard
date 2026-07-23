@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 22 Jul 2026
+Last updated: 23 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
@@ -83,7 +83,7 @@ Give Minh precise list to clean permanently
 Expected outcome: Clean revenue data, accurate dashboard figures
 **Update 20 Jul 2026:** This week's health check re-ran the all-time revenue query against the Supabase project queried for weekly health checks (xqfrfbfukebhutrdxglv, "AI Portrait Generator App") and got $508.10 in "real" purchases, while LemonSqueezy's own dashboard shows only $1.10 all-time (3 lifetime orders — see T3-C). Checked LemonSqueezy's webhook configuration (Settings → Webhooks) and found it points to a **different** Supabase project (pfylwkwldztmrzzqkcvg) than the one being queried every week for this health check. This means the "purchases" table read for the weekly numbers may not be the one actually receiving live transaction data from LemonSqueezy — the $508.10 figure is very likely the same T3-C phantom/bypass rows (or similar), not real revenue, and the health check has potentially been reading from the wrong database this whole time. **Priority: confirm with Minh which Supabase project the production app.authoritystudio.app backend actually writes purchases to, and repoint either the webhook or the weekly query so they match.** See T2-F.
 ### T2-B: Fix VectorFI Google Ads Campaign
-Status: 🚨 REOPENED 22 Jul 2026 — regressed after being marked resolved 20 Jul
+Status: ✅ Completed 23 Jul 2026 — removal verified by reloading the list after the change, not just clicking save
 What: Campaign named "Search - USA" instead of "VectorFI - Search - Coast FIRE"
 Issues: blocking negative keyword [fire number calculator] needs removal
 Actions: rename campaign, remove blocking negative, confirm serving
@@ -91,6 +91,7 @@ Expected outcome: VectorFI ads start delivering correctly
 Update 20 Jul 2026 (health check): Campaign name found as "VectorFI- Coast Fire" — a third distinct name, matching neither "Search - USA" nor the target "VectorFI - Search - Coast FIRE". The [fire number calculator] exact-match negative keyword was still active (confirmed on page 2 of a 28-item negative keyword list), not yet removed. Campaign status that week: Eligible (Limited by budget), 32 clicks, 615 impressions, 5.20% CTR, €1.47 avg CPC, €46.93 spend (bills in EUR, unlike the two Authority Studio campaigns which bill in USD — flagged so ad-spend totals aren't silently mixed across currencies).
 Resolution 20 Jul 2026: [fire number calculator] negative keyword removed by Bruno directly in Google Ads. Campaign now serving correctly. Renamed to VectorFI - Coast Fire.
 **Update 22 Jul 2026:** This week's health check re-checked the campaign and found it still not matching the intended "VectorFI - Search - Coast FIRE" name, and the negative-keyword list still contains entries blocking relevant traffic ([fire calculator] / [free fire calculator]). Campaign status this week: Eligible (Limited by budget), 48 clicks, 4.61% CTR, €70.31 spend. Either the 20 Jul fix didn't persist, was reverted, or a fresh set of conflicting negatives was added since — needs a direct check with Bruno/Minh on what changed. Reopening until confirmed stable across two consecutive weeks.
+**Resolution 23 Jul 2026:** Re-fixed with reload-based verification after every step, to close out why the 20 Jul fix didn't hold. (1) Renamed campaign to "VectorFI - Search - Coast FIRE" — first save attempt appeared to revert on same-tab reload (replicating the original mystery), traced to an incomplete keystroke sequence; redone carefully with a triple-click select + verified typed text, confirmed via Google Ads' own network requests (CampaignService.Mutate → 200, followed by CampaignService.List refetch → 200) AND via an independent freshly-opened tab loading the same URL, which showed the new name persisting. (2) On the negative keyword list (27 entries), found [fire calculator] and [free fire calculator] present and removed both; [fire number calculator] — the third term originally flagged — was not present in the list at all (confirmed by reviewing every row alphabetically), so nothing to remove there. (3) Verified the removal in a brand-new tab (not the same tab used to make the change) navigated fresh to the negative keywords page: list now shows 25 entries (down from 27), with the list running cleanly from "free" straight to "house fire" — no trace of the removed terms — screenshot captured as verification evidence. (4) Campaign status confirmed "Enabled" / "Limited by budget" in the same fresh tab — a budget-pacing status, not a policy or negative-keyword blocking issue, so no separate serving problem. This closes out the discrepancy: the 20 Jul "fix" likely didn't fully save due to an incomplete UI interaction, not a mysterious reversion — the fix this week was independently confirmed to have actually persisted server-side before being marked done.
 ### T2-C: Resend Failure Email Audit
 Status: READY TO RUN
 What: Verify Minh's Part A automatic failure email is firing correctly
@@ -105,9 +106,10 @@ Minh investigating: jobs between upload and completion in Supabase
 Expected outcome: Determines if drop-off is abandonment or generation failure
 Summary: Ran 7 Supabase queries on generation_jobs for the 14-day window. Only 9 job rows were created by 8 distinct uploaders (7 completed, 2 failed) — versus 52 portrait_upload_started events in GA4 for the same period, meaning roughly 43 people who started uploading never triggered a backend job at all. This gap, not backend reliability, explains most of the "32 never reached preview" figure. The 2 backend failures that did occur both passed quality check cleanly (8/8 photos) with no error_message logged, and neither user retried; one job also sat unresolved for 7.1 days before being marked failed, pointing to no active stuck-job monitoring. Verdict: primarily a client-side/mobile upload UX issue (consistent with 83.5% mobile traffic), with a secondary backend reliability gap worth a quick flag to Minh (silent failures, no retry/cleanup logic).
 ### T2-E: Presence conflicting negative keyword removed
-Status: ✅ Completed 20 Jul 2026
+Status: ✅ Completed 20 Jul 2026 — re-confirmed still holding 23 Jul 2026
 What: Google flagged 'linkedin profile for job search' as conflicting negative blocking Presence ads
 Fix: Removed by Bruno directly in Google Ads — Presence campaign exiting Limited status
+**Update 23 Jul 2026:** Re-checked as part of the VectorFI verification pass. Read all 58 negative keywords currently on the Presence campaign (2 pages) — 'linkedin profile for job search' is genuinely absent, confirming the 20 Jul removal held. Scanned the rest of the list for anything else that might block legitimate Presence traffic: the remaining entries are the intentional navigational-negatives batch from an earlier fix (country/city names, "linkedin login/sign in", "resume", "cv", "template", etc., aimed at filtering job-seekers away from this LinkedIn-optimization product) — nothing looks newly or erroneously added. No action needed.
 ### T2-F: LemonSqueezy webhook wrong Supabase project
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Webhook points to pfylwkwldztmrzzqkcvg but health check queries xqfrfbfukebhutrdxglv — root cause of $508 vs $1.10 revenue discrepancy
@@ -195,8 +197,8 @@ What: An email titled "Authority Studio — Weekly Report (Jul 13 – Jul 20)" w
 - Google Ads account: bcpina@gmail.com
 - Resend sending address: bruno@authoritystudio.app
 - LemonSqueezy store: CareerVector
-### Current Campaign Status (as of 22 Jul 2026)
-- Portrait: Active, 5.90% CTR, $184.09 this week, 276 clicks, $2.00 CPC cap confirmed
-- Presence: Active, 4.61% CTR, $54.09 this week, 63 clicks
-- VectorFI: Active, 4.61% CTR, €70.31 this week, 48 clicks — still misnamed, still has blocking negative keywords (see T2-B, reopened)
+### Current Campaign Status (as of 23 Jul 2026)
+- Portrait: Active, 5.90% CTR, $184.09 last week, 276 clicks, $2.00 CPC cap confirmed
+- Presence: Active, 4.61% CTR, $54.09 last week, 63 clicks — negative keyword list re-verified clean (see T2-E)
+- VectorFI: Enabled / Limited by budget, 4.61% CTR, €70.31 last week, 48 clicks — renamed to "VectorFI - Search - Coast FIRE" and blocking negatives removed, both verified via independent fresh-tab reload (see T2-B, completed)
 ---
