@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 23 Jul 2026
+Last updated: 24 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 
@@ -185,13 +185,65 @@ Prerequisite: first email campaign sent and data available
 Status: NEW — needs confirmation with Minh
 What: An email titled "Authority Studio — Weekly Report (Jul 13 – Jul 20)" was found in Resend, delivered to anhminh10a2hoa@gmail.com + 2 others, sent automatically ~7 hours before this health check ran. Origin and purpose unclear — may be a Minh-built automation (possibly related to the "Minh API Endpoint Brief" one-off above) or a monitoring artifact. Flagging so it isn't mistaken for noise; confirm with Minh what it is and whether it should stay.
 ---
+
+## COST TRACKING
+### C-1: All-Time Cost Audit — Authority Studio + VectorFI
+Status: ✅ Completed 24 Jul 2026
+What: Full all-time spend pull across Google Ads (both accounts), Supabase, Vercel, Gemini/Google Cloud, LemonSqueezy, Resend, and domains, to establish a true net-position baseline against the confirmed $1.10 all-time revenue (see T3-C).
+Period covered: 03 Mar 2026 (earliest platform start, Supabase) to 24 Jul 2026
+
+**ALL-TIME COSTS SUMMARY — AUTHORITY STUDIO + VECTORFI**
+
+FIXED/RECURRING COSTS:
+- Supabase (Pro plan, org-level "Vector Lab" — covers both Authority Studio + VectorFI projects combined, not separable): $94.05 (03 Mar-24 Jul 2026, 6 invoices)
+- Vercel: $0.00 (Hobby plan, no payment method on file. Only "bruno-pinas-projects" team is accessible under bcpina@gmail.com this session; a previously-known second project "authority-studio-launch" under team "brunos-projects-d97a4883" returned 404 this session and could not be checked — flag as a possible gap if that project still exists under a different login)
+- Resend: $0.00 (confirmed live — Transactional 3,000 emails/mo free + Marketing 1,000 contacts/mo free, no paid plan)
+- Domains: not verified this session. The Cloudflare session was logged out and no credentials were entered, per policy. Typical combined renewal cost for one .app + one .com domain is commonly $25-35/yr, but this is a general estimate, not a figure pulled from your account.
+
+VARIABLE/USAGE COSTS:
+- Google Ads, Authority Studio (USD, Portrait + Presence combined, vectorfiapp@gmail.com): $1,341.19 (May 2026-24 Jul 2026)
+- Google Ads, VectorFI (EUR, bcpina@gmail.com): €229.80 (Apr 2026-24 Jul 2026, net of two small refund/credit months)
+- Gemini API (Google Cloud billing account 016E33-441279-ACA3C3): €112.33 gross usage, -€104.40 in savings/free-tier credits, €7.93 net billed (Jan-24 Jul 2026 YTD; all charges flagged "New" vs €0 in the prior comparison period, so this is effectively the all-time figure). Google's own breakdown attributes the full €7.93 to "Project VectorFI" in Google Cloud, with the largest single SKU being Gemini image output — consistent with portrait generation. Could not further separate Authority Studio vs. VectorFI usage within this GCP project without per-app labeling, which doesn't currently exist in the account — flagged for Minh.
+- LemonSqueezy fees: $0 (not independently re-verified this session — the LemonSqueezy session was logged out and, per policy, no login credentials were entered. LemonSqueezy's pricing is transaction-based only with no monthly platform fee, and per T3-C only $1.10 in real revenue has ever been processed across 3 lifetime orders, 2 of which were $0.00 fully-discounted — so transaction fees to date are negligible, treated as $0 here.)
+
+TOTAL SPEND TO DATE:
+- USD-denominated: $1,435.24 ($1,341.19 Google Ads Authority Studio + $94.05 Supabase + $0 Vercel + $0 Resend + $0 LemonSqueezy)
+- EUR-denominated: €237.73 (€229.80 Google Ads VectorFI + €7.93 Gemini API net)
+- Blended total (EUR to USD at 1 EUR = 1.1391 USD, 24 Jul 2026 rate): $1,706.04
+
+TOTAL REVENUE TO DATE: $1.10 (confirmed real, per T3-C — 3 lifetime LemonSqueezy orders, only 1 non-zero)
+
+NET POSITION: -$1,704.94
+
+RUN-RATE PROJECTION (based on each platform's observed average monthly pace since its own start date — not a forecast of future budget decisions):
+- Google Ads Authority Studio: ~$479/mo (dominant driver, ~84% of monthly burn)
+- Google Ads VectorFI: ~€60/mo (~$68/mo)
+- Supabase: ~$20/mo (list price is $25/mo Pro; observed average is lower due to a partial first month)
+- Gemini API: ~€3/mo (rough estimate — usage is ramping with portrait volume, so this will likely rise, not stay flat)
+- Vercel / Resend / LemonSqueezy: $0/mo at current usage
+- Domains: unverified, likely small (~$2-3/mo equivalent)
+
+Blended monthly run-rate: ~$570/month. If nothing changes:
+- +30 days: ~$2,276 total spend
+- +60 days: ~$2,846 total spend
+- +90 days: ~$3,416 total spend
+
+Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bruno's control — cutting or pausing Google Ads has an outsized, near-immediate effect on this trajectory.
+
+**Data-quality notes / open items:**
+1. Supabase billing is org-level only ("Vector Lab" org) and cannot be split between Authority Studio and VectorFI projects from the billing UI.
+2. Vercel's $0 figure only covers the one team/account reachable under bcpina@gmail.com this session; a previously-referenced separate project could not be checked (404, different login required).
+3. LemonSqueezy and Cloudflare/domain figures could not be independently re-verified this session because both sessions were logged out and re-authenticating was out of scope (no credentials entered, per policy) — both are estimated from prior audits/public pricing, not freshly pulled this session.
+4. Gemini API spend is attributed by Google Cloud to a project literally named "VectorFI," which may or may not cleanly map to "VectorFI the product" vs. "Authority Studio backend hosted in that GCP project" — flagged for Minh to confirm which app(s) that GCP project actually serves.
+---
+
 ## SYSTEM REFERENCE
 ### Product URLs
 - Authority Portrait: https://authoritystudio.app
-- Authority Presence: [https://authoritystudio.app/presence](https://authoritystudio.app/presence￼-)
-[-](https://authoritystudio.app/presence￼-) VectorFI: https://myvectorfi.com
-- Founder OS Dashboard: [https://bcpina.github.io/founder-os-dashboard](https://bcpina.github.io/founder-os-dashboard￼-)
-[-](https://bcpina.github.io/founder-os-dashboard￼-) GitHub Dashboard Repo: https://github.com/bcpina/founder-os-dashboard
+- Authority Presence: [https://authoritystudio.app/presence](https://authoritystudio.app/presence﻿-)
+[-](https://authoritystudio.app/presence﻿-) VectorFI: https://myvectorfi.com
+- Founder OS Dashboard: [https://bcpina.github.io/founder-os-dashboard](https://bcpina.github.io/founder-os-dashboard﻿-)
+[-](https://bcpina.github.io/founder-os-dashboard﻿-) GitHub Dashboard Repo: https://github.com/bcpina/founder-os-dashboard
 ### Discount Codes (LemonSqueezy — CareerVector store)
 - PORTRAIT20: 20% off Portrait tiers, expires 31 Jul 2026
 - PRESENCE20: 20% off Presence, expires 31 Jul 2026
