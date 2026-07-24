@@ -3,6 +3,22 @@ Last updated: 24 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 
+## Budget & Decision Framework
+Agreed 23 Jul 2026, following a full all-time cost audit (see Cost Tracking section).
+
+Runway commitment: ~$570/month in ad spend across Portrait, Presence, and VectorFI campaigns, reset from 23 Jul 2026 — not from original product launch dates — since the core funnel (empty-photo bug, watermark rendering, account-gate friction) was only fully fixed in the week leading up to this date. Prior spend was substantially testing a broken funnel, not a fair read of true product-market fit.
+
+Evaluation horizon: 6 months from reset date — target checkpoint ~23 January 2027. Budgeted total ad spend over this window: approximately $3,400, plus separately tracked dev costs (e.g. anonymous auth ~$400) and existing infrastructure run-rate (Supabase, Vercel, Resend).
+
+Decision framework at checkpoint (or earlier if a clear, unambiguous signal emerges sooner):
+- If one product demonstrates materially stronger traction and scaling potential than the other two (Portrait currently shows the strongest engagement/CTR of the three) — increase ad spend on that product specifically
+- The remaining product(s) shift to organic-only / minimal ad spend
+- VectorFI specifically: before any decision to deprioritize, first test a significant price reduction, since price may be a more likely barrier there than product-market fit
+- This is a pre-committed, bounded budget and timeline — not an open-ended spend — to allow a fair, patient test of the now-fixed funnel without requiring premature go/no-go calls on partial data
+
+Google Ads account ownership: Bruno, Claude, and Cowork manage and execute all three Google Ads accounts (Authority Studio Portrait, Authority Studio Presence, VectorFI) directly. Minh has no involvement in Google Ads — this is intentionally kept separate from his development scope.
+---
+
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
 Run every Monday. Takes 20-25 minutes.
 Prompt: saved in Notes app as "AS Monday Health Check Prompt"
@@ -240,10 +256,10 @@ Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bru
 ## SYSTEM REFERENCE
 ### Product URLs
 - Authority Portrait: https://authoritystudio.app
-- Authority Presence: [https://authoritystudio.app/presence](https://authoritystudio.app/presence﻿-)
-[-](https://authoritystudio.app/presence﻿-) VectorFI: https://myvectorfi.com
-- Founder OS Dashboard: [https://bcpina.github.io/founder-os-dashboard](https://bcpina.github.io/founder-os-dashboard﻿-)
-[-](https://bcpina.github.io/founder-os-dashboard﻿-) GitHub Dashboard Repo: https://github.com/bcpina/founder-os-dashboard
+- Authority Presence: [https://authoritystudio.app/presence](https://authoritystudio.app/presence -)
+[-](https://authoritystudio.app/presence -) VectorFI: https://myvectorfi.com
+- Founder OS Dashboard: [https://bcpina.github.io/founder-os-dashboard](https://bcpina.github.io/founder-os-dashboard -)
+[-](https://bcpina.github.io/founder-os-dashboard -) GitHub Dashboard Repo: https://github.com/bcpina/founder-os-dashboard
 ### Discount Codes (LemonSqueezy — CareerVector store)
 - PORTRAIT20: 20% off Portrait tiers, expires 31 Jul 2026
 - PRESENCE20: 20% off Presence, expires 31 Jul 2026
