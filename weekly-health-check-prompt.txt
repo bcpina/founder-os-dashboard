@@ -1,0 +1,212 @@
+Please run the full Authority Studio weekly health check, update the Founder OS dashboard, commit to GitHub, update the workflow playbook, and produce a plain language report. Work through each section methodically and confirm completion before moving to the next.
+
+IMPORTANT ACCOUNT NOTE:
+- vectorfiapp@gmail.com — Authority Studio Google Ads campaigns AND GA4 Authority Studio property
+- bcpina@gmail.com — VectorFI Google Ads campaign only
+Confirm you're in the correct account before pulling data for each product.
+---
+SECTION 1 — SUPABASE
+Open supabase.com and navigate to the Authority Studio project (AI Portrait Generator App).
+
+Query 1 — Weekly signups (real users only, Minh's filtered query):
+SELECT COUNT(*) as new_signups FROM auth.users WHERE created_at >= NOW() - INTERVAL '7 days' AND email !~* '@authoritystudio.test$|anhminh10a2hoa|bcpina@gmail.com|@test|+test|@example.*'
+
+Query 2 — Weekly portrait jobs completed:
+SELECT COUNT(*) as completed_portrait_jobs FROM generation_jobs WHERE status = 'completed' AND created_at >= NOW() - INTERVAL '7 days'
+
+Query 3 — Weekly Presence reports:
+SELECT COUNT(*) as presence_reports FROM presence_reports WHERE created_at >= NOW() - INTERVAL '7 days'
+
+Query 4 — Paywall health check (excludes known sandbox numeric range):
+SELECT COUNT(*) as suspicious_rows, array_agg(ls_order_id) as ids FROM purchases WHERE created_at >= NOW() - INTERVAL '7 days' AND (ls_order_id::text ILIKE '%manual%' OR ls_order_id::text ILIKE '%sandbox%' OR (ls_order_id::bigint BETWEEN 8000000 AND 8700000))
+
+Query 5 — Real purchases this week:
+SELECT COUNT(*) as real_purchases, COALESCE(SUM(amount),0) as total_revenue FROM purchases WHERE created_at >= NOW() - INTERVAL '7 days' AND status = 'paid' AND ls_order_id::bigint < 8000000
+
+Query 6 — All time totals (real users and real revenue only):
+SELECT (SELECT COUNT(*) FROM auth.users WHERE email !~* '@authoritystudio.test$|anhminh10a2hoa|bcpina@gmail.com|@test|+test|@example.*') as total_users, (SELECT COUNT(*) FROM generation_jobs WHERE status='completed') as total_portrait_jobs, (SELECT COUNT(*) FROM presence_reports) as total_presence_reports, (SELECT COALESCE(SUM(amount),0) FROM purchases WHERE status='paid' AND ls_order_id::bigint < 8000000) as total_real_revenue
+
+Query 7 — Stuck jobs:
+SELECT id, user_id, status, created_at FROM generation_jobs WHERE status = 'generating' AND created_at < NOW() - INTERVAL '2 hours' ORDER BY created_at DESC
+
+Query 8 — Weekly unique portrait users:
+SELECT COUNT(DISTINCT user_id) as unique_portrait_users FROM generation_jobs WHERE created_at >= NOW() - INTERVAL '7 days'
+
+Query 9 — Weekly unique Presence users:
+SELECT COUNT(DISTINCT user_id) as unique_presence_users FROM presence_reports WHERE created_at >= NOW() - INTERVAL '7 days'
+
+Record all 9 results before moving to Section 2.
+---
+SECTION 2 — LEMONSQUEEZY
+Open app.lemonsqueezy.com → CareerVector store.
+1. New orders last 7 days — product, status, amount
+2. Total all-time real revenue (exclude $0 founder/test orders)
+3. Confirm all 5 products Published: Portrait Starter $19, Professional $29, Executive $39, Presence $39, Bundle $59
+4. Confirm all 4 discount codes Active: PORTRAIT20, PRESENCE20, WELCOME20, RETRY20
+5. Refunds or disputes this week?
+6. Webhook delivery failures visible?
+7. Discount code redemptions this week — per code
+Record before moving to Section 3.
+---
+SECTION 3 — RESEND
+Open resend.com → Authority Studio account.
+1. Total emails sent last 7 days
+2. Count "portraits ready" emails
+3. Count "report ready" emails
+4. Count "Welcome" emails
+5. Count failure/apology emails ("planned", "wrong", "fail")
+6. Delivery failures or bounces?
+7. Any unsubscribe replies?
+8. Open/click data available now that tracking is enabled — report opens and clicks per campaign if any sent this week
+
+SECTION 3B — WEEKLY RE-ENGAGEMENT SEND
+Query new Portrait non-converters (completed a job in the last 7 days, no purchase):
+SELECT DISTINCT u.email FROM auth.users u JOIN generation_jobs g ON g.user_id = u.id LEFT JOIN purchases p ON p.user_id = u.id AND p.status = 'paid' WHERE g.status = 'completed' AND g.created_at >= NOW() - INTERVAL '7 days' AND p.id IS NULL AND u.email !~ '@authoritystudio.test$|anhminh10a2hoa|bcpina@gmail.com|@test|+test|@example.*'
+
+Query new Presence non-converters (viewed a report in the last 7 days, no purchase):
+SELECT DISTINCT u.email FROM auth.users u JOIN presence_reports pr ON pr.user_id = u.id LEFT JOIN purchases p ON p.user_id = u.id AND p.status = 'paid' WHERE pr.created_at >= NOW() - INTERVAL '7 days' AND p.id IS NULL AND u.email !~ '@authoritystudio.test$|anhminh10a2hoa|bcpina@gmail.com|@test|+test|@example.*'
+
+If either list is non-empty:
+1. Add contacts to the existing "Portrait completers" / "Presence viewers" segment in Resend (create fresh segment if needed — note Resend free plan caps at 3 segments, delete a stale one if necessary)
+2. Send the existing branded template to only these new recipients
+3. Send test to bcpina@gmail.com first, confirm, then send live
+4. Log in the report: how many new recipients, which group, which discount code used
+If a list is empty, note "no new non-converters this week" — do not send.
+
+If the new recipient count for either group is small (roughly 5 or fewer), Resend's segment/broadcast flow can be slow or unreliable for such a tiny cohort — in that case, fall back to sending directly via the Resend API (single call per recipient, using the same branded template and discount code) instead of building a broadcast, and log that the direct-API fallback was used.
+
+Record all findings before moving to Section 4.
+---
+SECTION 4 — GOOGLE ADS
+Open ads.google.com.
+
+Switch to vectorfiapp@gmail.com for Authority Studio campaigns:
+For Authority Studio - Search - AI Portraits and Authority Studio - Search - Presence (last 7 days each):
+1. Status — Active/Paused/Under Review
+2. Clicks, impressions, CTR, average CPC, total spend
+3. Policy flags or disapprovals?
+4. New irrelevant search terms spending budget — flag as negatives
+5. Confirm $2.00 max CPC cap still set on Portrait
+
+Switch to bcpina@gmail.com for VectorFI:
+For VectorFI campaign (last 7 days):
+1. Confirmed campaign name — should read "VectorFI - Coast Fire" or similar, not "Search - USA"
+2. Status — Active and serving?
+3. Clicks, impressions, CTR, average CPC, total spend
+4. Confirm [fire number calculator] negative keyword remains removed
+
+Account level (both accounts):
+5. Billing issues or warnings?
+6. Conversion tracking warnings?
+
+SECTION 4B — CONVERSION ACTION CHECK (run monthly, or if flagged unresolved)
+Go to Tools → Conversions in the vectorfiapp@gmail.com account.
+Check "Begin checkout" and "Sign-ups" primary conversion actions — confirm which GA4 event each imports.
+Flag if either still references generic old event names (checkout_started, preview_generated) instead of per-product names (portrait_checkout_started, presence_checkout_started, portrait_preview_generated).
+
+Record all findings before moving to Section 5.
+---
+SECTION 5 — GA4
+Open analytics.google.com — confirm vectorfiapp@gmail.com, correct Authority Studio property.
+If outage, note and move on — max 2 retries.
+
+Pull these event counts for last 7 days:
+1. presence_page_view · 2. presence_analysis_started · 3. presence_results_viewed · 4. presence_checkout_started · 5. presence_purchase_completed
+6. portrait_page_view · 7. portrait_upload_started · 8. portrait_preview_generated · 9. portrait_checkout_started · 10. portrait_purchase_completed
+11. Total users · 12. Top 3 countries · 13. Mobile/desktop/tablet split · 14. Avg session duration Portrait page · 15. Avg session duration Presence page
+
+Calculate conversion rates:
+Portrait: upload rate, preview rate, checkout rate, purchase rate
+Presence: analysis rate, results rate, checkout rate, purchase rate
+
+Note: cookie consent defaults to "denied" until accepted, so GA4 only receives partial cookieless data pre-consent — mention this caveat if numbers look unusually low.
+
+Record before moving to Section 6.
+---
+SECTION 6 — UPDATE FOUNDER OS DASHBOARD
+Open index.html in github.com/bcpina/founder-os-dashboard.
+
+Update DATA.week with this week's numbers (purchases, signups, portraitJobs, presenceReports, revenue, adSpend, welcomeEmails, duplicateEmails, portraitEmails, presenceEmails, bypassRows, stuckJobs, portraitClicks/CTR/Spend/Status, presenceClicks/CTR/Spend/Status, vectorfiClicks/CTR/Spend/Status, portraitFunnel array, presenceFunnel array) from Sections 1-5.
+
+Shift DATA.history arrays left by one position, add this week's values at the end (index 6) for signups, portraitJobs, presenceReports, revenue, adSpend, portraitSpend, presenceSpend, purchases.
+
+Update DATA.systems (portraitPaywall, presencePaywall, lemonSqueezyWebhook, resendDelivery, duplicateEmailBug, supabase, vercel, ga4) based on this week's findings.
+
+Update DATA.alltime (users, portraitJobs, presenceReports, revenue, realPurchases) from Query 6.
+
+Update DATA.lastUpdated to today's date.
+
+Commit message: "Weekly health check — [today's date]"
+Confirm committed.
+---
+SECTION 7 — UPDATE WORKFLOW PLAYBOOK
+Open cowork-workflow.md in github.com/bcpina/founder-os-dashboard.
+1. Update status of any TIER 1/2/3 task that changed this week
+2. Add any new tasks or flags that emerged
+3. Update Current Campaign Status section with this week's ad spend/status
+4. Log this week's re-engagement send (Section 3B) if any
+Commit message: "Workflow playbook updated — [today's date]"
+Confirm committed.
+---
+SECTION 8 — PLAIN LANGUAGE WEEKLY REPORT
+Compile into this format:
+
+════════════════════════════════════════
+AUTHORITY STUDIO — WEEKLY REPORT
+Week ending: [date] · Prepared by: Cowork
+════════════════════════════════════════
+
+EXECUTIVE SUMMARY
+[3-4 sentences — biggest positive, biggest concern, one key action]
+
+GROWTH
+New signups: X (vs X last week · all time: X real users)
+Unique Portrait users: X · Unique Presence users: X
+Welcome emails: X (duplicates: X)
+
+PRODUCT USAGE
+Portrait jobs: X (vs X last week · all time: X)
+Presence reports: X (vs X last week · all time: X)
+Stuck jobs: X
+
+REVENUE
+Real purchases this week: X · Weekly revenue: $X
+All time real revenue: $X · LemonSqueezy orders: X
+Discount redemptions: PORTRAIT20 X · PRESENCE20 X · WELCOME20 X · RETRY20 X
+
+RE-ENGAGEMENT CAMPAIGN
+New sends this week: Portrait group X people · Presence group X people
+Previous campaign redemptions to date: X
+
+PAYWALL HEALTH
+Bypass rows: X [0=✅ · >0=🚨] · Portrait: ✅/🚨 · Presence: ✅/🚨
+
+AD PERFORMANCE
+Portrait/Presence/VectorFI — clicks, CTR, CPC, spend, status each
+Total weekly spend: $X · New negatives needed: yes/no
+Conversion actions correctly mapped: yes/no [flag if still stale]
+
+GA4 FUNNELS
+Portrait and Presence funnels with rates and biggest drop-off
+Top countries, mobile/desktop split, GA4 status
+
+SYSTEM HEALTH
+[table as before, all systems]
+
+FLAGS THIS WEEK
+[numbered, real issues only]
+
+ACTIONS REQUIRED
+[numbered, prioritized]
+
+DASHBOARD & GITHUB
+✅ index.html committed [hash] · ✅ cowork-workflow.md committed [hash]
+Live: https://bcpina.github.io/founder-os-dashboard/
+════════════════════════════════════════
+
+Important notes:
+— vectorfiapp@gmail.com for Authority Studio Ads + GA4, bcpina@gmail.com for VectorFI Ads
+— GA4 outage: max 2 retries, note and continue
+— Cookie consent defaults denied — caveat low GA4 numbers
+— Section 4B (conversion action check) only needs full re-verification monthly once confirmed fixed
+— Always commit both index.html AND cowork-workflow.md before finishing
