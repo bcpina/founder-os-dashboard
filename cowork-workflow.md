@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 24 Jul 2026
+Last updated: 27 Jul 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 
@@ -66,6 +66,7 @@ Pull:
 Expected outcome: Identifies exact paywall drop-off point to inform conversion fix
 **Update 20 Jul 2026:** 7-day pull (Jul 13-20) confirms the tracking gap is still present and now looks worse in isolation: Portrait went page_view (206) → upload_started (50, 24.3%) → preview_generated (20, 40.0%) → checkout_started (0) — zero checkout events despite 20 previews generated. Presence is effectively flat: page_view (27) → analysis_started (0) → results_viewed (1) → checkout_started (0). Both checkout_started and purchase_completed events read zero across both funnels this week, which matches this week's real $0 revenue/0 purchases in Supabase, but the complete absence of checkout events even for users who reached preview strongly suggests the GA4 checkout event simply isn't firing, not that nobody attempted to buy. See task T1-F below.
 **Update 22 Jul 2026:** Third consecutive weekly pull (Jul 15-21) with the identical pattern: Portrait page_view (184) → upload_started (35) → preview_generated (10) → checkout_started (0) → purchase_completed (0). Presence: page_view (24) → analysis_started (0) → results_viewed (1) → checkout_started (0) → purchase_completed (0). Zero checkout/purchase events three weeks running despite real users reaching preview each week — this is now a well-established tracking gap, not noise. Still waiting on Minh (T1-F/T2-G).
+**Update 27 Jul 2026:** Fourth consecutive weekly pull (Jul 20-26), same pattern: Portrait page_view (116) → upload_started (20, 17.2%) → preview_generated (8, 40.0%) → checkout_started (0) → purchase_completed (0). Presence: page_view (31) → analysis_started (1) → results_viewed (1) → checkout_started (0) → purchase_completed (0). Encouragingly, Portrait's upload→preview conversion rate this week (40.0%) matches the best week seen so far (also 40% two weeks ago) and is well above last week's 28.6% — the mobile/upload-flow fixes appear to be helping at that stage even though checkout/purchase tracking is still fully broken. Also newly noticed this week: the event `portrait_preview_generated` (8 events) and the older `preview_generated` (6 events) both fired in the same week — two different event names apparently tracking the same action, likely a legacy/duplicate instrumentation left over from before the per-product event rename referenced in T2-H. Worth a quick check with Minh on whether the old generic events can be retired now that the per-product ones are live, to avoid double-counting or confusing future funnel pulls.
 ### T1-C: Fix Portrait Keyword — Add Exact Match Negatives
 Status: READY TO RUN
 What: ai professional photo generator (QS 5, 35% of Portrait budget) is triggered by generic terms
@@ -131,11 +132,13 @@ Fix: Removed by Bruno directly in Google Ads — Presence campaign exiting Limit
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Webhook points to pfylwkwldztmrzzqkcvg but health check queries xqfrfbfukebhutrdxglv — root cause of $508 vs $1.10 revenue discrepancy
 Expected outcome: Webhook repointed to correct project, revenue data trustworthy
+**Update 27 Jul 2026:** Still unresolved — this week's Supabase all-time revenue query again returned $0.00 real revenue against the confirmed $1.10 LemonSqueezy figure, i.e. the reconciliation gap persists in its current (post-cleanup) form. No fix from Minh yet. Dashboard's LemonSqueezy Webhook status flipped from "unverified" to "broken" this week to reflect that this is now a confirmed, understood root cause rather than an open question.
 ### T2-G: GA4 checkout tracking fix
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026, now 3 weeks running
 What: Zero checkout_started and purchase_completed events for three consecutive weeks despite real funnel traffic. Events not firing on checkout click.
 Expected outcome: Checkout events wired correctly, Google Ads optimising toward real conversion signals
 **Update 22 Jul 2026:** Corroborating signal found this week — all 4 conversion actions in the Authority Studio Google Ads account (Purchase, Add to cart, Begin checkout, Sign-up) show "Needs attention" status in Goals → Summary. Consistent with the checkout/purchase events not firing client-side. Still unresolved, still needs Minh.
+**Update 27 Jul 2026:** Re-checked all 4 conversion actions — all four still show "Needs attention." Fourth week running with zero checkout_started/purchase_completed events in GA4 (see T1-B). Not resolved by anything shipped since the 22 Jul check.
 ### T2-H: Google Ads conversion actions importing stale GA4 event names
 Status: ⏳ Waiting for Minh — flagged 20 Jul 2026
 What: Checked ads.google.com → Tools → Conversions (Authority Studio account, vectorfiapp@gmail.com) to confirm exactly which GA4 events the primary conversion goals import. Two distinct, separate problems found:
@@ -147,6 +150,7 @@ Expected outcome: "Begin checkout" and "Sign-ups" goals repointed to portrait_ch
 Status: NEW — flagged 22 Jul 2026
 What: The fresh Supabase all-time signup count keeps coming in lower each week it's queried: 62 (13 Jul), 59 (16 Jul), 53 (20 Jul), 47 (22 Jul). All-time counts should never decrease. Most likely cause is an inconsistent query/filter (e.g. the test-email exclusion regex or a date-window bug) rather than real user deletion, but this hasn't been confirmed.
 Expected outcome: Pin down why the query result keeps shrinking and lock in one authoritative, reproducible query for "all-time signups" so the figure can be trusted week to week
+**Update 27 Jul 2026:** This week's fresh count came back at 52 — up from 47 (22 Jul), breaking the declining streak. This confirms the figure is not stable/reproducible in either direction and reinforces that the root cause is very likely query/filter inconsistency (e.g. which test-email patterns get excluded each run) rather than a real signal about user count. Still unresolved — needs one locked, documented query definition so this stops moving around week to week.
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
@@ -270,8 +274,10 @@ Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bru
 - Google Ads account: bcpina@gmail.com
 - Resend sending address: bruno@authoritystudio.app
 - LemonSqueezy store: CareerVector
-### Current Campaign Status (as of 23 Jul 2026)
-- Portrait: Active, 5.90% CTR, $184.09 last week, 276 clicks, $2.00 CPC cap confirmed
-- Presence: Active, 4.61% CTR, $54.09 last week, 63 clicks — negative keyword list re-verified clean (see T2-E)
-- VectorFI: Enabled / Limited by budget, 4.61% CTR, €70.31 last week, 48 clicks — renamed to "VectorFI - Search - Coast FIRE" and blocking negatives removed, both verified via independent fresh-tab reload (see T2-B, completed)
+### Current Campaign Status (as of 27 Jul 2026)
+- Portrait: Active, 6.23% CTR, $121.14 this week, 186 clicks, $2.00 CPC cap still confirmed active
+- Presence: Active, 4.40% CTR, $69.85 this week, 72 clicks — negative keyword list re-verified clean (see T2-E)
+- VectorFI: Active, 4.02% CTR, €76.03 this week, 52 clicks — campaign fully live and healthy, no blocking negatives found this week (see T2-B); Founder OS dashboard VectorFI status upgraded from "Setup Pending" to "Live" this week to reflect the confirmed resumption of paid traffic
+- Note: all 4 Google Ads conversion actions (Purchase, Add to cart, Begin checkout, Sign-up) remain "Needs attention" — 4th week running, see T2-G/T2-H
+- Note: Resend duplicate-welcome-email bug shows 0 duplicates this week (vs 3 the week before) — dashboard's duplicateEmailBug status moved from "active" to "fixed"; worth one more clean week before fully closing out
 ---
