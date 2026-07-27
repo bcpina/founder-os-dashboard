@@ -837,7 +837,7 @@
           <tr>
             <td>6</td><td>Resume paid traffic</td>
             <td style="color:var(--muted)">Medium</td>
-            <td><span class="tl tl-amber"><span class="tl-dot"></span>Campaign not found — setup required</span></td>
+            <td><span class="tl tl-green"><span class="tl-dot"></span>Live — campaign active, confirmed 27 Jul</span></td>
           </tr>
         </tbody>
       </table>
@@ -992,9 +992,9 @@
             <div class="milestone-target">Done</div>
           </div>
           <div class="milestone-item">
-            <div class="milestone-icon next">→</div>
-            <div class="milestone-text">Resume paid traffic</div>
-            <div class="milestone-target">Active — this week</div>
+            <div class="milestone-icon done">✓</div>
+            <div class="milestone-text done">Resume paid traffic</div>
+            <div class="milestone-target">Done</div>
           </div>
           <div class="milestone-item">
             <div class="milestone-icon pending">○</div>
@@ -1028,9 +1028,9 @@
         <div class="milestone-target">Month 2</div>
       </div>
       <div class="milestone-item">
-        <div class="milestone-icon next">→</div>
-        <div class="milestone-text">VectorFI paid traffic resumed</div>
-        <div class="milestone-target">Active — this week</div>
+        <div class="milestone-icon done">✓</div>
+        <div class="milestone-text done">VectorFI paid traffic resumed</div>
+        <div class="milestone-target">Done</div>
       </div>
       <div class="milestone-item">
         <div class="milestone-icon pending">○</div>
@@ -1061,71 +1061,71 @@
 <script>
 // ── DATA STORE — updated weekly by Cowork ────────────────────────────────────
 const DATA = {
-    lastUpdated: "22 Jul 2026",
-    week: {
-          purchases: 0,
-          signups: 5,
-          portraitJobs: 4,
-          presenceReports: 0,
-          revenue: 0,
-          adSpend: 308.49,
-          welcomeEmails: 5,
-          duplicateEmails: 0,
-          portraitEmails: 1,
-          presenceEmails: 0,
-          bypassRows: 0,
-          stuckJobs: 0,
-          portraitClicks: 276,
-          portraitCTR: 5.90,
-          portraitSpend: 184.09,
-          portraitCampaignStatus: "active",
-          presenceClicks: 63,
-          presenceCTR: 4.61,
-          presenceSpend: 54.09,
-          presenceCampaignStatus: "active",
-          vectorfiClicks: 48,
-          vectorfiCTR: 4.61,
-          vectorfiSpend: 70.31,
-          vectorfiCampaignStatus: "active",
-          portraitFunnel: [184, 35, 10, 0, 0],
-          presenceFunnel: [24, 0, 1, 0, 0]
-    },
-    history: {
-          weeks: ["Jun 9", "Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 20"],
-          signups: [8, 15, 11, 9, 6, 8, 7],
-          portraitJobs: [4, 6, 2, 4, 2, 6, 4],
-          presenceReports: [8, 12, 14, 10, 1, 1, 0],
-          revenue: [0, 0, 0, 0, 0, 0, 0],
-          adSpend: [0, 45, 70, 70, 70, 240, 334.59],
-          portraitSpend: [0, 0, 0, 0, 0, 168, 222.43],
-          presenceSpend: [0, 45, 70, 70, 70, 72, 65.23],
-          purchases: [0, 0, 0, 0, 0, 0, 0]
-    },
-    systems: {
-          portraitPaywall: "working",
-          presencePaywall: "working",
-          lemonSqueezyWebhook: "misconfigured",
-          resendDelivery: "working",
-          duplicateEmailBug: "fixed",
-          supabase: "healthy",
-          vercel: "live",
-          ga4: "healthy",
-          portraitHeroLoadLag: "fixed",
-          presenceMobileHeader: "pending"
-    },
-    alltime: {
-          users: 47,
-          portraitJobs: 25,
-          presenceReports: 38,
-          revenue: 0,
-          realPurchases: 0
-    },
-    milestones: {
-          revenueTarget: 1000,
-          currentMRR: 0,
-          customersForBreakeven: 43,
-          currentCustomers: 0
-    }
+  lastUpdated: "26 Jul 2026",
+  week: {
+    purchases: 0,
+    signups: 5,
+    portraitJobs: 3,
+    presenceReports: 1,
+    revenue: 0,
+    adSpend: 190.99,
+    welcomeEmails: 6,
+    duplicateEmails: 0,
+    portraitEmails: 3,
+    presenceEmails: 1,
+    bypassRows: 0,
+    stuckJobs: 0,
+    portraitClicks: 186,
+    portraitCTR: 6.23,
+    portraitSpend: 121.14,
+    portraitCampaignStatus: "active",
+    presenceClicks: 72,
+    presenceCTR: 4.40,
+    presenceSpend: 69.85,
+    presenceCampaignStatus: "active",
+    vectorfiClicks: 52,
+    vectorfiCTR: 4.02,
+    vectorfiSpend: 76.03,
+    vectorfiCampaignStatus: "active",
+    portraitFunnel: [116, 20, 8, 0, 0],
+    presenceFunnel: [31, 1, 1, 0, 0]
+  },
+  history: {
+    weeks: ["Jun 9", "Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 26"],
+    signups: [8, 15, 11, 9, 6, 8, 5],
+    portraitJobs: [4, 6, 2, 4, 2, 6, 3],
+    presenceReports: [8, 12, 14, 10, 1, 1, 1],
+    revenue: [0, 0, 0, 0, 0, 0, 0],
+    adSpend: [0, 45, 70, 70, 70, 240, 190.99],
+    portraitSpend: [0, 0, 0, 0, 0, 168, 121.14],
+    presenceSpend: [0, 45, 70, 70, 70, 72, 69.85],
+    purchases: [0, 0, 0, 0, 0, 0, 0]
+  },
+  systems: {
+    portraitPaywall: "working",
+    presencePaywall: "working",
+    lemonSqueezyWebhook: "broken",
+    resendDelivery: "working",
+    duplicateEmailBug: "fixed",
+    supabase: "healthy",
+    vercel: "live",
+    ga4: "partial",
+    portraitHeroLoadLag: "fixed",
+    presenceMobileHeader: "pending"
+  },
+  alltime: {
+    users: 52,
+    portraitJobs: 26,
+    presenceReports: 39,
+    revenue: 0,
+    realPurchases: 0
+  },
+  milestones: {
+    revenueTarget: 1000,
+    currentMRR: 0,
+    customersForBreakeven: 43,
+    currentCustomers: 0
+  }
 };
 
 let currentPeriod = 'week';
@@ -1220,6 +1220,7 @@ function computeAlerts() {
   if (w.vectorfiCampaignStatus === 'not found') alerts.push({ level: 'amber', text: '⚠️ VectorFI Google Ads campaign not found — setup required' });
   if (w.duplicateEmails > 0) alerts.push({ level: 'amber', text: '⚠️ ' + w.duplicateEmails + ' duplicate welcome emails this week — Minh fix pending' });
   if (s.lemonSqueezyWebhook === 'unverified') alerts.push({ level: 'amber', text: '⚠️ LemonSqueezy webhook unverified — run test purchase' });
+  if (s.lemonSqueezyWebhook === 'broken') alerts.push({ level: 'red', text: '🚨 LemonSqueezy webhook writing to wrong Supabase project — revenue not reconciling. Waiting on Minh.' });
   if (s.ga4 === 'outage') alerts.push({ level: 'amber', text: '⚠️ GA4 outage this week — funnel data unavailable' });
   const hasRedOrAmber = alerts.some(a => a.level === 'red' || a.level === 'amber');
   if (!hasRedOrAmber) {
