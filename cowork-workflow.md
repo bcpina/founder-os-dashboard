@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 27 Jul 2026
+Last updated: 1 Aug 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 
@@ -28,6 +28,16 @@ What was wrong: Superadmin 'View' button on the Presence tab hung indefinitely f
 Fix: Minh added a server-side superadmin allowlist check that only runs after the ownership check fails (zero added cost to normal customer requests), re-verified against the admin allowlist server-side each time (not browser-assertable), with access logging — every admin report view is now recorded (who opened what), intentional given this is someone else's career history being read.
 Bonus catch during implementation: naive admin access would have silently consumed a customer's paid bundle credit when an admin opened their report. Minh caught this and built the admin path to bypass credit consumption entirely — verified zero credits touched on a real report.
 Second, broader fix: the report page had no error handling at all for failed requests (403s, server errors, dropped connections) — it silently hung on the loading spinner forever with no message and no way out. This affected any user hitting any unexpected error on that page, not just admins. Now shows a proper error state with 'back to dashboard' and 'try again' options. Minh flagged this as a pattern worth checking on other pages — follow-up requested (see T2-J below).
+
+### Error handling sweep — app-wide
+Status: ✅ Fixed and verified live, 1 Aug 2026
+What was found: Following the Presence admin View bug (silent infinite spinner on unhandled errors), Bruno asked Minh to sweep other pages for the same pattern. Minh checked all 23 pages and found 5 more instances:
+- Presence account-creation dialog (the $39 paywall gate) — a failed sign-in left both buttons permanently dead on top of the filled-in form. The equivalent Portrait dialog already handled this correctly; the Presence copy never got the same fix. This is the most significant of the five, given it sits directly at the highest-intent purchase moment.
+- Login, Signup, and password reset pages — could leave their only button spinning/disabled indefinitely, locking out a returning customer until they thought to reload.
+- Generation progress screen — an unreadable job row could skip past every timeout, freezing the progress bar indefinitely.
+- Minh's own earlier report-page fix was found to not fully reset state on error, still resulting in a spinner via a different path — corrected.
+All verified on production by testing the actual failure path (not just the success path). Main flows now confirmed clean.
+Context: this is the third distinct Presence-specific issue found and fixed within about a week (paywall bypass, missing free-tier teaser, and now this dialog freeze) — worth watching whether Presence conversion shows any real movement once this has had time to settle alongside anon auth's growing volume.
 ---
 
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
@@ -166,6 +176,10 @@ Expected outcome: Pin down why the query result keeps shrinking and lock in one 
 Status: ⏳ Requested from Minh, 31 Jul 2026
 What: Following the discovery that the Presence report page had no error handling (silent infinite spinner on any failed request), asked Minh to do a pass across other main pages (upload, generation progress, checkout, dashboard) to confirm they handle unexpected errors with a proper message rather than the same silent hang.
 Expected outcome: Confirms or closes out this failure pattern across the rest of the app, not just the one page where it was found.
+### T2-K: Google OAuth consent screen shows raw Supabase domain
+Status: ⏳ Flagged to Minh, 1 Aug 2026
+What: Google's Sign-in consent screen displays 'Proceed to xqfrfbfukebhutrdxglv.supabase.co' instead of a recognizable Authority Studio domain — flagged as a potential trust/conversion issue right at the sign-in step, since this looks like the kind of unfamiliar domain users are trained to be cautious of.
+Expected outcome: OAuth consent screen displays authoritystudio.app or similar recognizable branding instead of the raw Supabase project URL, via Google Cloud Console OAuth app configuration and/or custom auth domain routing.
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
@@ -271,6 +285,13 @@ Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bru
 2. Vercel's $0 figure only covers the one team/account reachable under bcpina@gmail.com this session; a previously-referenced separate project could not be checked (404, different login required).
 3. LemonSqueezy and Cloudflare/domain figures could not be independently re-verified this session because both sessions were logged out and re-authenticating was out of scope (no credentials entered, per policy) — both are estimated from prior audits/public pricing, not freshly pulled this session.
 4. Gemini API spend is attributed by Google Cloud to a project literally named "VectorFI," which may or may not cleanly map to "VectorFI the product" vs. "Authority Studio backend hosted in that GCP project" — flagged for Minh to confirm which app(s) that GCP project actually serves.
+---
+
+## Infrastructure / Maintenance
+
+### Infrastructure maintenance — 1 Aug 2026
+- DMARC policy moved from monitoring to quarantine (25%, ramping to full over coming weeks) — spoofed emails claiming @authoritystudio.app now filtered to spam. Bruno's own email confirmed unaffected before rollout.
+- Upgraded to Node 24 ahead of Vercel's Node 20 retirement (1 Oct deadline). Image processing and watermark generation specifically tested post-upgrade, confirmed clean.
 ---
 
 ## SYSTEM REFERENCE
