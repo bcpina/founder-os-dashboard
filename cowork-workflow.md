@@ -19,6 +19,17 @@ Decision framework at checkpoint (or earlier if a clear, unambiguous signal emer
 Google Ads account ownership: Bruno, Claude, and Cowork manage and execute all three Google Ads accounts (Authority Studio Portrait, Authority Studio Presence, VectorFI) directly. Minh has no involvement in Google Ads — this is intentionally kept separate from his development scope.
 ---
 
+## Recently Fixed
+
+### Admin Console — Presence 'View' button bug
+Status: ✅ Fixed and verified live, 31 Jul 2026
+Found by: Cowork investigation, 30 Jul 2026
+What was wrong: Superadmin 'View' button on the Presence tab hung indefinitely for any report not owned by the logged-in admin account. Root cause: report.ts ownership check (report.user_id !== authUser.id → 403) had no admin bypass, since the admin View link opened the same URL structure as a regular customer's own report view. Confirmed via DevTools Network/Console on 3 test rows — 403 on reports not owned by the admin, success on the admin's own report.
+Fix: Minh added a server-side superadmin allowlist check that only runs after the ownership check fails (zero added cost to normal customer requests), re-verified against the admin allowlist server-side each time (not browser-assertable), with access logging — every admin report view is now recorded (who opened what), intentional given this is someone else's career history being read.
+Bonus catch during implementation: naive admin access would have silently consumed a customer's paid bundle credit when an admin opened their report. Minh caught this and built the admin path to bypass credit consumption entirely — verified zero credits touched on a real report.
+Second, broader fix: the report page had no error handling at all for failed requests (403s, server errors, dropped connections) — it silently hung on the loading spinner forever with no message and no way out. This affected any user hitting any unexpected error on that page, not just admins. Now shows a proper error state with 'back to dashboard' and 'try again' options. Minh flagged this as a pattern worth checking on other pages — follow-up requested (see T2-J below).
+---
+
 ## MONDAY MORNING — WEEKLY HEALTH CHECK
 Run every Monday. Takes 20-25 minutes.
 Prompt: saved in Notes app as "AS Monday Health Check Prompt"
@@ -151,6 +162,10 @@ Status: NEW — flagged 22 Jul 2026
 What: The fresh Supabase all-time signup count keeps coming in lower each week it's queried: 62 (13 Jul), 59 (16 Jul), 53 (20 Jul), 47 (22 Jul). All-time counts should never decrease. Most likely cause is an inconsistent query/filter (e.g. the test-email exclusion regex or a date-window bug) rather than real user deletion, but this hasn't been confirmed.
 Expected outcome: Pin down why the query result keeps shrinking and lock in one authoritative, reproducible query for "all-time signups" so the figure can be trusted week to week
 **Update 27 Jul 2026:** This week's fresh count came back at 52 — up from 47 (22 Jul), breaking the declining streak. This confirms the figure is not stable/reproducible in either direction and reinforces that the root cause is very likely query/filter inconsistency (e.g. which test-email patterns get excluded each run) rather than a real signal about user count. Still unresolved — needs one locked, documented query definition so this stops moving around week to week.
+### T2-J: Error handling audit — other pages
+Status: ⏳ Requested from Minh, 31 Jul 2026
+What: Following the discovery that the Presence report page had no error handling (silent infinite spinner on any failed request), asked Minh to do a pass across other main pages (upload, generation progress, checkout, dashboard) to confirm they handle unexpected errors with a proper message rather than the same silent hang.
+Expected outcome: Confirms or closes out this failure pattern across the rest of the app, not just the one page where it was found.
 ---
 ## TIER 3 — USEFUL (run when time allows)
 ### T3-A: Competitor Paywall Benchmark
