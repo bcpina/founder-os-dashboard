@@ -313,11 +313,11 @@ Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bru
 - Google Ads account: bcpina@gmail.com
 - Resend sending address: bruno@authoritystudio.app
 - LemonSqueezy store: CareerVector
-### Current Campaign Status (as of 27 Jul 2026)
-- Portrait: Active, 6.23% CTR, $121.14 this week, 186 clicks, $2.00 CPC cap still confirmed active
-- Presence: Active, 4.40% CTR, $69.85 this week, 72 clicks — negative keyword list re-verified clean (see T2-E)
-- VectorFI: Active, 4.02% CTR, €76.03 this week, 52 clicks — campaign fully live and healthy, no blocking negatives found this week (see T2-B); Founder OS dashboard VectorFI status upgraded from "Setup Pending" to "Live" this week to reflect the confirmed resumption of paid traffic
-- Note: all 4 Google Ads conversion actions (Purchase, Add to cart, Begin checkout, Sign-up) remain "Needs attention" — 4th week running, see T2-G/T2-H
+### Current Campaign Status (as of 5 Aug 2026)
+- Portrait: Eligible, 4.98% CTR, $123.27 this week, 403 clicks, $2.00 CPC cap still confirmed active; no policy flags, no concerning search terms this week
+- Presence: Eligible (Limited by budget), 4.38% CTR, $78.09 this week, 75 clicks; no policy flags; a few low-relevance navigational search terms noted (link, linkedin formatter, linkedin fette schrift, linkedin comment, short linkedin link) — low volume, recommended as future negatives
+- VectorFI: Eligible (Limited by budget), 3.62% CTR, €65.12 this week (billed in EUR, unlike the two Authority Studio campaigns which bill in USD), 46 clicks; campaign name confirmed fresh as "VectorFI - Search - Coast FIRE"; negative keyword list reloaded fresh (25 entries), no blocking terms re-added
+- Note 5 Aug 2026: all 4 Google Ads conversion actions (Purchase, Add to cart, Begin checkout, Sign-up) now show "Active" status — first time recording correctly after 4 straight weeks of "Needs attention"; Add to cart recorded 12 results this week, Begin checkout and Purchase still at 0 results (consistent with $0 revenue this week), see T2-G/T2-H
 - Note: Resend duplicate-welcome-email bug shows 0 duplicates this week (vs 3 the week before) — dashboard's duplicateEmailBug status moved from "active" to "fixed"; worth one more clean week before fully closing out
-- Note 5 Aug 2026: Not independently re-verified this week — Google Ads (both vectorfiapp@gmail.com and bcpina@gmail.com) was blocked/inaccessible during this session, first health check in 10 days (traveling). Figures above are last confirmed 27 Jul 2026; treat as stale until next week's check confirms access restored and campaigns re-checked.
+- Resolution 6 Aug 2026: Gap-fill session confirmed Google Ads access restored on both accounts (vectorfiapp@gmail.com and bcpina@gmail.com) — all figures above are freshly re-verified, not carried over. See T1-F for the related GA4 Explore/drilldown limitation, worked around this session via the standard Reports → Engagement → Events report.
 ---
