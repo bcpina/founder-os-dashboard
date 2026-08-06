@@ -1061,76 +1061,72 @@
 <script>
 // ── DATA STORE — updated weekly by Cowork ────────────────────────────────────
 const DATA = {
-  lastUpdated: "26 Jul 2026",
-  week: {
-    purchases: 0,
-    signups: 5,
-    portraitJobs: 3,
-    presenceReports: 1,
-    revenue: 0,
-    adSpend: 190.99,
-    welcomeEmails: 6,
-    duplicateEmails: 0,
-    portraitEmails: 3,
-    presenceEmails: 1,
-    bypassRows: 0,
-    stuckJobs: 0,
-    portraitClicks: 186,
-    portraitCTR: 6.23,
-    portraitSpend: 121.14,
-    portraitCampaignStatus: "active",
-    presenceClicks: 72,
-    presenceCTR: 4.40,
-    presenceSpend: 69.85,
-    presenceCampaignStatus: "active",
-    vectorfiClicks: 52,
-    vectorfiCTR: 4.02,
-    vectorfiSpend: 76.03,
-    vectorfiCampaignStatus: "active",
-    portraitFunnel: [116, 20, 8, 0, 0],
-    presenceFunnel: [31, 1, 1, 0, 0]
-  },
-  history: {
-    weeks: ["Jun 9", "Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 26"],
-    signups: [8, 15, 11, 9, 6, 8, 5],
-    portraitJobs: [4, 6, 2, 4, 2, 6, 3],
-    presenceReports: [8, 12, 14, 10, 1, 1, 1],
-    revenue: [0, 0, 0, 0, 0, 0, 0],
-    adSpend: [0, 45, 70, 70, 70, 240, 190.99],
-    portraitSpend: [0, 0, 0, 0, 0, 168, 121.14],
-    presenceSpend: [0, 45, 70, 70, 70, 72, 69.85],
-    purchases: [0, 0, 0, 0, 0, 0, 0]
-  },
-  systems: {
-    portraitPaywall: "working",
-    presencePaywall: "working",
-    lemonSqueezyWebhook: "broken",
-    resendDelivery: "working",
-    duplicateEmailBug: "fixed",
-    supabase: "healthy",
-    vercel: "live",
-    ga4: "partial",
-    portraitHeroLoadLag: "fixed",
-    presenceMobileHeader: "pending"
-  },
-  alltime: {
-    users: 52,
-    portraitJobs: 26,
-    presenceReports: 39,
-    revenue: 0,
-    realPurchases: 0
-  },
-  milestones: {
-    revenueTarget: 1000,
-    currentMRR: 0,
-    customersForBreakeven: 43,
-    currentCustomers: 0
-  }
+    lastUpdated: "5 Aug 2026",
+    week: {
+          purchases: 0,
+          signups: 13,
+          portraitJobs: 4,
+          presenceReports: 5,
+          revenue: 0,
+          adSpend: 190.99,
+          welcomeEmails: 11,
+          duplicateEmails: 0,
+          portraitEmails: 1,
+          presenceEmails: 2,
+          bypassRows: 0,
+          stuckJobs: 0,
+          portraitClicks: 186,
+          portraitCTR: 6.23,
+          portraitSpend: 121.14,
+          portraitCampaignStatus: "unverified",
+          presenceClicks: 72,
+          presenceCTR: 4.40,
+          presenceSpend: 69.85,
+          presenceCampaignStatus: "unverified",
+          vectorfiClicks: 52,
+          vectorfiCTR: 4.02,
+          vectorfiSpend: 76.03,
+          vectorfiCampaignStatus: "unverified",
+          portraitFunnel: [116, 20, 8, 0, 0],
+          presenceFunnel: [31, 1, 1, 0, 0]
+    },
+    history: {
+          weeks: ["Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 26", "Aug 5"],
+          signups: [15, 11, 9, 6, 8, 5, 13],
+          portraitJobs: [6, 2, 4, 2, 6, 3, 4],
+          presenceReports: [12, 14, 10, 1, 1, 1, 5],
+          revenue: [0, 0, 0, 0, 0, 0, 0],
+          adSpend: [45, 70, 70, 70, 240, 190.99, 190.99],
+          portraitSpend: [0, 0, 0, 0, 168, 121.14, 121.14],
+          presenceSpend: [45, 70, 70, 70, 72, 69.85, 69.85],
+          purchases: [0, 0, 0, 0, 0, 0, 0]
+    },
+    systems: {
+          portraitPaywall: "working",
+          presencePaywall: "working",
+          lemonSqueezyWebhook: "broken",
+          resendDelivery: "working",
+          duplicateEmailBug: "fixed",
+          supabase: "healthy",
+          vercel: "live",
+          ga4: "partial",
+          portraitHeroLoadLag: "fixed",
+          presenceMobileHeader: "pending"
+    },
+    alltime: {
+          users: 68,
+          portraitJobs: 32,
+          presenceReports: 45,
+          revenue: 0,
+          realPurchases: 0
+    },
+    milestones: {
+          revenueTarget: 1000,
+          currentMRR: 0,
+          customersForBreakeven: 43,
+          currentCustomers: 0
+    }
 };
-
-let currentPeriod = 'week';
-let charts = {};
-
 // ── HELPERS ───────────────────────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
 function setText(id, val) { const el = $(id); if (el) el.textContent = val; }
