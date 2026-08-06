@@ -1,5 +1,5 @@
 # Authority Studio — Cowork Workflow Playbook
-Last updated: 1 Aug 2026
+Last updated: 5 Aug 2026
 This document maps all recurring and one-off Cowork tasks across Authority Studio. Run these in order of priority. Each task has a prompt saved in the Monday health check notes or can be reconstructed from this document.
 ---
 
@@ -52,6 +52,8 @@ Covers:
 - Update Founder OS dashboard DATA object
 - Commit index.html to github.com/bcpina/founder-os-dashboard
 - Generate plain language weekly report → paste into Claude chat
+
+**Update 5 Aug 2026 (health check):** First health check in 10 days (traveling 27 Jul – 4 Aug). New tooling gap discovered this run: GA4's events-drilldown view could not be used to pull individual event-level detail this week (see Section 5 GA4 funnel notes) — flagged as a new limitation to work around in future checks, separate from the checkout/purchase tracking gap in T1-B/T2-G. Google Ads (vectorfiapp@gmail.com — Authority Studio Portrait + Presence) was blocked/inaccessible during this session, so campaign status, spend, and CTR could not be independently re-verified this week — see "Current Campaign Status" below, which still reflects the last confirmed figures (27 Jul 2026) until next week's check confirms access is restored. VectorFI Google Ads (bcpina@gmail.com) was likewise not checked this week for the same reason.
 ---
 ## TIER 1 — HIGH IMPACT (run when credits available)
 ### T1-A: Send Re-engagement Email Campaign
@@ -317,4 +319,5 @@ Ad spend is ~96% of the monthly run-rate and is the one lever directly under Bru
 - VectorFI: Active, 4.02% CTR, €76.03 this week, 52 clicks — campaign fully live and healthy, no blocking negatives found this week (see T2-B); Founder OS dashboard VectorFI status upgraded from "Setup Pending" to "Live" this week to reflect the confirmed resumption of paid traffic
 - Note: all 4 Google Ads conversion actions (Purchase, Add to cart, Begin checkout, Sign-up) remain "Needs attention" — 4th week running, see T2-G/T2-H
 - Note: Resend duplicate-welcome-email bug shows 0 duplicates this week (vs 3 the week before) — dashboard's duplicateEmailBug status moved from "active" to "fixed"; worth one more clean week before fully closing out
+- Note 5 Aug 2026: Not independently re-verified this week — Google Ads (both vectorfiapp@gmail.com and bcpina@gmail.com) was blocked/inaccessible during this session, first health check in 10 days (traveling). Figures above are last confirmed 27 Jul 2026; treat as stale until next week's check confirms access restored and campaigns re-checked.
 ---
