@@ -1060,71 +1060,71 @@
 <script>
 // ── DATA STORE — updated weekly by Cowork ────────────────────────────────────
 const DATA = {
-    lastUpdated: "5 Aug 2026",
-    week: {
-          purchases: 0,
-          signups: 13,
-          portraitJobs: 4,
-          presenceReports: 5,
-          revenue: 0,
-            adSpend: 201.36,
-      welcomeEmails: 11,
-          duplicateEmails: 0,
-          portraitEmails: 1,
-          presenceEmails: 2,
-          bypassRows: 0,
-          stuckJobs: 0,
-          portraitClicks: 403,
-            portraitCTR: 4.98,    
-            portraitSpend: 123.27,
-            portraitCampaignStatus: "eligible",
-            presenceClicks: 75,
-            presenceCTR: 4.38,
-            presenceSpend: 78.09,
-            presenceCampaignStatus: "eligible (limited)",
-            vectorfiClicks: 46,
-            vectorfiCTR: 3.62,
-            vectorfiSpend: 65.12,
-            vectorfiCampaignStatus: "eligible (limited)",
-            portraitFunnel: [196, 8, 4, 2, 0],
-            presenceFunnel: [45, 5, 5, 0, 0]
-    },
-    history: {
-          weeks: ["Jun 16", "Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 26", "Aug 5"],
-          signups: [15, 11, 9, 6, 8, 5, 13],
-          portraitJobs: [6, 2, 4, 2, 6, 3, 4],
-          presenceReports: [12, 14, 10, 1, 1, 1, 5],
-          revenue: [0, 0, 0, 0, 0, 0, 0],
-            adSpend: [45, 70, 70, 70, 240, 190.99, 201.36],
-            portraitSpend: [0, 0, 0, 0, 168, 121.14, 123.27],
-            presenceSpend: [45, 70, 70, 70, 72, 69.85, 78.09],
-      purchases: [0, 0, 0, 0, 0, 0, 0]
-    },
-    systems: {
-          portraitPaywall: "working",
-          presencePaywall: "working",
-          lemonSqueezyWebhook: "broken",
-          resendDelivery: "working",
-          duplicateEmailBug: "fixed",
-          supabase: "healthy",
-          vercel: "live",
-          ga4: "partial",
-          portraitHeroLoadLag: "fixed",
-          presenceMobileHeader: "pending"
-    },
-    alltime: {
-          users: 68,
-          portraitJobs: 32,
-          presenceReports: 45,
-          revenue: 0,
-          realPurchases: 0
-    },
-    milestones: {
-          revenueTarget: 1000,
-          currentMRR: 0,
-          customersForBreakeven: 43,
-          currentCustomers: 0
-    }
+  lastUpdated: "10 Aug 2026",
+  week: {
+    purchases: 0,
+    signups: 8,
+    portraitJobs: 0,
+    presenceReports: 3,
+    revenue: 0,
+    adSpend: 199.60,
+    welcomeEmails: 0,
+    duplicateEmails: 0,
+    portraitEmails: 0,
+    presenceEmails: 1,
+    bypassRows: 0,
+    stuckJobs: 0,
+    portraitClicks: 347,
+    portraitCTR: 5.64,
+    portraitSpend: 129.13,
+    portraitCampaignStatus: "eligible",
+    presenceClicks: 66,
+    presenceCTR: 4.20,
+    presenceSpend: 70.47,
+    presenceCampaignStatus: "eligible (limited)",
+    vectorfiClicks: 50,
+    vectorfiCTR: 4.13,
+    vectorfiSpend: 72.91,
+    vectorfiCampaignStatus: "eligible (limited)",
+    portraitFunnel: [162, 7, 4, 1, 0],
+    presenceFunnel: [29, 2, 2, 1, 1]
+  },
+  history: {
+    weeks: ["Jun 23", "Jun 30", "Jul 7", "Jul 15", "Jul 26", "Aug 5", "Aug 9"],
+    signups: [11, 9, 6, 8, 5, 13, 8],
+    portraitJobs: [2, 4, 2, 6, 3, 4, 0],
+    presenceReports: [14, 10, 1, 1, 1, 5, 3],
+    revenue: [0, 0, 0, 0, 0, 0, 0],
+    adSpend: [70, 70, 70, 240, 190.99, 201.36, 199.60],
+    portraitSpend: [0, 0, 0, 168, 121.14, 123.27, 129.13],
+    presenceSpend: [70, 70, 70, 72, 69.85, 78.09, 70.47],
+    purchases: [0, 0, 0, 0, 0, 0, 0]
+  },
+  systems: {
+    portraitPaywall: "working",
+    presencePaywall: "working",
+    lemonSqueezyWebhook: "broken",
+    resendDelivery: "working",
+    duplicateEmailBug: "fixed",
+    supabase: "healthy",
+    vercel: "live",
+    ga4: "partial",
+    portraitHeroLoadLag: "fixed",
+    presenceMobileHeader: "pending"
+  },
+  alltime: {
+    users: 80,
+    portraitJobs: 32,
+    presenceReports: 47,
+    revenue: 0,
+    realPurchases: 0
+  },
+  milestones: {
+    revenueTarget: 1000,
+    currentMRR: 0,
+    customersForBreakeven: 43,
+    currentCustomers: 0
+  }
 };
 // ── HELPERS ───────────────────────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
