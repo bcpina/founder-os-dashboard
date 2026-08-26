@@ -315,6 +315,27 @@ Google Ads Authority Studio rose by $698.59, from $1,341.19 to $2,039.78. Google
 
 **Data-quality notes / open items:**
 Supabase and Vercel remain org or team level billing only, so the 50/50 splits above are an estimate — Supabase's own current-cycle compute-cost breakdown showed a near-even $6.91/$6.91 split between the VectorFI and AI Portrait Generator App projects, which is the basis for applying 50/50 to the all-time totals too. Gemini API attribution to the "VectorFI" named GCP project is still unconfirmed as VectorFI-only versus shared with Authority Studio — this is now the single largest unresolved cost-attribution question in this audit and should be confirmed with Minh before the next refresh. LemonSqueezy fees and revenue were not independently re-verified this session because the account is 2FA-blocked, and figures are carried forward from the 20 Jul 2026 pull; recommend Bruno runs this one check manually next time, since Cowork cannot supply 2FA codes. The FX conversion above uses the same 1 EUR = 1.1391 USD rate as the 24 Jul audit for like-for-like continuity, not a freshly pulled rate, so blended USD figures should be treated as directional, not exact.
+
+### C-3: Daily Spend Investigation — Portrait Pause/Resume — 26 Aug 2026
+
+Status: Investigated and resolved — self-correcting pattern, no budget decision needed right now.
+
+Trigger: C-2 flagged an elevated ~$754/month Authority Studio run-rate versus the $570/month commitment agreed 23 Jul 2026. This entry investigates whether that elevation is a temporary blip from the AI Portraits pause/resume cycle or a genuine new steady state.
+
+Method: pulled day-by-day Cost from the Google Ads Report Editor for both Authority Studio campaigns separately over the trailing 30 days (27 Jul to 25 Aug 2026), cross-validated against each report's own Total row — Portrait $417.40 and Presence $295.58, combined $712.98 — both sums matched exactly, confirming no days were missed or double-counted.
+
+Pause/resume dates: confirmed via Change History detail-row expansion. AI Portraits was paused 10 Aug 2026 at 6:14:29 PM and resumed 15 Aug 2026 at 10:01:31 AM, a gap of roughly 4.7 days. Portrait spend was exactly $0.00 for all five fully-paused days, 11 to 15 Aug. The Presence campaign was never touched by the pause and shows no gap.
+
+Daily breakdown, Portrait: Jul 27 $11.81, Jul 28 $11.29, Jul 29 $11.51, Jul 30 $14.99, Jul 31 $16.22, Aug 1 $16.69, Aug 2 $17.93, Aug 3 $16.20, Aug 4 $20.77, Aug 5 $20.47, Aug 6 $12.47, Aug 7 $8.16, Aug 8 $30.17, Aug 9 $20.90, Aug 10 $7.23 (paused mid-day), Aug 11 to 15 $0.00 (fully paused), Aug 16 $10.82, Aug 17 $33.30, Aug 18 $32.38, Aug 19 $20.15, Aug 20 $16.44, Aug 21 $8.03, Aug 22 $9.12, Aug 23 $14.46, Aug 24 $3.19, Aug 25 $32.69.
+
+Daily breakdown, Presence, unaffected by the pause and shown for reference: Jul 27 $5.46, Jul 28 $6.30, Jul 29 $9.07, Jul 30 $7.55, Jul 31 $17.32, Aug 1 $10.91, Aug 2 $9.23, Aug 3 $8.12, Aug 4 $13.51, Aug 5 $11.45, Aug 6 $11.14, Aug 7 $7.81, Aug 8 $8.72, Aug 9 $9.72, Aug 10 $11.41, Aug 11 $3.86, Aug 12 $12.65, Aug 13 $9.41, Aug 14 $10.96, Aug 15 $8.02, Aug 16 $13.66, Aug 17 $13.17, Aug 18 $8.06, Aug 19 $8.48, Aug 20 $8.72, Aug 21 $10.61, Aug 22 $7.72, Aug 23 $10.46, Aug 24 $13.24, Aug 25 $8.84 — steady throughout with no anomaly, confirming the spike is Portrait-specific and not an account-wide issue.
+
+Pattern analysis: Portrait's 14-day pre-pause baseline (27 Jul to 9 Aug) averaged $16.40 per day. The first three days immediately after resume, 16 to 18 Aug, spiked to a $25.50 per day average, 55% above baseline and peaking at $33.30 on 17 Aug — consistent with Google Ads' typical learning-phase CPC volatility when a paused campaign restarts and the algorithm re-learns optimal bidding. Days four through nine after resume, 19 to 24 Aug, reverted to an $11.90 per day average, 27% below the pre-pause baseline, showing clear self-correction rather than a sustained new level. One single-day spike to $32.69 on 25 Aug breaks that reverted pattern and is worth watching, but one day is not enough to call a trend, especially with the surrounding week averaging well below baseline.
+
+Learning status: checked the Campaigns list Status column directly. AI Portraits currently shows Eligible, with a tooltip confirming "Your campaign is serving ads" — not a Learning badge. The campaign has already exited any post-resume learning phase as of this check.
+
+Verdict: this reads as a temporary, self-correcting blip tied to the Portrait resume, not a genuine new steady state. The elevated spend is concentrated almost entirely in the three days immediately following resume; spend since then has mostly run at or below the pre-pause baseline, and the campaign has already exited its learning phase. No explicit budget decision is needed right now. Recommend one more check in 5 to 7 days to confirm the 25 Aug spike was a one-off and not the start of a new pattern before revisiting the $570/month commitment.
+
 ---
 
 ## Infrastructure / Maintenance
