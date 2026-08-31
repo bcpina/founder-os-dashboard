@@ -1060,72 +1060,43 @@
 <script>
 // ── DATA STORE — updated weekly by Cowork ────────────────────────────────────
 const DATA = {
-  lastUpdated: "17 Aug 2026", statusNote: "Status-check week - ads resumed ~3 days ago; GA4 CSP fix, watermark update, and photo-selection instrumentation shipped mid-week. Not a full comparable week - resume week-over-week comparisons next Monday.",
-  week: {
-    purchases: 0,
-    signups: 0,
-    portraitJobs: 0,
-    presenceReports: 0,
-    revenue: 0,
-    adSpend: 88.02,
-    welcomeEmails: 0,
-    duplicateEmails: 0,
-    portraitEmails: 0,
-    presenceEmails: 0,
-    bypassRows: 0,
-    stuckJobs: 0,
-    portraitClicks: 25,
-    portraitCTR: 4.76,
-    portraitSpend: 18.05,
-    portraitCampaignStatus: "eligible (learning)",
-    presenceClicks: 44,
-    presenceCTR: 2.58,
-    presenceSpend: 69.97,
-    presenceCampaignStatus: "eligible (limited)",
-    vectorfiClicks: 48,
-    vectorfiCTR: 3.32,
-    vectorfiSpend: 70.51,
-    vectorfiCampaignStatus: "active",
-    portraitFunnel: [18, 3, 3, 0, 0],
-    presenceFunnel: [8, 0, 0, 0, 0]
-  },
-  history: {
-    weeks: ["Jun 30", "Jul 7", "Jul 15", "Jul 26", "Aug 5", "Aug 9", "Aug 16"],
-    signups: [9, 6, 8, 5, 13, 8, 0],
-    portraitJobs: [4, 2, 6, 3, 4, 0, 0],
-    presenceReports: [10, 1, 1, 1, 5, 3, 0],
-    revenue: [0, 0, 0, 0, 0, 0, 0],
-    adSpend: [70, 70, 240, 190.99, 201.36, 199.60, 88.02],
-    portraitSpend: [0, 0, 168, 121.14, 123.27, 129.13, 18.05],
-    presenceSpend: [70, 70, 72, 69.85, 78.09, 70.47, 69.97],
-    purchases: [0, 0, 0, 0, 0, 0, 0]
-  },
-  systems: {
-    portraitPaywall: "working",
-    presencePaywall: "working",
-    lemonSqueezyWebhook: "unverified (2FA blocked this check)",
-    resendDelivery: "working",
-    duplicateEmailBug: "fixed",
-    supabase: "healthy",
-    vercel: "live",
-    ga4: "fixed (fresh baseline this week - do not compare to prior weeks)",
-    portraitHeroLoadLag: "fixed",
-    presenceMobileHeader: "pending", geoTargeting: "fixed (strict Presence confirmed on both campaigns)", teamAccountFlagging: "not implemented", watermark: "holds (verified via unwatermark.ai test)", photoSelectionInstrumentation: "deployed, zero events fired yet", reEngagementSend: "not sent this week"
-  },
-  alltime: {
-    users: 80,
-    portraitJobs: 32,
-    presenceReports: 47,
-    revenue: 0,
-    realPurchases: 0
-  },
-  milestones: {
-    revenueTarget: 1000,
-    currentMRR: 0,
-    customersForBreakeven: 43,
-    currentCustomers: 0
-  }
-};
+    lastUpdated: "31 Aug 2026", statusNote: "First check in 2 weeks (prior check 17 Aug) - flagging what changed during the gap. Ads resumed and ran a full cycle: Portrait $124.79 / Presence $64.62 spent in the last 7 days alone. GA4 event data cross-validated cleanly against Supabase both times (Portrait job_created and Presence results_viewed matched exactly for the 14-day window). Three items need attention: a second VectorFI campaign (Campaign #1, Performance Max, paused, never launched) surfaced this check with no explanation; Resend's re-engagement automation fired despite being expected to stay on hold (see Flags); and all-time data shows 1 real purchase but $0.00 revenue - a data integrity gap worth investigating. LemonSqueezy session expired mid-check, so order and revenue ground-truth was not independently re-verified this cycle.",
+    week: {
+          purchases: 0, signups: 2, portraitJobs: 6, presenceReports: 1, revenue: 0, adSpend: 189.41,
+          welcomeEmails: 0, duplicateEmails: 0, portraitEmails: 0, presenceEmails: 0, bypassRows: 0, stuckJobs: 0,
+          portraitClicks: 117, portraitCTR: 5.01, portraitSpend: 124.79, portraitCampaignStatus: "eligible",
+          presenceClicks: 41, presenceCTR: 5.25, presenceSpend: 64.62, presenceCampaignStatus: "eligible (limited by search volume)",
+          vectorfiClicks: 42, vectorfiCTR: 6.76, vectorfiSpend: 61.56, vectorfiCampaignStatus: "active",
+          portraitFunnel: [70, 10, 6, 5, 0], presenceFunnel: [24, 1, 1, 0, 0]
+    },
+    history: {
+          weeks: ["Jul 7", "Jul 15", "Jul 26", "Aug 5", "Aug 9", "Aug 16", "Aug 30"],
+          signups: [6, 8, 5, 13, 8, 0, 2],
+          portraitJobs: [2, 6, 3, 4, 0, 0, 6],
+          presenceReports: [1, 1, 1, 5, 3, 0, 1],
+          revenue: [0, 0, 0, 0, 0, 0, 0],
+          adSpend: [70, 240, 190.99, 201.36, 199.60, 88.02, 189.41],
+          portraitSpend: [0, 168, 121.14, 123.27, 129.13, 18.05, 124.79],
+          presenceSpend: [70, 72, 69.85, 78.09, 70.47, 69.97, 64.62],
+          purchases: [0, 0, 0, 0, 0, 0, 0]
+    },
+    systems: {
+          portraitPaywall: "working", presencePaywall: "working",
+          lemonSqueezyWebhook: "unverified (session expired again this check - needs Bruno re-auth)",
+          resendDelivery: "working", duplicateEmailBug: "fixed", supabase: "healthy", vercel: "live",
+          ga4: "healthy - cross-validated against Supabase (portrait_job_created and presence_results_viewed both matched exactly, 14-day window)",
+          portraitHeroLoadLag: "fixed", presenceMobileHeader: "pending",
+          geoTargeting: "fixed (strict Presence confirmed previously, not re-tested this cycle)",
+          teamAccountFlagging: "not implemented",
+          watermark: "holds (last verified via unwatermark.ai test, not re-tested this cycle)",
+          photoSelectionInstrumentation: "firing - 17 portrait_upload_started / 6 portrait_job_created over 14 days",
+          reEngagementSend: "FLAG: fired unexpectedly this cycle - was expected to remain on hold, see report",
+          vectorfiSecondCampaign: "FLAG: new Campaign #1 (Performance Max, paused, EUR7/day) discovered on VectorFI account, never launched",
+          realPurchaseAnomaly: "FLAG: all-time real_purchases=1 but revenue=$0.00 - needs investigation"
+    },
+    alltime: { users: 89, portraitJobs: 37, presenceReports: 49, revenue: 0, realPurchases: 1 },
+    milestones: { revenueTarget: 1000, currentMRR: 0, customersForBreakeven: 43, currentCustomers: 0 }
+}};
 // ── HELPERS ───────────────────────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
 function setText(id, val) { const el = $(id); if (el) el.textContent = val; }
