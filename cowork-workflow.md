@@ -405,3 +405,93 @@ GA4 data was cross-validated against Supabase twice this cycle: portrait_job_cre
 Google Ads: Authority Studio Portrait spent $124.79 and Presence spent $64.62 in the trailing 7 days (Aug 24-30), for a combined $189.41; the 30-day total across both campaigns was $732.90. The $2.00 max CPC cap on Portrait looks respected (average CPC $0.60-1.07 across the two windows, well under cap), and neither campaign shows renewed learning-phase spend spikes like the one investigated in mid-August. VectorFI spent EUR61.56 over 7 days and EUR299.03 over 30 days on the "VectorFI - Search - Coast FIRE" campaign, still 0 tracked conversions.
 
 Dashboard (index.html) and this file were both updated and committed. Next check should independently verify the $0-revenue purchase row and confirm whether the new VectorFI Performance Max campaign was intentional.
+
+
+---
+
+## Strategic Snapshot — 8 Sep 2026
+
+Covers Authority Studio only (Portrait and Presence). All figures pulled fresh this session from Google Ads (vectorfiapp@gmail.com), GA4 (Authority Studio property), and Supabase. VectorFI is not included in this snapshot.
+
+### 1. All-time (as of 8 Sep 2026)
+
+| Metric | Portrait | Presence | Combined |
+|---|---|---|---|
+| All-time ad spend | $1,579.90 | $834.83 | $2,414.73 |
+| All-time real revenue | — | — | $0.00 |
+| Net position (revenue minus ad spend) | — | — | -$2,414.73 |
+| Launch date | 12 May 2026 (first real signup and first generation_jobs row, Supabase) | same | Google Ads started 11 May 2026, one day earlier |
+| Days / weeks since launch | — | — | 119 days / 17.0 weeks |
+
+Note: net position above reflects ad spend versus revenue only. It does not include shared infrastructure costs (Supabase, Vercel) that are billed at the org level across both Authority Studio and VectorFI and were not re-audited this session; the last full infrastructure cost audit (22 Aug 2026) put Authority Studio's all-in net position at -$2,207.62 as of that date, see Cost Tracking section above. All-time revenue remains $0.00 despite one purchases row marked status='paid' with a $0.00 amount — this is the unresolved data-integrity anomaly flagged in the 31 Aug check.
+
+### 2. Last 30 days (Aug 9 – Sep 8, 2026)
+
+| Metric | Portrait | Presence | Combined |
+|---|---|---|---|
+| Ad spend | $427.95 | $218.95 | $646.90 |
+| Real conversions (excl. team/test) | 0 | 0 | 0 |
+| Cost per real conversion | undefined | undefined | undefined |
+
+Real conversions are 0 purchases rows with status='paid' in the last 30 days per Supabase (fresh query run this session). This matches GA4, which also shows 0 purchase_completed events for both products in the same 30-day window.
+
+### 3. Last 30-day funnel
+
+| Product | Step | Event count | Conversion rate at this step |
+|---|---|---|---|
+| Portrait | page_view | 231 | — |
+| Portrait | upload_started | 31 | 13.4% of page_view |
+| Portrait | job_created (completion) | 11 | 35.5% of upload_started, 4.8% of page_view |
+| Portrait | purchase_completed | 0 | 0.0% of page_view |
+| Presence | page_view | 54 | — |
+| Presence | analysis_started | 1 | 1.9% of page_view |
+| Presence | results_viewed (completion) | 1 | 100% of analysis_started (n=1), 1.9% of page_view |
+| Presence | purchase_completed | 0 | 0.0% of page_view |
+
+Presence's analysis_started sample is a single event this window — directionally consistent with prior checks (2.4-4.2% range seen in the 31 Aug 14-day pull) but too small to treat as statistically solid. Zero purchase_completed events for either product is consistent with every GA4 pull since 20 Jul 2026 — see the open checkout-tracking gap in Section 6 below.
+
+### 4. Trend over last 4 distinct health checks
+
+| Check date | Portrait completed jobs | Presence completed reports |
+|---|---|---|
+| 5 Aug 2026 | 4 | 5 |
+| 9 Aug 2026 | 0 | 3 |
+| 16 Aug 2026 | 0 | 0 |
+| 30 Aug 2026 | 6 | 1 |
+
+Source: Founder OS dashboard DATA.history (portraitJobs, presenceReports), the two metrics this workflow has consistently tracked check-to-check. Portrait: volatile, no clean direction — two flat/zero checks followed by a rebound to 6 in the most recent check. Presence: declining across the 4 checks, though volumes are already low single digits so this is a thin signal. Note: presence_analysis_started specifically (as opposed to completed reports) was not pulled with comparable windows across these 4 checks, so a clean 4-point analysis_started trend is not available from the record; today's fresh 30-day pull shows presence_analysis_started = 1.
+
+### 5. Current campaign status (as of 8 Sep 2026)
+
+| Campaign | Status | Daily budget |
+|---|---|---|
+| Authority Studio - Search - AI Portraits | Active / Eligible | $16.67/day |
+| Authority Studio - Search - Presence | Paused | $10.00/day |
+| Campaign #1 (Performance Max) | Paused, zero all-time activity, never launched | $15.00/day |
+
+Presence is now Paused — this is a change since the 31 Aug check, which had it at Eligible (Limited by search volume). Reason for the pause was not recorded on this task. Campaign #1 remains the unexplained Performance Max campaign first flagged 31 Aug 2026; still no record of who created it.
+
+### 6. Structural / technical fixes made to date
+
+| Fix | Product | Status | Date |
+|---|---|---|---|
+| Anonymous auth — removed mandatory account-creation gate before preview | Portrait | Shipped | 27 Jul 2026 |
+| Watermark redesign — cream tiling with hairline border, replacing dense diagonal pattern | Portrait | Shipped | ~17 Aug 2026 |
+| $2.00 max CPC cap set | Portrait (ads) | Shipped | 20 Jul 2026 |
+| 31 negative keywords added; "headshot generator online" keyword paused | Portrait (ads) | Shipped | 20 Jul 2026 |
+| Geo-targeting tightened to strict "Presence" (was "Presence or interest") | Portrait and Presence (ads) | Shipped, confirmed holding | 17 Aug 2026 |
+| Conflicting negative keyword 'linkedin profile for job search' removed | Presence (ads) | Shipped, re-confirmed | 20 Jul 2026 |
+| 28 negative keywords added | Presence (ads) | Shipped | 20 Jul 2026 |
+| Paywall dialog error-handling fix — failed sign-in no longer leaves both buttons dead | Presence | Shipped | 1 Aug 2026 |
+| Error-handling sweep — Login, Signup, password reset, generation progress screen | Both | Shipped | 1 Aug 2026 |
+| GA4 CSP / analytics undercounting bug fixed | Both | Shipped (data before this date not comparable) | ~17 Aug 2026 |
+| Photo-selection funnel instrumentation deployed | Portrait | Shipped, confirmed firing this cycle | ~14 Aug 2026 |
+| Checkout and purchase event tracking (portrait_checkout_started, presence_checkout_started, purchase_completed) | Both | Not fixed — 0 events every pull since 20 Jul 2026, including today | Open |
+| Stale Google Ads conversion-action event names ("Begin checkout", "Sign-ups") | Portrait (ads) | Partially addressed — one action renamed; underlying per-product event firing not confirmed | Open |
+| Live "X of 8 photos selected" counter | Portrait | Not shipped | Open |
+| Landing-page hero animation stuck at ~26% opacity until scroll | Portrait | Not shipped | Open |
+| LemonSqueezy webhook pointing to wrong Supabase project | Both (revenue pipeline) | Not confirmed resolved | Open since 20 Jul 2026 |
+| Watermark tiling randomization (hardening recommendation) | Portrait | Not implemented | Open |
+| Google OAuth consent screen shows raw Supabase domain instead of authoritystudio.app | Both (sign-in) | Not fixed | Open since 1 Aug 2026 |
+
+This list is pulled directly from cowork-workflow.md task entries above. The two biggest open items for interpreting weak conversion performance: checkout/purchase event tracking is confirmed broken (not just quiet), so GA4 cannot currently distinguish "no purchase attempts" from "purchases not being tracked"; and two of the three mobile UX blockers identified in the original 18 Jul audit were never shipped.
