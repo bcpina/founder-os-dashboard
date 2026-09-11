@@ -495,3 +495,20 @@ Presence is now Paused — this is a change since the 31 Aug check, which had it
 | Google OAuth consent screen shows raw Supabase domain instead of authoritystudio.app | Both (sign-in) | Not fixed | Open since 1 Aug 2026 |
 
 This list is pulled directly from cowork-workflow.md task entries above. The two biggest open items for interpreting weak conversion performance: checkout/purchase event tracking is confirmed broken (not just quiet), so GA4 cannot currently distinguish "no purchase attempts" from "purchases not being tracked"; and two of the three mobile UX blockers identified in the original 18 Jul audit were never shipped.
+
+
+## Checkout Tracking Correction — 11 Sep 2026
+
+Correction to the checkout/purchase tracking row above ("Checkout and purchase event tracking... Not fixed — 0 events every pull since 20 Jul 2026"). A live Realtime test run today (11 Sep 2026) confirmed that checkout_started and portrait_checkout_started DO fire correctly when a real user clicks through the checkout flow. The prior "not fixed" status is superseded: the tracking mechanism itself works. The historical (standard-report, non-Realtime) counts below, pulled the same day, show that actual checkout/purchase attempt volume has genuinely been very low — this is a real low-volume signal, not a broken pipe.
+
+| Week | Dates (2026) | checkout_started | portrait_checkout_started | presence_checkout_started | purchase_completed | portrait_purchase_completed | presence_purchase_completed |
+|---|---|---|---|---|---|---|---|
+| W31 | 1 Aug | 0 | 0 | 0 | 0 | 0 | 0 |
+| W32 | 2-8 Aug | 1 | 0 | 1 | 0 | 0 | 1 |
+| W33 | 9-15 Aug | 0 | 0 | 0 | 0 | 0 | 0 |
+| W34 | 16-22 Aug | 0 | 0 | 0 | 0 | 0 | 0 |
+| W35 | 23-29 Aug | 0 | 0 | 0 | 0 | 0 | 0 |
+| W36 | 30 Aug-5 Sep | 0 | 0 | 0 | 0 | 0 | 0 |
+| W37 | 6-11 Sep | 0 | 3 | 0 | 0 | 0 | 0 |
+
+Processing-latency note: W37's portrait_checkout_started count of 3 was already present before today's live Realtime test was run, and the paired generic checkout_started event does not show up in this same W37 historical pull even though both events fired together in the Realtime test. This is most likely explained by GA4's standard reports lagging Realtime by several hours, so today's live test event(s) had not yet propagated into the standard report at the time of this pull, not a sign that one event type is broken while the other works.
