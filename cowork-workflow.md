@@ -512,3 +512,35 @@ Correction to the checkout/purchase tracking row above ("Checkout and purchase e
 | W37 | 6-11 Sep | 0 | 3 | 0 | 0 | 0 | 0 |
 
 Processing-latency note: W37's portrait_checkout_started count of 3 was already present before today's live Realtime test was run, and the paired generic checkout_started event does not show up in this same W37 historical pull even though both events fired together in the Realtime test. This is most likely explained by GA4's standard reports lagging Realtime by several hours, so today's live test event(s) had not yet propagated into the standard report at the time of this pull, not a sign that one event type is broken while the other works.
+
+
+## Update 28 Sep 2026 (organic baseline + 3-product functional QA)
+
+Ran a one-week organic baseline (ads paused) plus a full functional test pass across all three products, using ?qa=1 on every test URL to keep this activity out of real GA4 traffic/conversions. No real payment was completed anywhere.
+
+**Organic baseline, last 7 days (21-27 Sep), ads paused:**
+
+| Product | Users | Sessions | Key engagement | Traffic mix |
+|---|---|---|---|---|
+| Authority Studio (GA4, vectorfiapp@gmail.com) | 3 active users / 7d | low single digits | 0 key events in period; Portrait/Presence funnels essentially flat | Mostly direct/organic, no ad spend this week |
+| VectorFI (GA4, bcpina@gmail.com) | 34 active users | 34 sessions | 10 key events logged | 32 direct/(none), 1 referral (scriblihelp.com), 1 (data not available) |
+| Authority Studio (Supabase) | 0 signups, 0 completed Portrait jobs (any status), 0 Presence reports in 7d | - | - | - |
+| VectorFI (Supabase) | 0 profiles updated in 7d | - | - | - |
+
+The drop vs the prior ads-running week is expected since Google Ads was paused for both accounts this period -- near-zero paid traffic, so these numbers reflect organic-only baseline, not a regression.
+
+**Functional test results (all via ?qa=1, no real payment):**
+
+- Authority Studio Portrait: PASS. Landing loads, upload flow works (8-photo test set), generation completed in ~15-20s (well under the ~3 min estimate), exactly one pricing tier shown ($14.99, clear "Unlock HD Portraits" CTA), Unlock leads to a working LemonSqueezy checkout for the correct product ("Authority Studio - Starter") at US$14.99. Stopped before paying.
+- Authority Studio Presence: PASS. Landing loads ($9.99 messaging correct), form flow (job title/seniority/target role) submits, analysis completes in under a minute, snapshot renders (Positioning Clarity/Authority Signals/Keyword Alignment scores), "Unlock Full Report" leads to a working LemonSqueezy checkout for "Authority Presence - Strategic Positioning Report" at US$9.99. Stopped before paying. Minor note: the test LinkedIn profile could not be read (private), so the analysis correctly fell back to form-input data only and flagged this to the user in the UI -- working as intended, not a bug.
+- VectorFI: PARTIAL -- see findings below.
+- GA4 Realtime check: PASS. Checked both properties within minutes of live test activity (including the completed Portrait generation and Presence analysis run) -- both showed zero active users / "no data available." This confirms ?qa=1 suppression is working end-to-end, including through client-side route changes where the ?qa=1 param itself gets dropped from the URL (the app appears to persist the suppression flag client-side rather than re-checking the URL per event).
+
+**Findings needing Bruno's attention:**
+
+1. **VectorFI pricing mismatch**: the live pricing page shows Plus at $6.99/mo and Pro at $14.99/mo -- not $19.99 as expected. Either pricing changed since the $19.99 figure was set, or something is misconfigured. Needs confirmation on which number is correct.
+2. **VectorFI refund policy says 14 days, not 30**: confirmed on the live /legal/refund page (in English, after switching off the default Turkish). If 30 days is the intended policy, the copy needs updating; if 14 days is intentional, flagging in case this was meant to say 30.
+3. **VectorFI in-app buy-button test not completed**: reaching the actual in-app buy buttons (where the historical session-ID bug lived) requires creating an account or logging into an existing one on the live production app. Per standard safety guardrails, account creation / credential entry is restricted to localhost/dev builds, not live production sites, so this step was not completed. All four marketing-site CTAs ("Get Started" x2, "Upgrade to Plus", "Upgrade to Pro") do correctly route to /register. Recommend either clicking through the authenticated buy flow directly, or flagging an existing test/team login for a future session to use.
+4. **VectorFI locale quirk**: homepage/refund page loads in Turkish by default on first load despite the header showing "EN" -- same pattern as a previously-noted cookie-banner quirk. Low priority but worth a look.
+5. **Mobile viewport testing limited**: this session's browser tool couldn't force a true phone-width (~375-390px) render (capped around 1000px), so a genuine mobile-layout pass wasn't completed for any of the three products this round. No errors were seen at the width that was achievable. Recommend a manual spot-check on an actual phone.
+6. Console errors: none on Authority Studio Portrait/Presence or the VectorFI homepage. One non-blocking third-party JS error was seen on the LemonSqueezy-hosted checkout iframe (a Sentry-proxy TypeError) that didn't affect checkout rendering or the displayed price.
