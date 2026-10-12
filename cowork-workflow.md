@@ -544,3 +544,31 @@ The drop vs the prior ads-running week is expected since Google Ads was paused f
 4. **VectorFI locale quirk**: homepage/refund page loads in Turkish by default on first load despite the header showing "EN" -- same pattern as a previously-noted cookie-banner quirk. Low priority but worth a look.
 5. **Mobile viewport testing limited**: this session's browser tool couldn't force a true phone-width (~375-390px) render (capped around 1000px), so a genuine mobile-layout pass wasn't completed for any of the three products this round. No errors were seen at the width that was achievable. Recommend a manual spot-check on an actual phone.
 6. Console errors: none on Authority Studio Portrait/Presence or the VectorFI homepage. One non-blocking third-party JS error was seen on the LemonSqueezy-hosted checkout iframe (a Sentry-proxy TypeError) that didn't affect checkout rendering or the displayed price.
+
+---
+
+## Cost audit, 12 Oct 2026
+
+Full read-only audit of every paid service across Authority Studio and VectorFI, ~2 weeks after ads were paused, to find ongoing/unnecessary costs. No settings changed, nothing cancelled/paused/downgraded.
+
+**Mystery charge:** matching skipped at Bruno's request (no merchant/amount/date supplied). Known recurring charges to check it against: Google Ads Authority Studio (Visa ...1305, 1st of month or $500 threshold -- last charge Oct 1, -$316.40, balance flat at $0.00 since); Google Cloud (same Visa, 1st of month -- Oct 1 was EUR4.20); Supabase (separate payment method, 1st of month -- Oct 1 was $34.35).
+
+**Campaign status (confirmed, unchanged):** Authority Studio -- both campaigns (AI Portraits, Presence) and old Performance Max "Campaign #1" all Paused. VectorFI -- old "Campaign #1" Removed, "Coast FIRE" Paused. No re-enablement on either account.
+
+**(a) Necessary -- keep:**
+- Supabase (Vector Lab org): ~$35/mo (Sep invoice $35.00, Oct invoice $34.35 per email receipts). Org dashboard itself was inaccessible this session (session expired, login wall) so plan tier and per-project split weren't re-verified live.
+- Google Cloud / Gemini API (VectorFI project only -- the other 4 projects in the billing account are dormant, Google auto-capped them at EUR88/mo each on Oct 7 as an inactivity safeguard, not real spend): ~EUR3.83 (~$4.10)/mo, 2-month Aug-Sep total EUR7.65, 84% of which is actual image-generation output. EUR20/mo budget alert configured, no spend cap, no billing anomalies.
+- LemonSqueezy: no monthly fee, transaction fees only -- confirmed via Gmail (both recent orders were $0 net after 100% discount codes).
+- GitHub (bcpina): Free + Copilot Free, $0/mo confirmed directly in billing settings.
+- Vercel (bcpina@gmail.com, "Bruno Pina's projects" team): Hobby/free, $0/mo, no payment method. Appears to host side/dev projects (promptvault etc.) rather than live commercial traffic -- not confirmed either way this session.
+
+**(b) Possibly reducible / unverified -- blocked by login walls, needs Bruno:**
+- Vercel (vectorfiapp@gmail.com, the actual paid account): could not sign in. Still need plan, cost, seat count, confirmation Minh's seat is gone, and whether a proration credit is pending.
+- Google Ads VectorFI (bcpina) billing/transactions page: blocked by a fresh Google login requirement mid-session (campaign-pause status was already confirmed earlier while the session was live). Gmail shows an Oct 2 invoice was issued (so Sept had some spend) -- amount unknown, balance not reconfirmed.
+- Resend, Cloudflare (authoritystudio.app + myvectorfi.com renewals/add-ons), Lovable, Claude/Cowork billing, Google Workspace for authoritystudio.app: all blocked -- no cached session (Resend, LemonSqueezy dashboard, Cloudflare, Lovable), a forced re-auth (Claude.ai billing), or a 2FA/passkey challenge (Google Workspace admin). No Gmail receipts found for Resend, Cloudflare, Lovable, or Anthropic in the last 90-120 days either, which is suggestive but not conclusive of free tiers.
+
+**(c) Candidates to cancel:** none confirmed -- both services with real visible spend (Supabase, Gemini API) are necessary live infrastructure, not ad-related waste. Any cancellation candidates would surface from the blocked items above (e.g. if Lovable turns out unused, or Minh's Vercel seat is still billing).
+
+**Total known fixed monthly cost with ads off: ~$39/month confirmed** (Supabase ~$35 + Gemini API ~$4 + LemonSqueezy/GitHub/bcpina-Vercel $0 each), plus whatever the 6 blocked items above add once Bruno logs in.
+
+**ToS flag:** Vercel's Hobby plan prohibits commercial use. Don't downgrade or touch the bcpina Hobby account's tier without first confirming, via the vectorfiapp login, that it isn't quietly hosting a live product -- all indications this session are that it only hosts side/dev projects, but this wasn't fully verified.
