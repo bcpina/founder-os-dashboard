@@ -572,3 +572,24 @@ Full read-only audit of every paid service across Authority Studio and VectorFI,
 **Total known fixed monthly cost with ads off: ~$39/month confirmed** (Supabase ~$35 + Gemini API ~$4 + LemonSqueezy/GitHub/bcpina-Vercel $0 each), plus whatever the 6 blocked items above add once Bruno logs in.
 
 **ToS flag:** Vercel's Hobby plan prohibits commercial use. Don't downgrade or touch the bcpina Hobby account's tier without first confirming, via the vectorfiapp login, that it isn't quietly hosting a live product -- all indications this session are that it only hosts side/dev projects, but this wasn't fully verified.
+
+---
+
+## Cost audit follow-up (interactive), 12 Oct 2026
+
+Bruno logged into the 6 blocked services himself (Claude in Chrome, his authenticated browser) so the gaps from the same-day read-only audit above could be closed. No settings changed, nothing cancelled/paused/downgraded -- read-only throughout.
+
+**Now confirmed:**
+- **Vercel (vectorfiapp@gmail.com, paid account):** Pro Plan, Active. Billing cycle Sep 28 - Oct 28. Included Credit $0.01/$20.00 used (negligible overage). Upcoming Invoice: $20.00 flat. Next billing date Oct 28, 2026. Team Members: **1 only** (vectorfiapp, Owner) -- Minh's seat is confirmed gone, no pending extra seat cost. "Auto-add committers as $20/mo Developers" toggle is Off, so no surprise seat additions.
+- **Google Ads VectorFI (bcpina@gmail.com, 572-181-1068):** Balance EUR0.00, no upcoming automatic payment. October (current month) net cost EUR0.00 so far -- confirms no new spend since Coast FIRE was paused ~2 weeks ago. Last payment Oct 1, EUR187.17 (cleared the Sept balance: Sept net cost EUR187.17 vs Sept payments EUR104.21). Same Visa ...1305 used for both Google Ads accounts (Authority Studio + VectorFI). History: Aug EUR304.21, Jul EUR160.61, Jun -EUR0.18, May -EUR0.93, Apr EUR132.66.
+- **Resend (vectorfiapp@gmail.com workspace):** Transactional 3,000 emails/mo Free, Marketing 1,000 contacts Free. $0/mo confirmed directly on the billing page -- no payment method on file, no invoices.
+- **Cloudflare (Vectorfiapp@gmail.com's Account):** No active subscriptions, no payment method on file -- $0/mo confirmed. Domains > Registrations shows "No domains registered with Cloudflare yet", meaning authoritystudio.app is DNS-only here (free); its actual registration (and renewal cost/date) is with a separate registrar, not identified this session. myvectorfi.com doesn't appear in this Cloudflare account at all -- may be under a different account or registrar entirely.
+- **Lovable (Bruno's Lovable workspace):** Plano Free, 2 membros, 5 credits/day (resets daily at midnight UTC). "Upgrade to Pro" banner still showing -- not upgraded. $0/mo confirmed.
+- **Claude/Cowork billing:** Plano Pro, Anual. Subscription shows "Assinatura feita via aplicativo iOS" -- billed through Apple's iOS App Store, not through Claude's own billing page directly. Exact price and renewal date aren't visible here; check Settings > Subscriptions on the iPhone for those.
+
+**Still unresolved:**
+- **Google Workspace admin (authoritystudio.app):** bcpina@gmail.com loops on the account chooser (same as before). vectorfiapp@gmail.com got further this time -- past the "administrator account" banner into an identity-verification step requiring a passkey ("Conclua o login usando sua chave de acesso"), which needs Bruno's own device/security key to complete. Genuinely inconclusive: could mean vectorfiapp@gmail.com does have Workspace admin rights, or could just be a standard verification step Google shows regardless. Needs Bruno to complete the passkey prompt directly to get a final yes/no -- not attempted further here per the 2FA-stop rule.
+
+**Updated total known fixed monthly cost with ads off:** Supabase ~$35 + Gemini API ~$4 + Vercel (vectorfiapp) $20 + Resend/Cloudflare/Lovable/LemonSqueezy/GitHub/bcpina-Vercel $0 each = **~$59/month confirmed**, plus whatever Google Workspace turns out to cost (if it exists at all -- still unconfirmed) and whatever the domain registrar charges for authoritystudio.app + myvectorfi.com renewals (registrar not yet identified).
+
+**Cancel/reduce candidates:** still none found. Every paid service checked is either necessary live infrastructure (Supabase, Gemini API, Vercel Pro for the real product) or already on a $0 free tier. Minh's Vercel seat -- the one real "waste" risk flagged in the first pass -- is confirmed already removed.
